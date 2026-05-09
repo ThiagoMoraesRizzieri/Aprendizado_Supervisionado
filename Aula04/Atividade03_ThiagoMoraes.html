@@ -1,0 +1,1802 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" xml:lang="pt-br"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Thiago Moraes Rizzieri">
+
+<title>Atividade 03</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Atividade03_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Atividade03_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Atividade03_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Atividade03_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="Atividade03_files/libs/quarto-html/popper.min.js"></script>
+<script src="Atividade03_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Atividade03_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Atividade03_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Atividade03_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Atividade03_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Atividade03_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Atividade03_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Atividade 03</h1>
+<p class="subtitle lead">Disciplina: Aprendizado Supervisionado<br>Professor: Prof.&nbsp;Dr.&nbsp;Ricardo Puziol de Oliveira</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor</div>
+    <div class="quarto-title-meta-contents">
+             <p>Thiago Moraes Rizzieri </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="atividade-prática-2.8" class="level2">
+<h2 class="anchored" data-anchor-id="atividade-prática-2.8"><strong>Atividade Prática 2.8</strong></h2>
+<p>Considere o conjunto de dados <code>PimaIndiansDiabetes</code>, disponibilizado na biblioteca <code>mlbench</code>, que reúne informações clínicas de mulheres da etnia Pima com o objetivo de investigar a presença de diabetes mellitus. A base contém variáveis fisiológicas e laboratoriais medidas em unidades e ordens de grandeza distintas, entre as quais destacam-se <code>glucose</code>, <code>pressure</code>, <code>insulin</code> e <code>mass</code>. Nesta atividade, pretende-se aplicar e comparar diferentes procedimentos de normalização como etapa de pré-processamento de variáveis contínuas, com foco na reescala dos dados e na análise dos intervalos resultantes. O procedimento deve ser conduzido de acordo com as seguintes etapas:</p>
+<ul>
+<li><p>selecionar as variáveis contínuas <code>glucose</code>, <code>pressure</code>, <code>insulin</code> e <code>mass</code>;</p></li>
+<li><p>inspecionar os intervalos originais de variação dessas variáveis;</p></li>
+<li><p>aplicar, separadamente, os seguintes procedimentos de normalização:</p>
+<ul>
+<li><p>normalização <em>min–max</em>;</p></li>
+<li><p>normalização pelo valor máximo;</p></li>
+<li><p>normalização por amplitude;</p></li>
+<li><p>normalização baseada em quantis;</p></li>
+</ul></li>
+</ul>
+<p>Ao final, devem ser comparados os resultados obtidos para cada procedimento de normalização, avaliando-se as diferenças nos intervalos de variação das variáveis selecionadas.</p>
+<p><strong>Solução:</strong></p>
+<p>Carregando os dados com as variáveis solicitadas:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlbench)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: pacote 'mlbench' foi compilado no R versão 4.5.3</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Anexando pacote: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Os seguintes objetos são mascarados por 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Os seguintes objetos são mascarados por 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"PimaIndiansDiabetes"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> PimaIndiansDiabetes <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(glucose, pressure, insulin, mass)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  glucose pressure insulin mass
+1     148       72       0 33.6
+2      85       66       0 26.6
+3     183       64       0 23.3
+4      89       66      94 28.1
+5     137       40     168 43.1
+6     116       74       0 25.6</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    glucose         pressure         insulin           mass      
+ Min.   :  0.0   Min.   :  0.00   Min.   :  0.0   Min.   : 0.00  
+ 1st Qu.: 99.0   1st Qu.: 62.00   1st Qu.:  0.0   1st Qu.:27.30  
+ Median :117.0   Median : 72.00   Median : 30.5   Median :32.00  
+ Mean   :120.9   Mean   : 69.11   Mean   : 79.8   Mean   :31.99  
+ 3rd Qu.:140.2   3rd Qu.: 80.00   3rd Qu.:127.2   3rd Qu.:36.60  
+ Max.   :199.0   Max.   :122.00   Max.   :846.0   Max.   :67.10  </code></pre>
+</div>
+</div>
+<p>Foram criadas funções para cada transformação e os valores foram armazenados no dataframe resultados.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>norm_min_max    <span class="ot">&lt;-</span> <span class="cf">function</span>(x) (x <span class="sc">-</span> <span class="fu">min</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">/</span> (<span class="fu">max</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">-</span> <span class="fu">min</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>norm_max        <span class="ot">&lt;-</span> <span class="cf">function</span>(x) x <span class="sc">/</span> <span class="fu">max</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>norm_amplitude  <span class="ot">&lt;-</span> <span class="cf">function</span>(x) x <span class="sc">/</span> (<span class="fu">max</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">-</span> <span class="fu">min</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>norm_quantil    <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">rank</span>(x) <span class="sc">/</span> <span class="fu">length</span>(x)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>resultados <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Original  =</span> df<span class="sc">$</span>glucose,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">MinMax    =</span> <span class="fu">norm_min_max</span>(df<span class="sc">$</span>glucose),</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Max       =</span> <span class="fu">norm_max</span>(df<span class="sc">$</span>glucose),</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Amplitude =</span> <span class="fu">norm_amplitude</span>(df<span class="sc">$</span>glucose),</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">Quantil   =</span> <span class="fu">norm_quantil</span>(df<span class="sc">$</span>glucose)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(resultados)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Original    MinMax       Max Amplitude    Quantil
+1      148 0.7437186 0.7437186 0.7437186 0.81054688
+2       85 0.4271357 0.4271357 0.4271357 0.09895833
+3      183 0.9195980 0.9195980 0.9195980 0.95703125
+4       89 0.4472362 0.4472362 0.4472362 0.13216146
+5      137 0.6884422 0.6884422 0.6884422 0.72200521
+6      116 0.5829146 0.5829146 0.5829146 0.49088542</code></pre>
+</div>
+</div>
+<p>Observemos o intervalo de cada transformação:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(resultados, range)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Original MinMax Max Amplitude    Quantil
+[1,]        0      0   0         0 0.00390625
+[2,]      199      1   1         1 1.00000000</code></pre>
+</div>
+</div>
+<p>Nestes cenário específico, ambas as transformações min–max, pelo máximo e pela amplitude resultaram em um intervalo entre 0 e 1. Enquanto que a transformação pelo quantil, teve o valor mínimo de seu intervalo um pouco superior ao zero. :::</p>
+</section>
+<section id="atividade-prática-2.9" class="level2">
+<h2 class="anchored" data-anchor-id="atividade-prática-2.9"><strong>Atividade Prática 2.9</strong></h2>
+<p>Considere o conjunto de dados <code>lung</code>, disponibilizado na biblioteca <code>survival</code>, que reúne informações clínicas de pacientes diagnosticados com câncer de pulmão, incluindo variáveis demográficas, fisiológicas e indicadores do estado funcional. A base contém variáveis contínuas medidas em escalas distintas, o que motiva a aplicação de procedimentos de padronização como etapa de pré-processamento. Nesta atividade, pretende-se aplicar e comparar diferentes procedimentos de padronização de variáveis contínuas, com o objetivo de remover diferenças artificiais de escala e analisar as propriedades resultantes das variáveis transformadas. O procedimento deve ser conduzido de acordo com as seguintes etapas:</p>
+<ul>
+<li><p>selecionar variáveis contínuas de interesse clínico presentes no conjunto de dados;</p></li>
+<li><p>inspecionar estatísticas descritivas básicas das variáveis selecionadas nos dados originais;</p></li>
+<li><p>aplicar, separadamente, os seguintes procedimentos de padronização:</p>
+<ul>
+<li><p>padronização <em>z-score</em> baseada na média e no desvio-padrão amostrais;</p></li>
+<li><p>padronização baseada na mediana e no intervalo interquartil;</p></li>
+</ul></li>
+</ul>
+<p>Ao final, devem ser comparados os resultados obtidos para cada procedimento de padronização, avaliando-se as diferenças nas estatísticas descritivas das variáveis transformadas e a adequação de cada abordagem ao conjunto de dados considerado.</p>
+<p><strong>Solução:</strong></p>
+<p>Carregando os dados de câncer:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(cancer, <span class="at">package=</span><span class="st">"survival"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cancer)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  inst time status age sex ph.ecog ph.karno pat.karno meal.cal wt.loss
+1    3  306      2  74   1       1       90       100     1175      NA
+2    3  455      2  68   1       0       90        90     1225      15
+3    3 1010      1  56   1       0       90        90       NA      15
+4    5  210      2  57   1       1       90        60     1150      11
+5    1  883      2  60   1       0      100        90       NA       0
+6   12 1022      1  74   1       1       50        80      513       0</code></pre>
+</div>
+</div>
+<p>Padronização <em>z-score</em> baseada na média e no desvio-padrão amostrais:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>cancer_zscore <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(cancer <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">where</span>(is.numeric)) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(.,<span class="dv">2</span>,scale))</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cancer_zscore)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        inst        time     status        age        sex     ph.ecog
+1 -0.9740609  0.00364377  0.6165578  1.2732338 -0.8057999  0.06750247
+2 -0.9740609  0.71099318  0.6165578  0.6119643 -0.8057999 -1.32550309
+3 -0.9740609  3.34575103 -1.6147943 -0.7105747 -0.8057999 -1.32550309
+4 -0.7331984 -0.45209813  0.6165578 -0.6003631 -0.8057999  0.06750247
+5 -1.2149235  2.74284248  0.6165578 -0.2697283 -0.8057999 -1.32550309
+6  0.1098206  3.40271877 -1.6147943  1.2732338 -0.8057999  0.06750247
+    ph.karno    pat.karno   meal.cal     wt.loss
+1  0.6539344  1.370731178  0.6122240          NA
+2  0.6539344  0.686885246  0.7365480  0.39332291
+3  0.6539344  0.686885246         NA  0.39332291
+4  0.6539344 -1.364652547  0.5500619  0.08890662
+5  1.4650989  0.686885246         NA -0.74823815
+6 -2.5907237  0.003039315 -1.0338268 -0.74823815</code></pre>
+</div>
+</div>
+<p>Padronização baseada na mediana e no intervalo interquartil</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>iqr_score <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  (x <span class="sc">-</span> <span class="fu">median</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">/</span> <span class="fu">IQR</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>cancer_iqr_score <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(cancer <span class="sc">%&gt;%</span> </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">where</span>(is.numeric)) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(.,<span class="dv">2</span>,iqr_score))</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cancer_iqr_score)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         inst       time status        age sex ph.ecog   ph.karno pat.karno
+1 -0.61538462  0.2198041      0  0.8461538   0       0  0.6666667       1.0
+2 -0.61538462  0.8683351      0  0.3846154   0      -1  0.6666667       0.5
+3 -0.61538462  3.2840044     -1 -0.5384615   0      -1  0.6666667       0.5
+4 -0.46153846 -0.1980413      0 -0.4615385   0       0  0.6666667      -1.0
+5 -0.76923077  2.7312296      0 -0.2307692   0      -1  1.3333333       0.5
+6  0.07692308  3.3362350     -1  0.8461538   0       0 -2.0000000       0.0
+    meal.cal    wt.loss
+1  0.3883495         NA
+2  0.4854369  0.5079365
+3         NA  0.5079365
+4  0.3398058  0.2539683
+5         NA -0.4444444
+6 -0.8970874 -0.4444444</code></pre>
+</div>
+</div>
+<p>Comparando algumas medidas de centralidade e dispersão após transformações:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>resumo_zscore <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Media  =</span> <span class="fu">sapply</span>(cancer_zscore, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Desvio =</span> <span class="fu">sapply</span>(cancer_zscore, sd, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Minimo =</span> <span class="fu">sapply</span>(cancer_zscore, min, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Maximo =</span> <span class="fu">sapply</span>(cancer_zscore, max, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Amplitude =</span> <span class="fu">sapply</span>(cancer_zscore, <span class="cf">function</span>(x) <span class="fu">diff</span>(<span class="fu">range</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>resumo_robusta <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Mediana =</span> <span class="fu">sapply</span>(cancer_iqr_score, median, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">IQR     =</span> <span class="fu">sapply</span>(cancer_iqr_score, IQR, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">Minimo  =</span> <span class="fu">sapply</span>(cancer_iqr_score, min, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">Maximo  =</span> <span class="fu">sapply</span>(cancer_iqr_score, max, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">Amplitude =</span> <span class="fu">sapply</span>(cancer_iqr_score, <span class="cf">function</span>(x) <span class="fu">diff</span>(<span class="fu">range</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(resumo_zscore, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Media Desvio  Minimo Maximo Amplitude
+inst          0      1 -1.2149 2.6389    3.8538
+time          0      1 -1.4253 3.4027    4.8280
+status        0      1 -1.6148 0.6166    2.2314
+age           0      1 -2.5842 2.1549    4.7391
+sex           0      1 -0.8058 1.2356    2.0414
+ph.ecog       0      1 -1.3255 2.8535    4.1790
+ph.karno      0      1 -2.5907 1.4651    4.0558
+pat.karno     0      1 -3.4162 1.3707    4.7869
+meal.cal      0      1 -2.0707 4.1555    6.2261
+wt.loss       0      1 -2.5747 4.4268    7.0016</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(resumo_robusta, <span class="dv">4</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Mediana IQR  Minimo Maximo Amplitude
+inst            0   1 -0.7692 1.6923    2.4615
+time            0   1 -1.0903 3.3362    4.4266
+status          0   1 -1.0000 0.0000    1.0000
+age             0   1 -1.8462 1.4615    3.3077
+sex             0   1  0.0000 1.0000    1.0000
+ph.ecog         0   1 -1.0000 2.0000    3.0000
+ph.karno        0   1 -2.0000 1.3333    3.3333
+pat.karno       0   1 -2.5000 1.0000    3.5000
+meal.cal        0   1 -1.7068 3.1553    4.8621
+wt.loss         0   1 -1.9683 3.8730    5.8413</code></pre>
+</div>
+</div>
+<p>Podemos observar que medida de centro e dispersão respectiva para cada padronização é respectivamente 0 e 1, como esperado. A diferença é a amplitude de cada padronização, onde a padronização robusta demonstra apresentar um valor menor do que a padronização z-score. :::</p>
+</section>
+<section id="atividade-prática-2.10" class="level2">
+<h2 class="anchored" data-anchor-id="atividade-prática-2.10"><strong>Atividade Prática 2.10</strong></h2>
+<p>Considere o conjunto de dados <code>ToothGrowth</code>, que descreve o efeito da suplementação de vitamina C sobre o crescimento odontológico em cobaias. A variável <code>len</code>, correspondente ao comprimento do dente, é contínua, estritamente positiva e apresenta assimetria, o que motiva a aplicação de uma transformação como etapa de pré-processamento. Nesta atividade, pretende-se aplicar a transformação de Box–Cox à variável <code>len</code>, com o objetivo de modificar a escala dos dados e avaliar o efeito da transformação sobre as características empíricas da distribuição. O procedimento deve ser conduzido de acordo com as seguintes etapas:</p>
+<ul>
+<li><p>inspecionar a distribuição empírica da variável <code>len</code>;</p></li>
+<li><p>estimar o parâmetro da transformação de Box–Cox;</p></li>
+<li><p>aplicar a transformação de Box–Cox à variável <code>len</code>;</p></li>
+</ul>
+<p>Ao final, devem ser comparadas as distribuições e estatísticas descritivas da variável <code>len</code> antes e após a aplicação da transformação, avaliando-se as alterações introduzidas pelo procedimento.</p>
+<p><strong>Solução:</strong></p>
+<p>Obtendo os dados:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"ToothGrowth"</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>df_tooth <span class="ot">&lt;-</span> ToothGrowth</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df_tooth<span class="sc">$</span>len)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   4.20   13.07   19.25   18.81   25.27   33.90 </code></pre>
+</div>
+</div>
+<p>Vamos inspecionar a distribuição da variável <code>len</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)) <span class="co"># Divide a área de plotagem</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(df_tooth<span class="sc">$</span>len, <span class="at">main =</span> <span class="st">"Histograma Original"</span>, <span class="at">xlab =</span> <span class="st">"Comprimento (len)"</span>, <span class="at">col =</span> <span class="st">"lightblue"</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(df_tooth<span class="sc">$</span>len, <span class="at">main =</span> <span class="st">"Q-Q Plot Original"</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(df_tooth<span class="sc">$</span>len, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(df_tooth<span class="sc">$</span>len, <span class="at">main =</span> <span class="st">"Box-plot Original"</span>, <span class="at">ylab =</span> <span class="st">"Comprimento (len)"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Atividade03_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Visualmente, aparenta existir uma boa simetria em sua distribuição, apesar existir uma mudança brusca em sua extremidade. Vamos analisar se há melhorias com uma transformação de Box-Cox.</p>
+<p>Como visto em aula, primeiro precisamos estimar o parâmetro dessa transformação. Estarei buscando o lambda que maximize a função de verossimilhança:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Anexando pacote: 'MASS'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>O seguinte objeto é mascarado por 'package:dplyr':
+
+    select</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>bc_resultado <span class="ot">&lt;-</span> <span class="fu">boxcox</span>(<span class="fu">lm</span>(len <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> df_tooth), <span class="at">plotit =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Atividade03_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>lambda_ideal <span class="ot">&lt;-</span> bc_resultado<span class="sc">$</span>x[<span class="fu">which.max</span>(bc_resultado<span class="sc">$</span>y)]</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"O valor estimado para o parâmetro lambda é:"</span>, <span class="fu">round</span>(lambda_ideal, <span class="dv">4</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>O valor estimado para o parâmetro lambda é: 0.9495</code></pre>
+</div>
+</div>
+<p>Vamos aplicar a transformação de Box-Cox com o lambda estimado:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>aplica_boxcox <span class="ot">&lt;-</span> <span class="cf">function</span>(y, lambda) {</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">abs</span>(lambda) <span class="sc">&lt;</span> <span class="fl">1e-6</span>) {</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">log</span>(y))</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>((y<span class="sc">^</span>lambda <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> lambda)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>df_tooth<span class="sc">$</span>len_transformado <span class="ot">&lt;-</span> <span class="fu">aplica_boxcox</span>(df_tooth<span class="sc">$</span>len, lambda_ideal)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Podemos agora comparar estatísticas dos dados originais com essa transformação:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>estatisticas_comparativas <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Estatistica =</span> <span class="fu">c</span>(<span class="st">"Mínimo"</span>, <span class="st">"1º Quartil"</span>, <span class="st">"Mediana"</span>, <span class="st">"Média"</span>, <span class="st">"3º Quartil"</span>, <span class="st">"Máximo"</span>),</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Original =</span> <span class="fu">as.numeric</span>(<span class="fu">summary</span>(df_tooth<span class="sc">$</span>len)),</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Transformado =</span> <span class="fu">as.numeric</span>(<span class="fu">summary</span>(df_tooth<span class="sc">$</span>len_transformado))</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(estatisticas_comparativas)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Estatistica Original Transformado
+1      Mínimo  4.20000     3.060952
+2  1º Quartil 13.07500    11.039172
+3     Mediana 19.25000    16.407528
+4       Média 18.81333    15.958322
+5  3º Quartil 25.27500    21.559655
+6      Máximo 33.90000    28.829811</code></pre>
+</div>
+</div>
+<p>E visualmente, temos:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(df_tooth<span class="sc">$</span>len, <span class="at">main =</span> <span class="st">"Histograma Original"</span>, <span class="at">xlab =</span> <span class="st">"len"</span>, <span class="at">col =</span> <span class="st">"gray"</span>)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(df_tooth<span class="sc">$</span>len, <span class="at">main =</span> <span class="st">"Q-Q Plot Original"</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(df_tooth<span class="sc">$</span>len, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(df_tooth<span class="sc">$</span>len, <span class="at">main =</span> <span class="st">"Box-plot Original"</span>, <span class="at">ylab =</span> <span class="st">"len"</span>)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(df_tooth<span class="sc">$</span>len_transformado, <span class="at">main =</span> <span class="st">"Histograma Transformado"</span>, <span class="at">xlab =</span> <span class="st">"len (Box-Cox)"</span>, <span class="at">col =</span> <span class="st">"lightgreen"</span>)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(df_tooth<span class="sc">$</span>len_transformado, <span class="at">main =</span> <span class="st">"Q-Q Plot Transformado"</span>)</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(df_tooth<span class="sc">$</span>len_transformado, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(df_tooth<span class="sc">$</span>len_transformado, <span class="at">main =</span> <span class="st">"Box-plot Transformado"</span>, <span class="at">ylab =</span> <span class="st">"len"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Atividade03_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Há singelas diferenças com essa transformação, reduzindo as estatísticas e produzindo um efeito de ``achatamento’’ sutil em seu histograma, mas não aparentou ser tão significativo para estes dados. :::</p>
+</section>
+<section id="atividade-prática-2.11" class="level2">
+<h2 class="anchored" data-anchor-id="atividade-prática-2.11"><strong>Atividade Prática 2.11</strong></h2>
+<p>Considere o conjunto de dados <code>iris</code>, que contém medidas morfológicas de flores do gênero <em>Iris</em>. A base inclui a variável categórica <code>Species</code>, composta por três níveis distintos: <code>setosa</code>, <code>versicolor</code> e <code>virginica</code>. Nesta atividade, pretende-se aplicar o procedimento de <em>one-hot encoding</em> à variável <code>Species</code>, com o objetivo de reespecificar sua representação por meio de variáveis indicadoras binárias. O procedimento deve ser conduzido de acordo com as seguintes etapas:</p>
+<ul>
+<li><p>identificar os níveis observados da variável categórica <code>Species</code>;</p></li>
+<li><p>construir as variáveis indicadoras binárias correspondentes aos níveis identificados;</p></li>
+</ul>
+<p>Ao final, deve-se verificar a estrutura do conjunto de dados e confirmar que a variável categórica original foi adequadamente representada por um conjunto de variáveis indicadoras binárias, refletindo corretamente os níveis originalmente observados.</p>
+<p><strong>Solução:</strong></p>
+<p>Carregando os dados:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(iris)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>db <span class="ot">&lt;-</span> iris</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iris)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+1          5.1         3.5          1.4         0.2  setosa
+2          4.9         3.0          1.4         0.2  setosa
+3          4.7         3.2          1.3         0.2  setosa
+4          4.6         3.1          1.5         0.2  setosa
+5          5.0         3.6          1.4         0.2  setosa
+6          5.4         3.9          1.7         0.4  setosa</code></pre>
+</div>
+</div>
+<p>Podemos usar a função <code>model.matrix()</code> para aplicar o <em>one-ot encoding</em>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span> Species <span class="sc">-</span> <span class="dv">1</span>, <span class="at">data =</span> db)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(X)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Speciessetosa Speciesversicolor Speciesvirginica
+1             1                 0                0
+2             1                 0                0
+3             1                 0                0
+4             1                 0                0
+5             1                 0                0
+6             1                 0                0</code></pre>
+</div>
+</div>
+<p>E por fim, concatenamos nos dados originais.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>iris_ohe <span class="ot">&lt;-</span> <span class="fu">cbind</span>(db, X)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iris_ohe)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species Speciessetosa
+1          5.1         3.5          1.4         0.2  setosa             1
+2          4.9         3.0          1.4         0.2  setosa             1
+3          4.7         3.2          1.3         0.2  setosa             1
+4          4.6         3.1          1.5         0.2  setosa             1
+5          5.0         3.6          1.4         0.2  setosa             1
+6          5.4         3.9          1.7         0.4  setosa             1
+  Speciesversicolor Speciesvirginica
+1                 0                0
+2                 0                0
+3                 0                0
+4                 0                0
+5                 0                0
+6                 0                0</code></pre>
+</div>
+</div>
+<p>:::</p>
+</section>
+<section id="atividade-prática-2.13" class="level2">
+<h2 class="anchored" data-anchor-id="atividade-prática-2.13"><strong>Atividade Prática 2.13</strong></h2>
+<p>Considere o conjunto de dados <code>PimaIndiansDiabetes2</code>, disponibilizado na biblioteca <code>mlbench</code>, que reúne informações clínicas e laboratoriais de mulheres da etnia Pima, com o objetivo de investigar a presença de diabetes mellitus. A variável <code>diabetes</code> representa a classe do desfecho (presença/ausência), enquanto as demais variáveis descrevem características fisiológicas e biométricas dos indivíduos. Nesta atividade, pretende-se aplicar o método <em>hold-out</em> para particionar o conjunto de dados em subconjuntos de treinamento e teste, com controle de reprodutibilidade por meio da fixação de uma semente aleatória e preservação da distribuição do desfecho por amostragem estratificada. O procedimento deve ser conduzido de acordo com as seguintes etapas:</p>
+<ul>
+<li><p>Carregar o conjunto de dados <code>PimaIndiansDiabetes2</code> e atribuí-lo a um objeto de trabalho;</p></li>
+<li><p>Definir uma semente aleatória para garantir reprodutibilidade do particionamento;</p></li>
+<li><p>Realizar a divisão <em>hold-out</em> em proporções de <span class="math inline">\(70\%\)</span> para treinamento e <span class="math inline">\(30\%\)</span> para teste, utilizando amostragem estratificada em relação à variável <code>diabetes</code>;</p></li>
+<li><p>Obter e apresentar um resumo da divisão, incluindo:</p>
+<ul>
+<li><p>A semente aleatória utilizada;</p></li>
+<li><p>O número de observações e o percentual em cada subconjunto;</p></li>
+<li><p>A distribuição das classes do desfecho (<code>diabetes</code>) nos conjuntos de treinamento e teste, em frequências e percentuais;</p></li>
+<li><p>Uma amostra das primeiras observações de cada subconjunto, para inspeção da estrutura.</p></li>
+</ul></li>
+</ul>
+<p>Ao final, deve-se verificar a consistência do particionamento, confirmando que (i) as proporções especificadas foram atendidas e (ii) a distribuição do desfecho foi adequadamente preservada entre os subconjuntos de treinamento e teste.</p>
+<p><strong>Solução:</strong></p>
+<p>Podemos utilizar a função <code>createDataPartition</code>, informando a porcentagem de dados particionado para os dados de treino da seguinte forma:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: pacote 'caret' foi compilado no R versão 4.5.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Carregando pacotes exigidos: ggplot2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Carregando pacotes exigidos: lattice</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1212</span>)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"PimaIndiansDiabetes2"</span>)</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>db <span class="ot">&lt;-</span> PimaIndiansDiabetes2</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(db<span class="sc">$</span>diabetes, <span class="at">p =</span> <span class="fl">0.7</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(train_index)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Resample1
+[1,]         1
+[2,]         2
+[3,]         3
+[4,]         5
+[5,]         6
+[6,]         9</code></pre>
+</div>
+</div>
+<p>Assim, temos os dados de treino e teste com as dimensões dadas por:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>train_set <span class="ot">&lt;-</span> db[train_index,]</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>test_set <span class="ot">&lt;-</span> db[<span class="sc">-</span>train_index,]</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(train_set)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 538   9</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(test_set)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 230   9</code></pre>
+</div>
+</div>
+<p>Podemos observar como ficou cada uma das partições separadamente:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(train_set)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  pregnant glucose pressure triceps insulin mass pedigree age diabetes
+1        6     148       72      35      NA 33.6    0.627  50      pos
+2        1      85       66      29      NA 26.6    0.351  31      neg
+3        8     183       64      NA      NA 23.3    0.672  32      pos
+5        0     137       40      35     168 43.1    2.288  33      pos
+6        5     116       74      NA      NA 25.6    0.201  30      neg
+9        2     197       70      45     543 30.5    0.158  53      pos</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(test_set)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   pregnant glucose pressure triceps insulin mass pedigree age diabetes
+4         1      89       66      23      94 28.1    0.167  21      neg
+7         3      78       50      32      88 31.0    0.248  26      pos
+8        10     115       NA      NA      NA 35.3    0.134  29      neg
+16        7     100       NA      NA      NA 30.0    0.484  32      pos
+17        0     118       84      47     230 45.8    0.551  31      pos
+18        7     107       74      NA      NA 29.6    0.254  31      pos</code></pre>
+</div>
+</div>
+<p>:::</p>
+</section>
+<section id="atividade-prática-2.14" class="level2">
+<h2 class="anchored" data-anchor-id="atividade-prática-2.14"><strong>Atividade Prática 2.14</strong></h2>
+<p>Considere o conjunto de dados <code>SAheart</code>, disponibilizado na biblioteca <code>ElemStatLearn</code>, que reúne informações clínicas e fatores de risco associados a doença coronariana. A variável <code>chd</code> representa o desfecho binário (presença/ausência de doença coronariana), enquanto as demais variáveis descrevem características demográficas e clínicas dos indivíduos. Nesta atividade, pretende-se aplicar o procedimento de validação cruzada <em>k-fold</em> para particionar o conjunto de dados em subconjuntos de treinamento e teste, com controle de reprodutibilidade por meio da fixação de uma semente aleatória e preservação da distribuição do desfecho por amostragem estratificada. O objetivo consiste em construir partições para <span class="math inline">\(k\in \{3,5,10\}\)</span> e resumir, para cada valor de , as propriedades das divisões geradas. O procedimento deve ser conduzido de acordo com as seguintes etapas:</p>
+<ul>
+<li><p>Carregar o conjunto de dados <code>SAheart</code> e atribuí-lo a um objeto de trabalho;</p></li>
+<li><p>Definir uma semente aleatória para garantir reprodutibilidade do particionamento;</p></li>
+<li><p>Para cada valor <span class="math inline">\(k\in \{3,5,10\}\)</span>, realizar a divisão <em>k-fold</em> estratificada em relação à variável <code>chd</code>, obtendo a lista de índices de teste de cada <em>fold</em>;</p></li>
+<li><p>Para cada <em>fold</em> <span class="math inline">\(i = 1,\ldots,k\)</span>, construir os subconjuntos:</p>
+<ul>
+<li><p>Conjunto de teste: observações pertencentes ao <em>fold</em> i;</p></li>
+<li><p>Conjunto de treinamento: observações complementares ao <em>fold</em> i;</p></li>
+</ul></li>
+<li><p>Para cada <em>fold</em> i, obter e apresentar um resumo contendo:</p>
+<ul>
+<li><p>O número do <em>fold</em>;</p></li>
+<li><p>A semente aleatória utilizada;</p></li>
+<li><p>O número de observações e o percentual em cada subconjunto;</p></li>
+<li><p>A distribuição do desfecho (<code>chd</code>) nos conjuntos de treinamento e teste, em frequências e percentuais;</p></li>
+<li><p>Uma amostra das primeiras observações de cada subconjunto, para inspeção da estrutura.</p></li>
+</ul></li>
+</ul>
+<p>Ao final, deve-se verificar a consistência das partições geradas para <span class="math inline">\(k \in \{3,5,10\}\)</span>, confirmando que (i) cada observação é utilizada exatamente uma vez como teste ao longo dos <em>folds</em> e (ii) a distribuição do desfecho foi adequadamente preservada entre treinamento e teste em cada <em>fold</em>.</p>
+<p><strong>Solução:</strong></p>
+<p>Carregando o conjunto de dados:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"SAheart"</span>, <span class="at">package =</span> <span class="st">"ElemStatLearn"</span>)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> SAheart</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>chd <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>chd)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Criando um looping para aplicar a validação cruzada:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>semente_utilizada <span class="ot">&lt;-</span> <span class="dv">123</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>valores_k <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">10</span>)</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>tabela_distribuicao <span class="ot">&lt;-</span> <span class="cf">function</span>(dados, nome_conjunto) {</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>  freq_abs <span class="ot">&lt;-</span> <span class="fu">table</span>(dados<span class="sc">$</span>chd)</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>  freq_rel <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(freq_abs) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Classe =</span> <span class="fu">names</span>(freq_abs), <span class="at">Absoluta =</span> <span class="fu">as.vector</span>(freq_abs), <span class="at">Percentual =</span> <span class="fu">round</span>(<span class="fu">as.vector</span>(freq_rel), <span class="dv">2</span>))</span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(res, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> valores_k) {</span>
+<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(semente_utilizada)</span>
+<span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a>  folds_teste <span class="ot">&lt;-</span> <span class="fu">createFolds</span>(df<span class="sc">$</span>chd, <span class="at">k =</span> k, <span class="at">list =</span> <span class="cn">TRUE</span>, <span class="at">returnTrain =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb61-14"><a href="#cb61-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-15"><a href="#cb61-15" aria-hidden="true" tabindex="-1"></a>todos_indices_teste <span class="ot">&lt;-</span> <span class="fu">unlist</span>(folds_teste)</span>
+<span id="cb61-16"><a href="#cb61-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-17"><a href="#cb61-17" aria-hidden="true" tabindex="-1"></a>consistente_tamanho <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(todos_indices_teste)) <span class="sc">==</span> <span class="fu">nrow</span>(df)</span>
+<span id="cb61-18"><a href="#cb61-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-19"><a href="#cb61-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>k) {</span>
+<span id="cb61-20"><a href="#cb61-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">rep</span>(<span class="st">"-"</span>, <span class="dv">40</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb61-21"><a href="#cb61-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Resumo para o Fold %d de %d</span><span class="sc">\n</span><span class="st">"</span>, i, k))</span>
+<span id="cb61-22"><a href="#cb61-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Semente aleatória base: %d</span><span class="sc">\n</span><span class="st">"</span>, semente_utilizada))</span>
+<span id="cb61-23"><a href="#cb61-23" aria-hidden="true" tabindex="-1"></a>      idx_teste <span class="ot">&lt;-</span> folds_teste[[i]]</span>
+<span id="cb61-24"><a href="#cb61-24" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb61-25"><a href="#cb61-25" aria-hidden="true" tabindex="-1"></a>      df_teste <span class="ot">&lt;-</span> df[idx_teste, ]</span>
+<span id="cb61-26"><a href="#cb61-26" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb61-27"><a href="#cb61-27" aria-hidden="true" tabindex="-1"></a>      df_treino <span class="ot">&lt;-</span> df[<span class="sc">-</span>idx_teste, ] </span>
+<span id="cb61-28"><a href="#cb61-28" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb61-29"><a href="#cb61-29" aria-hidden="true" tabindex="-1"></a>    n_total <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df)</span>
+<span id="cb61-30"><a href="#cb61-30" aria-hidden="true" tabindex="-1"></a>    n_treino <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df_treino)</span>
+<span id="cb61-31"><a href="#cb61-31" aria-hidden="true" tabindex="-1"></a>    n_teste <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df_teste)</span>
+<span id="cb61-32"><a href="#cb61-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb61-33"><a href="#cb61-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Conjunto de Treinamento: %d observações (%.2f%%)</span><span class="sc">\n</span><span class="st">"</span>, n_treino, (n_treino<span class="sc">/</span>n_total)<span class="sc">*</span><span class="dv">100</span>))</span>
+<span id="cb61-34"><a href="#cb61-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Conjunto de Teste: %d observações (%.2f%%)</span><span class="sc">\n\n</span><span class="st">"</span>, n_teste, (n_teste<span class="sc">/</span>n_total)<span class="sc">*</span><span class="dv">100</span>))</span>
+<span id="cb61-35"><a href="#cb61-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb61-36"><a href="#cb61-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tabela_distribuicao</span>(df_treino, <span class="st">"Treinamento"</span>)</span>
+<span id="cb61-37"><a href="#cb61-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tabela_distribuicao</span>(df_teste, <span class="st">"Teste"</span>)</span>
+<span id="cb61-38"><a href="#cb61-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb61-39"><a href="#cb61-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">"Primeiras observações do subconjunto de Treinamento (amostra):</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb61-40"><a href="#cb61-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="fu">head</span>(df_treino, <span class="dv">3</span>)) </span>
+<span id="cb61-41"><a href="#cb61-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Primeiras observações do subconjunto de Teste (amostra):</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb61-42"><a href="#cb61-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="fu">head</span>(df_teste, <span class="dv">3</span>))</span>
+<span id="cb61-43"><a href="#cb61-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb61-44"><a href="#cb61-44" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb61-45"><a href="#cb61-45" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Resumo para o Fold 1 de 3
+Semente aleatória base: 123
+Conjunto de Treinamento: 308 observações (66.67%)
+Conjunto de Teste: 154 observações (33.33%)
+
+ Classe Absoluta Percentual
+      0      201      65.26
+      1      107      34.74
+ Classe Absoluta Percentual
+      0      101      65.58
+      1       53      34.42
+Primeiras observações do subconjunto de Treinamento (amostra):
+  sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+3 118    0.08 3.48     32.28 Present    52   29.14    3.81  46   0
+6 132    6.20 6.47     36.21 Present    62   30.77   14.14  45   0
+7 142    4.05 3.38     16.20  Absent    59   20.81    2.62  38   0
+
+Primeiras observações do subconjunto de Teste (amostra):
+  sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+1 160   12.00 5.73     23.11 Present    49   25.30   97.20  52   1
+2 144    0.01 4.41     28.61  Absent    55   28.87    2.06  63   1
+4 170    7.50 6.41     38.03 Present    51   31.99   24.26  58   1
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Resumo para o Fold 2 de 3
+Semente aleatória base: 123
+Conjunto de Treinamento: 308 observações (66.67%)
+Conjunto de Teste: 154 observações (33.33%)
+
+ Classe Absoluta Percentual
+      0      202      65.58
+      1      106      34.42
+ Classe Absoluta Percentual
+      0      100      64.94
+      1       54      35.06
+Primeiras observações do subconjunto de Treinamento (amostra):
+  sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+1 160   12.00 5.73     23.11 Present    49   25.30   97.20  52   1
+2 144    0.01 4.41     28.61  Absent    55   28.87    2.06  63   1
+4 170    7.50 6.41     38.03 Present    51   31.99   24.26  58   1
+
+Primeiras observações do subconjunto de Teste (amostra):
+   sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+3  118    0.08 3.48     32.28 Present    52   29.14    3.81  46   0
+6  132    6.20 6.47     36.21 Present    62   30.77   14.14  45   0
+12 134   14.10 4.44     22.39 Present    65   23.09    0.00  40   1
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Resumo para o Fold 3 de 3
+Semente aleatória base: 123
+Conjunto de Treinamento: 308 observações (66.67%)
+Conjunto de Teste: 154 observações (33.33%)
+
+ Classe Absoluta Percentual
+      0      201      65.26
+      1      107      34.74
+ Classe Absoluta Percentual
+      0      101      65.58
+      1       53      34.42
+Primeiras observações do subconjunto de Treinamento (amostra):
+  sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+1 160   12.00 5.73     23.11 Present    49   25.30   97.20  52   1
+2 144    0.01 4.41     28.61  Absent    55   28.87    2.06  63   1
+3 118    0.08 3.48     32.28 Present    52   29.14    3.81  46   0
+
+Primeiras observações do subconjunto de Teste (amostra):
+   sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+7  142    4.05 3.38     16.20  Absent    59   20.81    2.62  38   0
+8  114    4.08 4.59     14.60 Present    62   23.11    6.72  58   1
+10 132    0.00 5.80     30.96 Present    69   30.11    0.00  53   1
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Resumo para o Fold 1 de 5
+Semente aleatória base: 123
+Conjunto de Treinamento: 370 observações (80.09%)
+Conjunto de Teste: 92 observações (19.91%)
+
+ Classe Absoluta Percentual
+      0      242      65.41
+      1      128      34.59
+ Classe Absoluta Percentual
+      0       60      65.22
+      1       32      34.78
+Primeiras observações do subconjunto de Treinamento (amostra):
+  sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+1 160   12.00 5.73     23.11 Present    49   25.30   97.20  52   1
+2 144    0.01 4.41     28.61  Absent    55   28.87    2.06  63   1
+3 118    0.08 3.48     32.28 Present    52   29.14    3.81  46   0
+
+Primeiras observações do subconjunto de Teste (amostra):
+   sbp tobacco   ldl adiposity famhist typea obesity alcohol age chd
+5  134    13.6  3.50     27.78 Present    60   25.99   57.34  49   1
+10 132     0.0  5.80     30.96 Present    69   30.11    0.00  53   1
+17 120     7.5 15.33     22.00  Absent    60   25.31   34.49  49   0
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Resumo para o Fold 2 de 5
+Semente aleatória base: 123
+Conjunto de Treinamento: 369 observações (79.87%)
+Conjunto de Teste: 93 observações (20.13%)
+
+ Classe Absoluta Percentual
+      0      241      65.31
+      1      128      34.69
+ Classe Absoluta Percentual
+      0       61      65.59
+      1       32      34.41
+Primeiras observações do subconjunto de Treinamento (amostra):
+  sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+1 160   12.00 5.73     23.11 Present    49   25.30   97.20  52   1
+3 118    0.08 3.48     32.28 Present    52   29.14    3.81  46   0
+4 170    7.50 6.41     38.03 Present    51   31.99   24.26  58   1
+
+Primeiras observações do subconjunto de Teste (amostra):
+   sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+2  144    0.01 4.41     28.61  Absent    55   28.87    2.06  63   1
+8  114    4.08 4.59     14.60 Present    62   23.11    6.72  58   1
+11 206    6.00 2.95     32.27  Absent    72   26.81   56.06  60   1
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Resumo para o Fold 3 de 5
+Semente aleatória base: 123
+Conjunto de Treinamento: 369 observações (79.87%)
+Conjunto de Teste: 93 observações (20.13%)
+
+ Classe Absoluta Percentual
+      0      241      65.31
+      1      128      34.69
+ Classe Absoluta Percentual
+      0       61      65.59
+      1       32      34.41
+Primeiras observações do subconjunto de Treinamento (amostra):
+  sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+2 144    0.01 4.41     28.61  Absent    55   28.87    2.06  63   1
+3 118    0.08 3.48     32.28 Present    52   29.14    3.81  46   0
+4 170    7.50 6.41     38.03 Present    51   31.99   24.26  58   1
+
+Primeiras observações do subconjunto de Teste (amostra):
+   sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+1  160   12.00 5.73     23.11 Present    49   25.30   97.20  52   1
+6  132    6.20 6.47     36.21 Present    62   30.77   14.14  45   0
+15 112    9.65 2.29     17.20 Present    54   23.53    0.68  53   0
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Resumo para o Fold 4 de 5
+Semente aleatória base: 123
+Conjunto de Treinamento: 370 observações (80.09%)
+Conjunto de Teste: 92 observações (19.91%)
+
+ Classe Absoluta Percentual
+      0      242      65.41
+      1      128      34.59
+ Classe Absoluta Percentual
+      0       60      65.22
+      1       32      34.78
+Primeiras observações do subconjunto de Treinamento (amostra):
+  sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+1 160   12.00 5.73     23.11 Present    49   25.30   97.20  52   1
+2 144    0.01 4.41     28.61  Absent    55   28.87    2.06  63   1
+3 118    0.08 3.48     32.28 Present    52   29.14    3.81  46   0
+
+Primeiras observações do subconjunto de Teste (amostra):
+   sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+7  142    4.05 3.38     16.20  Absent    59   20.81    2.62  38   0
+9  114    0.00 3.83     19.40 Present    49   24.86    2.49  29   0
+13 118    0.00 1.88     10.05  Absent    59   21.57    0.00  17   0
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Resumo para o Fold 5 de 5
+Semente aleatória base: 123
+Conjunto de Treinamento: 370 observações (80.09%)
+Conjunto de Teste: 92 observações (19.91%)
+
+ Classe Absoluta Percentual
+      0      242      65.41
+      1      128      34.59
+ Classe Absoluta Percentual
+      0       60      65.22
+      1       32      34.78
+Primeiras observações do subconjunto de Treinamento (amostra):
+  sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+1 160   12.00 5.73     23.11 Present    49   25.30   97.20  52   1
+2 144    0.01 4.41     28.61  Absent    55   28.87    2.06  63   1
+5 134   13.60 3.50     27.78 Present    60   25.99   57.34  49   1
+
+Primeiras observações do subconjunto de Teste (amostra):
+   sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+3  118    0.08 3.48     32.28 Present    52   29.14    3.81  46   0
+4  170    7.50 6.41     38.03 Present    51   31.99   24.26  58   1
+12 134   14.10 4.44     22.39 Present    65   23.09    0.00  40   1
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Resumo para o Fold 1 de 10
+Semente aleatória base: 123
+Conjunto de Treinamento: 416 observações (90.04%)
+Conjunto de Teste: 46 observações (9.96%)
+
+ Classe Absoluta Percentual
+      0      272      65.38
+      1      144      34.62
+ Classe Absoluta Percentual
+      0       30      65.22
+      1       16      34.78
+Primeiras observações do subconjunto de Treinamento (amostra):
+  sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+1 160   12.00 5.73     23.11 Present    49   25.30   97.20  52   1
+2 144    0.01 4.41     28.61  Absent    55   28.87    2.06  63   1
+3 118    0.08 3.48     32.28 Present    52   29.14    3.81  46   0
+
+Primeiras observações do subconjunto de Teste (amostra):
+   sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+5  134   13.60 3.50     27.78 Present    60   25.99   57.34  49   1
+16 117    1.53 2.44     28.95 Present    35   25.89   30.03  46   0
+19 158    2.60 7.46     34.07 Present    61   29.30   53.28  62   1
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Resumo para o Fold 2 de 10
+Semente aleatória base: 123
+Conjunto de Treinamento: 416 observações (90.04%)
+Conjunto de Teste: 46 observações (9.96%)
+
+ Classe Absoluta Percentual
+      0      272      65.38
+      1      144      34.62
+ Classe Absoluta Percentual
+      0       30      65.22
+      1       16      34.78
+Primeiras observações do subconjunto de Treinamento (amostra):
+  sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+1 160   12.00 5.73     23.11 Present    49   25.30   97.20  52   1
+2 144    0.01 4.41     28.61  Absent    55   28.87    2.06  63   1
+3 118    0.08 3.48     32.28 Present    52   29.14    3.81  46   0
+
+Primeiras observações do subconjunto de Teste (amostra):
+   sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+8  114    4.08 4.59     14.60 Present    62   23.11    6.72  58   1
+11 206    6.00 2.95     32.27  Absent    72   26.81   56.06  60   1
+45 114    0.00 2.99      9.74  Absent    54   46.58    0.00  17   0
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Resumo para o Fold 3 de 10
+Semente aleatória base: 123
+Conjunto de Treinamento: 415 observações (89.83%)
+Conjunto de Teste: 47 observações (10.17%)
+
+ Classe Absoluta Percentual
+      0      271       65.3
+      1      144       34.7
+ Classe Absoluta Percentual
+      0       31      65.96
+      1       16      34.04
+Primeiras observações do subconjunto de Treinamento (amostra):
+  sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+1 160   12.00 5.73     23.11 Present    49   25.30   97.20  52   1
+2 144    0.01 4.41     28.61  Absent    55   28.87    2.06  63   1
+3 118    0.08 3.48     32.28 Present    52   29.14    3.81  46   0
+
+Primeiras observações do subconjunto de Teste (amostra):
+   sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+14 132    0.00 1.87     17.21  Absent    49   23.63    0.97  15   0
+36 122    4.26 4.44     13.04  Absent    57   19.49   48.99  28   1
+42 144    0.04 3.38     23.61  Absent    30   23.75    4.66  30   0
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Resumo para o Fold 4 de 10
+Semente aleatória base: 123
+Conjunto de Treinamento: 416 observações (90.04%)
+Conjunto de Teste: 46 observações (9.96%)
+
+ Classe Absoluta Percentual
+      0      272      65.38
+      1      144      34.62
+ Classe Absoluta Percentual
+      0       30      65.22
+      1       16      34.78
+Primeiras observações do subconjunto de Treinamento (amostra):
+  sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+1 160   12.00 5.73     23.11 Present    49   25.30   97.20  52   1
+2 144    0.01 4.41     28.61  Absent    55   28.87    2.06  63   1
+3 118    0.08 3.48     32.28 Present    52   29.14    3.81  46   0
+
+Primeiras observações do subconjunto de Teste (amostra):
+   sbp tobacco   ldl adiposity famhist typea obesity alcohol age chd
+9  114       0  3.83     19.40 Present    49   24.86    2.49  29   0
+13 118       0  1.88     10.05  Absent    59   21.57    0.00  17   0
+26 124       4 12.42     31.29 Present    54   23.23    2.06  42   1
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Resumo para o Fold 5 de 10
+Semente aleatória base: 123
+Conjunto de Treinamento: 416 observações (90.04%)
+Conjunto de Teste: 46 observações (9.96%)
+
+ Classe Absoluta Percentual
+      0      272      65.38
+      1      144      34.62
+ Classe Absoluta Percentual
+      0       30      65.22
+      1       16      34.78
+Primeiras observações do subconjunto de Treinamento (amostra):
+  sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+1 160   12.00 5.73     23.11 Present    49   25.30   97.20  52   1
+2 144    0.01 4.41     28.61  Absent    55   28.87    2.06  63   1
+3 118    0.08 3.48     32.28 Present    52   29.14    3.81  46   0
+
+Primeiras observações do subconjunto de Teste (amostra):
+   sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+4  170     7.5 6.41     38.03 Present    51   31.99   24.26  58   1
+12 134    14.1 4.44     22.39 Present    65   23.09    0.00  40   1
+23 150     0.3 6.38     33.99 Present    62   24.64    0.00  50   0
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Resumo para o Fold 6 de 10
+Semente aleatória base: 123
+Conjunto de Treinamento: 416 observações (90.04%)
+Conjunto de Teste: 46 observações (9.96%)
+
+ Classe Absoluta Percentual
+      0      272      65.38
+      1      144      34.62
+ Classe Absoluta Percentual
+      0       30      65.22
+      1       16      34.78
+Primeiras observações do subconjunto de Treinamento (amostra):
+  sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+1 160   12.00 5.73     23.11 Present    49   25.30   97.20  52   1
+2 144    0.01 4.41     28.61  Absent    55   28.87    2.06  63   1
+3 118    0.08 3.48     32.28 Present    52   29.14    3.81  46   0
+
+Primeiras observações do subconjunto de Teste (amostra):
+   sbp tobacco   ldl adiposity famhist typea obesity alcohol age chd
+10 132     0.0  5.80     30.96 Present    69   30.11    0.00  53   1
+17 120     7.5 15.33     22.00  Absent    60   25.31   34.49  49   0
+18 146    10.5  8.29     35.36 Present    78   32.73   13.89  53   1
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Resumo para o Fold 7 de 10
+Semente aleatória base: 123
+Conjunto de Treinamento: 416 observações (90.04%)
+Conjunto de Teste: 46 observações (9.96%)
+
+ Classe Absoluta Percentual
+      0      272      65.38
+      1      144      34.62
+ Classe Absoluta Percentual
+      0       30      65.22
+      1       16      34.78
+Primeiras observações do subconjunto de Treinamento (amostra):
+  sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+1 160   12.00 5.73     23.11 Present    49   25.30   97.20  52   1
+3 118    0.08 3.48     32.28 Present    52   29.14    3.81  46   0
+4 170    7.50 6.41     38.03 Present    51   31.99   24.26  58   1
+
+Primeiras observações do subconjunto de Teste (amostra):
+   sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+2  144    0.01 4.41     28.61  Absent    55   28.87    2.06  63   1
+22 132    7.90 2.85     26.50 Present    51   26.16   25.71  44   0
+24 138    0.60 3.81     28.66  Absent    54   28.70    1.46  58   0
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Resumo para o Fold 8 de 10
+Semente aleatória base: 123
+Conjunto de Treinamento: 416 observações (90.04%)
+Conjunto de Teste: 46 observações (9.96%)
+
+ Classe Absoluta Percentual
+      0      272      65.38
+      1      144      34.62
+ Classe Absoluta Percentual
+      0       30      65.22
+      1       16      34.78
+Primeiras observações do subconjunto de Treinamento (amostra):
+  sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+2 144    0.01 4.41     28.61  Absent    55   28.87    2.06  63   1
+4 170    7.50 6.41     38.03 Present    51   31.99   24.26  58   1
+5 134   13.60 3.50     27.78 Present    60   25.99   57.34  49   1
+
+Primeiras observações do subconjunto de Teste (amostra):
+   sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+1  160   12.00 5.73     23.11 Present    49   25.30   97.20  52   1
+3  118    0.08 3.48     32.28 Present    52   29.14    3.81  46   0
+20 124   14.00 6.23     35.96 Present    45   30.09    0.00  59   1
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Resumo para o Fold 9 de 10
+Semente aleatória base: 123
+Conjunto de Treinamento: 416 observações (90.04%)
+Conjunto de Teste: 46 observações (9.96%)
+
+ Classe Absoluta Percentual
+      0      272      65.38
+      1      144      34.62
+ Classe Absoluta Percentual
+      0       30      65.22
+      1       16      34.78
+Primeiras observações do subconjunto de Treinamento (amostra):
+  sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+1 160   12.00 5.73     23.11 Present    49   25.30   97.20  52   1
+2 144    0.01 4.41     28.61  Absent    55   28.87    2.06  63   1
+3 118    0.08 3.48     32.28 Present    52   29.14    3.81  46   0
+
+Primeiras observações do subconjunto de Teste (amostra):
+   sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+6  132    6.20 6.47     36.21 Present    62   30.77   14.14  45   0
+7  142    4.05 3.38     16.20  Absent    59   20.81    2.62  38   0
+33 122    6.60 5.58     35.95 Present    53   28.07   12.55  59   1
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Resumo para o Fold 10 de 10
+Semente aleatória base: 123
+Conjunto de Treinamento: 415 observações (89.83%)
+Conjunto de Teste: 47 observações (10.17%)
+
+ Classe Absoluta Percentual
+      0      271       65.3
+      1      144       34.7
+ Classe Absoluta Percentual
+      0       31      65.96
+      1       16      34.04
+Primeiras observações do subconjunto de Treinamento (amostra):
+  sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+1 160   12.00 5.73     23.11 Present    49   25.30   97.20  52   1
+2 144    0.01 4.41     28.61  Absent    55   28.87    2.06  63   1
+3 118    0.08 3.48     32.28 Present    52   29.14    3.81  46   0
+
+Primeiras observações do subconjunto de Teste (amostra):
+   sbp tobacco  ldl adiposity famhist typea obesity alcohol age chd
+15 112    9.65 2.29     17.20 Present    54   23.53    0.68  53   0
+21 106    1.61 1.74     12.32  Absent    74   20.92   13.37  20   1
+41 118    0.28 5.80     33.70 Present    60   30.98    0.00  41   1</code></pre>
+</div>
+</div>
+<p>:::</p>
+</section>
+<section id="atividade-prática-2.15" class="level2">
+<h2 class="anchored" data-anchor-id="atividade-prática-2.15"><strong>Atividade Prática 2.15</strong></h2>
+<p>Para esta atividade, será utilizado o conjunto de dados <code>birthwt</code>, disponibilizado na biblioteca <code>MASS</code>, que reúne informações maternas, comportamentais e obstétricas associadas ao peso ao nascer. A variável <code>low</code> indica a ocorrência de baixo peso ao nascer (desfecho binário de interesse), enquanto <code>bwt</code> representa o peso ao nascer em gramas. As demais variáveis (<code>age</code>, <code>lwt</code>, <code>race</code>, <code>smoke</code>, <code>ptl</code>, <code>ht</code>, <code>ui</code>, <code>ftv</code>) descrevem características associadas à gestação. Nesta atividade, pretende-se aplicar o método <em>bootstrap</em> com o objetivo principal de gerar subconjuntos de treinamento e teste que preservem, de forma aproximada, a estrutura do desfecho binário <code>low</code>. Em cada iteração, será construída uma amostra de treinamento por reamostragem com reposição e um subconjunto de teste composto pelas observações não selecionadas (<em>out-of-bag</em>, OOB), avaliando-se o comportamento dessas partições ao longo das iterações. O procedimento deve ser conduzido de acordo com as seguintes etapas:</p>
+<ul>
+<li><p>Carregar o conjunto de dados <code>birthwt</code> e atribuí-lo a um objeto de trabalho;</p></li>
+<li><p>Definir uma semente aleatória para garantir a reprodutibilidade do processo de reamostragem;</p></li>
+<li><p>Fixar o número de iterações bootstrap em <span class="math inline">\(B = 10,\ldots,100\)</span>;</p></li>
+<li><p>Para cada iteração <span class="math inline">\(b=1,\ldots,B\)</span>:</p>
+<ul>
+<li><p>Gerar uma amostra bootstrap, com reposição, de tamanho igual ao número total de observações;</p></li>
+<li><p>Definir o conjunto de treinamento como a amostra bootstrap obtida;</p></li>
+<li><p>Definir o conjunto de teste como o conjunto OOB, formado pelas observações não selecionadas na amostra bootstrap;</p></li>
+<li><p>Apresentar um resumo contendo:</p>
+<ul>
+<li><p>A iteração b;</p></li>
+<li><p>A semente aleatória utilizada;</p></li>
+<li><p>O tamanho do conjunto de treinamento (bootstrap) e do conjunto de teste (OOB), incluindo o percentual do OOB em relação ao total;</p></li>
+<li><p>O número de observações distintas presentes no conjunto de treinamento e o número de repetições induzidas pela reamostragem;</p></li>
+<li><p>A proporção da variável <code>low</code> nos conjuntos de treinamento e OOB, em frequências e percentuais;</p></li>
+</ul></li>
+</ul></li>
+</ul>
+<p>Ao final, deve-se verificar a consistência do procedimento, confirmando que, em cada iteração, o conjunto de treinamento é composto por reamostragem com reposição e que o conjunto OOB corresponde às observações não selecionadas, cuja dimensão pode variar entre iterações. Em seguida, deve-se selecionar uma iteração bootstrap cujo conjunto OOB apresente dimensão próxima de <span class="math inline">\(36\%\)</span> do total de observações e preserve, de forma aproximada, a proporção da variável <code>low</code> observada na base original. Para a iteração selecionada, devem ser apresentados resumos descritivos dos conjuntos de treinamento bootstrap e OOB.</p>
+<p><strong>Solução:</strong></p>
+<p>Carregando o conjunto de dados:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"birthwt"</span>)</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> birthwt</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>low <span class="ot">&lt;-</span> <span class="fu">factor</span>(df<span class="sc">$</span>low, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Normal"</span>, <span class="st">"Baixo Peso"</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Proporção original para referência:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>prop_original <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(<span class="fu">table</span>(df<span class="sc">$</span>low))[<span class="st">"Baixo Peso"</span>]</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df)</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">10</span> </span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>semente_base <span class="ot">&lt;-</span> <span class="dv">67</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Função auxiliar para remover a poluição visual do loop:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>resumo_iteracao <span class="ot">&lt;-</span> <span class="cf">function</span>(b, semente, df_treino, df_oob) {</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">--- Iteração %d | Semente: %d ---</span><span class="sc">\n</span><span class="st">"</span>, b, semente))</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Treino: %d obs | OOB: %d obs (%.2f%%)</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">nrow</span>(df_treino), <span class="fu">nrow</span>(df_oob), (<span class="fu">nrow</span>(df_oob)<span class="sc">/</span>N)<span class="sc">*</span><span class="dv">100</span>))</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Únicas no Treino: %d | Repetições: %d</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">length</span>(<span class="fu">unique</span>(<span class="fu">rownames</span>(df_treino))), <span class="fu">nrow</span>(df_treino) <span class="sc">-</span> <span class="fu">length</span>(<span class="fu">unique</span>(<span class="fu">rownames</span>(df_treino)))))</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Desfecho (Treino vs OOB):</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">rbind</span>(</span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Treino =</span> <span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(df_treino<span class="sc">$</span>low)) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>),</span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">OOB    =</span> <span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(df_oob<span class="sc">$</span>low)) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>)</span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Criando o looping para aplicar o bootstrapping:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>metricas <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>lista_treino <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>lista_oob <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (b <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>B) {</span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(semente_base <span class="sc">+</span> b)</span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a>  idx_treino <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>N, <span class="at">size =</span> N, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a>  idx_oob <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="dv">1</span><span class="sc">:</span>N, <span class="fu">unique</span>(idx_treino))</span>
+<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a>  lista_treino[[b]] <span class="ot">&lt;-</span> df[idx_treino, ]</span>
+<span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a>  lista_oob[[b]] <span class="ot">&lt;-</span> df[idx_oob, ]</span>
+<span id="cb66-13"><a href="#cb66-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb66-14"><a href="#cb66-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">resumo_iteracao</span>(b, semente_base <span class="sc">+</span> b, lista_treino[[b]], lista_oob[[b]])</span>
+<span id="cb66-15"><a href="#cb66-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb66-16"><a href="#cb66-16" aria-hidden="true" tabindex="-1"></a>  perc_oob <span class="ot">&lt;-</span> (<span class="fu">length</span>(idx_oob) <span class="sc">/</span> N) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb66-17"><a href="#cb66-17" aria-hidden="true" tabindex="-1"></a>  prop_oob_baixo <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(<span class="fu">table</span>(lista_oob[[b]]<span class="sc">$</span>low))[<span class="st">"Baixo Peso"</span>]</span>
+<span id="cb66-18"><a href="#cb66-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb66-19"><a href="#cb66-19" aria-hidden="true" tabindex="-1"></a>  metricas <span class="ot">&lt;-</span> <span class="fu">rbind</span>(metricas, <span class="fu">data.frame</span>(</span>
+<span id="cb66-20"><a href="#cb66-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">Iteracao =</span> b,</span>
+<span id="cb66-21"><a href="#cb66-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">Desvio_OOB =</span> <span class="fu">abs</span>(perc_oob <span class="sc">-</span> <span class="fl">36.0</span>),</span>
+<span id="cb66-22"><a href="#cb66-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">Desvio_Prop =</span> <span class="fu">abs</span>(<span class="fu">as.numeric</span>(prop_oob_baixo) <span class="sc">-</span> <span class="fu">as.numeric</span>(prop_original))</span>
+<span id="cb66-23"><a href="#cb66-23" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb66-24"><a href="#cb66-24" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+--- Iteração 1 | Semente: 68 ---
+Treino: 189 obs | OOB: 70 obs (37.04%)
+Únicas no Treino: 189 | Repetições: 0
+Desfecho (Treino vs OOB):
+       Normal Baixo Peso
+Treino  76.19      23.81
+OOB     62.86      37.14
+
+--- Iteração 2 | Semente: 69 ---
+Treino: 189 obs | OOB: 77 obs (40.74%)
+Únicas no Treino: 189 | Repetições: 0
+Desfecho (Treino vs OOB):
+       Normal Baixo Peso
+Treino  71.43      28.57
+OOB     64.94      35.06
+
+--- Iteração 3 | Semente: 70 ---
+Treino: 189 obs | OOB: 66 obs (34.92%)
+Únicas no Treino: 189 | Repetições: 0
+Desfecho (Treino vs OOB):
+       Normal Baixo Peso
+Treino  64.02      35.98
+OOB     74.24      25.76
+
+--- Iteração 4 | Semente: 71 ---
+Treino: 189 obs | OOB: 71 obs (37.57%)
+Únicas no Treino: 189 | Repetições: 0
+Desfecho (Treino vs OOB):
+       Normal Baixo Peso
+Treino  67.20      32.80
+OOB     69.01      30.99
+
+--- Iteração 5 | Semente: 72 ---
+Treino: 189 obs | OOB: 74 obs (39.15%)
+Únicas no Treino: 189 | Repetições: 0
+Desfecho (Treino vs OOB):
+       Normal Baixo Peso
+Treino  64.55      35.45
+OOB     71.62      28.38
+
+--- Iteração 6 | Semente: 73 ---
+Treino: 189 obs | OOB: 71 obs (37.57%)
+Únicas no Treino: 189 | Repetições: 0
+Desfecho (Treino vs OOB):
+       Normal Baixo Peso
+Treino  73.02      26.98
+OOB     64.79      35.21
+
+--- Iteração 7 | Semente: 74 ---
+Treino: 189 obs | OOB: 66 obs (34.92%)
+Únicas no Treino: 189 | Repetições: 0
+Desfecho (Treino vs OOB):
+       Normal Baixo Peso
+Treino  65.61      34.39
+OOB     71.21      28.79
+
+--- Iteração 8 | Semente: 75 ---
+Treino: 189 obs | OOB: 66 obs (34.92%)
+Únicas no Treino: 189 | Repetições: 0
+Desfecho (Treino vs OOB):
+       Normal Baixo Peso
+Treino  65.61      34.39
+OOB     72.73      27.27
+
+--- Iteração 9 | Semente: 76 ---
+Treino: 189 obs | OOB: 72 obs (38.10%)
+Únicas no Treino: 189 | Repetições: 0
+Desfecho (Treino vs OOB):
+       Normal Baixo Peso
+Treino  66.67      33.33
+OOB     70.83      29.17
+
+--- Iteração 10 | Semente: 77 ---
+Treino: 189 obs | OOB: 61 obs (32.28%)
+Únicas no Treino: 189 | Repetições: 0
+Desfecho (Treino vs OOB):
+       Normal Baixo Peso
+Treino  67.72      32.28
+OOB     65.57      34.43</code></pre>
+</div>
+</div>
+<p>Seleção da iteração ideal:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">=== SELEÇÃO DA ITERAÇÃO IDEAL ===</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+=== SELEÇÃO DA ITERAÇÃO IDEAL ===</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>metricas<span class="sc">$</span>Score <span class="ot">&lt;-</span> <span class="fu">rank</span>(metricas<span class="sc">$</span>Desvio_OOB) <span class="sc">+</span> <span class="fu">rank</span>(metricas<span class="sc">$</span>Desvio_Prop)</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>it_ideal <span class="ot">&lt;-</span> metricas<span class="sc">$</span>Iteracao[<span class="fu">which.min</span>(metricas<span class="sc">$</span>Score)]</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"A iteração selecionada que melhor atende aos critérios é a b = %d.</span><span class="sc">\n</span><span class="st">"</span>, it_ideal))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>A iteração selecionada que melhor atende aos critérios é a b = 7.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>df_treino_ideal <span class="ot">&lt;-</span> lista_treino[[it_ideal]]</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>df_oob_ideal <span class="ot">&lt;-</span> lista_oob[[it_ideal]]</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">--- Resumo Descritivo: Conjunto de TREINAMENTO (Iteração Selecionada) ---</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+--- Resumo Descritivo: Conjunto de TREINAMENTO (Iteração Selecionada) ---</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(df_treino_ideal))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         low           age             lwt             race      
+ Normal    :124   Min.   :14.00   Min.   : 80.0   Min.   :1.000  
+ Baixo Peso: 65   1st Qu.:20.00   1st Qu.:110.0   1st Qu.:1.000  
+                  Median :23.00   Median :121.0   Median :2.000  
+                  Mean   :23.43   Mean   :128.8   Mean   :1.873  
+                  3rd Qu.:27.00   3rd Qu.:138.0   3rd Qu.:3.000  
+                  Max.   :36.00   Max.   :250.0   Max.   :3.000  
+     smoke             ptl               ht                ui       
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.00000   Min.   :0.000  
+ 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.00000   1st Qu.:0.000  
+ Median :0.0000   Median :0.0000   Median :0.00000   Median :0.000  
+ Mean   :0.4074   Mean   :0.1799   Mean   :0.06878   Mean   :0.164  
+ 3rd Qu.:1.0000   3rd Qu.:0.0000   3rd Qu.:0.00000   3rd Qu.:0.000  
+ Max.   :1.0000   Max.   :2.0000   Max.   :1.00000   Max.   :1.000  
+      ftv              bwt      
+ Min.   :0.0000   Min.   : 709  
+ 1st Qu.:0.0000   1st Qu.:2410  
+ Median :1.0000   Median :2977  
+ Mean   :0.8783   Mean   :2890  
+ 3rd Qu.:1.0000   3rd Qu.:3444  
+ Max.   :6.0000   Max.   :4238  </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">--- Resumo Descritivo: Conjunto de TESTE/OOB (Iteração Selecionada) ---</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+--- Resumo Descritivo: Conjunto de TESTE/OOB (Iteração Selecionada) ---</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(df_oob_ideal))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         low          age             lwt             race      
+ Normal    :47   Min.   :15.00   Min.   : 90.0   Min.   :1.000  
+ Baixo Peso:19   1st Qu.:19.00   1st Qu.:112.0   1st Qu.:1.000  
+                 Median :21.50   Median :121.5   Median :1.000  
+                 Mean   :22.97   Mean   :131.3   Mean   :1.833  
+                 3rd Qu.:25.00   3rd Qu.:139.5   3rd Qu.:3.000  
+                 Max.   :45.00   Max.   :235.0   Max.   :3.000  
+     smoke             ptl              ht                ui        
+ Min.   :0.0000   Min.   :0.000   Min.   :0.00000   Min.   :0.0000  
+ 1st Qu.:0.0000   1st Qu.:0.000   1st Qu.:0.00000   1st Qu.:0.0000  
+ Median :0.0000   Median :0.000   Median :0.00000   Median :0.0000  
+ Mean   :0.3485   Mean   :0.197   Mean   :0.07576   Mean   :0.1515  
+ 3rd Qu.:1.0000   3rd Qu.:0.000   3rd Qu.:0.00000   3rd Qu.:0.0000  
+ Max.   :1.0000   Max.   :3.000   Max.   :1.00000   Max.   :1.0000  
+      ftv              bwt      
+ Min.   :0.0000   Min.   :1135  
+ 1st Qu.:0.0000   1st Qu.:2430  
+ Median :0.0000   Median :2977  
+ Mean   :0.7424   Mean   :3010  
+ 3rd Qu.:1.0000   3rd Qu.:3625  
+ Max.   :3.0000   Max.   :4990  </code></pre>
+</div>
+</div>
+<p>:::</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

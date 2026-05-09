@@ -1,0 +1,79 @@
+% Pacotes Essenciais não cobertos pelo YAML padrão
+%\usepackage[T1]{fontenc}
+%\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage{ragged2e}
+\usepackage{multirow}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{bm} % Necessário para os comandos \bm
+\usepackage{epigraph}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{booktabs}
+\usepackage{textcomp}
+\usepackage[many]{tcolorbox}
+\usepackage{empheq}
+\usepackage{tasks}
+\usepackage{fvextra}
+\usepackage[brazil]{babel}
+
+
+% Configuração das Listas Customizadas
+\newlist{questions}{enumerate}{3}
+\setlist[questions]{label=\arabic*.}
+\newcommand{\question}{\item}
+\setlist[questions]{label=\protect\circled{\bfseries\arabic*}}
+
+\newlist{partes}{enumerate}{3}
+\setlist[partes]{label=(\alph*)}
+\newcommand{\parte}{\item}
+
+\newlist{subpartes}{enumerate}{3}
+\setlist[subpartes]{label=\roman*)}
+\newcommand{\subparte}{\item}
+
+% Comando de Círculo
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+
+\newtheorem*{resolucao}{Resolução}
+
+% Comandos Matemáticos Customizados
+\newcommand{\X}{\mathbf{X}}
+\newcommand{\x}{\mathbf{x}}
+\newcommand{\Z}{\mathbf{Z}}
+\newcommand{\z}{\mathbf{z}}
+\newcommand{\y}{\boldsymbol{y}}
+\newcommand{\balpha}{\mbox{${\bm \alpha}$}}
+\newcommand{\bmu}{\mbox{${\bm \mu}$}}
+\newcommand{\bbeta}{\mbox{${\bm \beta}$}}
+\newcommand{\bteta}{\mbox{${\bm \theta}$}}
+\newcommand{\bgama}{\mbox{${\bm \gamma}$}}
+\newcommand{\bvarphi}{\mbox{${\bm \varphi}$}}
+\newcommand{\SZ}{\mbox{ $Z$}}
+\newcommand{\muz}{\mu_{z,l}}
+\newcommand{\muo}{\mu_{0,l}}
+\newcommand{\etao}{\eta_{0,l}}
+\newcommand{\etaz}{\eta_{z,l}}
+\newcommand{\xbeta}{x_{l}\bgama}
+\newcommand{\mui}{\mu_{l}}
+\newcommand{\zetaind}{\zeta \mathtt{I}_{\{s_{l} \in Z \}}} 
+\newcommand{\spz}{ s_{l} \in z}
+\newcommand{\snpz}{ s_{l} \notin z}
+\newcommand{\sps}{ s_{l} \in S}
+\newcommand{\gphi}{ \Gamma(\phi)}
+\newcommand{\scan}{ \Lambda_{z}}
+\newcommand{\gmuop}{ \Gamma(\muo\phi)}
+\newcommand{\gmuzp}{ \Gamma(\muz \phi)}
+\newcommand{\gumuop}{ \Gamma((1-\muo)\phi)}
+\newcommand{\gumuzp}{ \Gamma((1-\muz)\phi)}
+\newcommand{\dlobeta}{ \frac{\partial l_{0}(\bgama, \phi, 0) }{\partial \bgama}}
+\newcommand{\lz}{  l_{z}(\bgama, \phi, \tau)}
+\newcommand{\lo}{  l_{0}(\beta, \phi, 0)}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\dis}{\displaystyle}
+
+% Customização de quebra de código (do seu preâmbulo Quarto original)
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\},breaklines,breakanywhere}

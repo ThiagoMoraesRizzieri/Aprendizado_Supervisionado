@@ -1,3 +1,0 @@
-"0","cor_s <- sapply(X, function(i) cor(i, y, method = ""spearman""))"
-"0","cor_s <- data.frame(variavel = names(cor_s), r_s = as.numeric(cor_s))"
-"0","cor_s"

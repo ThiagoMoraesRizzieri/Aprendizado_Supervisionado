@@ -1,3 +1,0 @@
-"0","ggplot(data.frame(lab_train,X_train_obs),aes(x=as.factor(lab_train), y=X_train_obs)) + "
-"0","    geom_boxplot(fill=""slateblue"", alpha=0.2) + "
-"0","    xlab(""cyl"")"

@@ -1,2 +1,0 @@
-"0","X_race <- as.data.frame(predict(dummies, newdata = db))"
-"0","head(X_race)"

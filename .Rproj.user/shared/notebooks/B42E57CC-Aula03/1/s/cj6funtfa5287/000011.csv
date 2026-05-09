@@ -1,1 +1,0 @@
-"0","db$Sepal.Length_Min_Max <- (db$Sepal.Length - min(db$Sepal.Length))/(max(db$Sepal.Length)-min(db$Sepal.Length))"

@@ -1,3 +1,0 @@
-"0","db$diabetes <- relevel(factor(db$diabetes), ref = ""neg"")"
-"0","X <- db[,-9]"
-"0","head(X)"

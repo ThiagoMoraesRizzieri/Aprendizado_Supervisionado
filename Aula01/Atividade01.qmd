@@ -1,0 +1,211 @@
+---
+examnum: "Atividade 01"
+student: "Thiago Moraes Rizzieri"
+class: "Sistemas Fuzzy"
+teacher: "Prof. Dr. Ricardo Puziol de Oliveira"
+
+lang: pt-br
+
+format:
+  pdf:
+    documentclass: survactivity
+    header-includes: |
+      \class{Aprendizado Supervisionado}
+      \examnum{Atividade 01}
+      \teacher{Prof. Dr. Ricardo Puziol de Oliveira}
+      \student{Thiago Moraes Rizzieri}
+    filters:
+      - ambientes-latex.lua
+---
+
+## **Atividade Prática 1.1**
+
+Considere o contexto do planejamento e da operação de sistemas de energia elétrica, no qual empresas concessionárias necessitam prever a demanda futura de consumo para garantir a estabilidade do fornecimento, otimizar custos operacionais e evitar sobrecargas na rede.
+
+Suponha que a concessionária disponha de um banco de dados histórico contendo medições horárias de consumo agregado de energia elétrica, registradas ao longo de vários anos, bem como informações associadas a variáveis climáticas (como temperatura e umidade), características temporais (hora do dia, dia da semana, sazonalidade) e indicadores de eventos excepcionais (feriados, ondas de calor, etc.).
+
+O objetivo é utilizar esses dados históricos para construir um modelo preditivo capaz de estimar a demanda total de energia elétrica em períodos futuros, em um horizonte de curto prazo (por exemplo, horas ou dias à frente), de modo a subsidiar decisões operacionais, como despacho de geração, alocação de reservas e planejamento da manutenção da rede.
+
+Admita que, a cada novo período, novas observações de consumo tornam-se disponíveis e podem ser incorporadas ao processo de modelagem. Nesse contexto, identifique os componentes fundamentais do problema de aprendizado de máquina, de acordo com a formulação clássica:
+
+::: solucao
+Nesse contexto, podemos identificar os componentes fundamentais como:
+
+-   **Tarefa (T):** construir um modelo preditivo capaz de estimar a demanda total de energia elétrica em períodos futuros, em um horizonte de curto prazo (por exemplo, horas ou dias à frente).
+
+-   **Medida de desempenho (P):** medidas de desempenho de um modelo de regressão, como $RMSE$ (Root Mean Squared Error) ou $MAE$ para medir a demanda de energia predita. Além dessas medidas para avaliar previsões pontuais, podemos utilizar medidas para avaliar o intervalo de previsão do modelo, como o Winkler Score ou CRPS (Continuous Ranked Probability Score).
+
+-   **Experiência (E):** banco de dados histórico contendo medições horárias de consumo agregado de energia elétrica, registradas ao longo de vários anos, bem como informações associadas a variáveis climáticas (como temperatura e umidade), características temporais (hora do dia, dia da semana, sazonalidade) e indicadores de eventos excepcionais (feriados, ondas de calor, etc.). A experiência também é atualizada iterativamente à medida que novas observações se tornam disponíveis.
+:::
+
+## **Atividade Prática 1.2**
+
+Considere um estudo observacional retrospectivo cujo objetivo geral é *examinar a dinâmica temporal de mutações virais* e *predizer quantitativamente seu comportamento futuro*, de modo a caracterizar padrões evolutivos associados à circulação viral em diferentes contextos epidemiológicos. O estudo baseia-se em dados provenientes de um consórcio de laboratórios públicos e universitários responsáveis pelo *sequenciamento genômico sistemático* de amostras virais coletadas rotineiramente em serviços de saúde, no âmbito de programas institucionais de vigilância genômica voltados ao monitoramento da diversidade genética viral em escala populacional. O banco de dados é composto por *aproximadamente 4.500 genomas virais completos ou quase completos*, coletados entre 2020 e 2024, abrangendo múltiplos períodos epidêmicos, diferentes regiões geográficas e variados perfis demográficos. Cada genoma encontra-se associado a um conjunto mínimo de informações clínicas e epidemiológicas do hospedeiro no momento da coleta, refletindo restrições operacionais típicas de sistemas reais de vigilância genômica. Para cada amostra viral, estão disponíveis:
+
+<!-- -->
+
+-   a *sequência genômica consenso*, alinhada a uma sequência de referência específica para cada categoria viral;
+
+-   *listas de mutações* identificadas em relação à referência, incluindo substituições, inserções e deleções (ordem de grandeza típica: dezenas a centenas de mutações por genoma, a depender do grupo viral);
+
+-   *anotações funcionais* das mutações, discriminando regiões codificantes, proteínas estruturais e regiões regulatórias;
+
+-   *métricas de qualidade do sequenciamento*, tais como cobertura média (variando entre e leituras por base) e proporção de bases ambíguas (mediana inferior a 5%, com cauda direita em amostras de menor qualidade).
+
+<!-- -->
+
+Associados a cada genoma, encontram-se ainda *metadados clínicos e epidemiológicos de granularidade limitada*, incluindo faixa etária do hospedeiro (em classes decenais), sexo biológico, status vacinal no momento da coleta (quando disponível), presença de comorbidades autorreferidas e cenário de atendimento (atenção primária, pronto atendimento ou hospitalização). Outros aspectos relevantes do conjunto de dados são descritos nos itens a seguir.
+
+**(I) Unidade de Análise e Estrutura dos Dados**
+
+A *unidade primária de análise* é a *amostra viral sequenciada*, associada a um indivíduo em um instante específico no tempo. Para fins de modelagem temporal supervisionada, as informações genômicas são *agregadas em janelas temporais sucessivas* (por exemplo, semanas epidemiológicas), a partir das quais são estimadas frequências relativas de mutações ou combinações de mutações. O conjunto de dados apresenta *estrutura hierárquica e temporal*, caracterizada por:
+
+<!-- -->
+
+-   agregação de amostras por região geográfica e período epidemiológico;
+
+-   distribuição temporal irregular das observações, com picos de amostragem associados a ondas epidêmicas;
+
+-   dependência temporal e filogenética entre os genomas analisados, decorrente de ancestrais evolutivos compartilhados.
+
+<!-- -->
+
+Os dados genômicos foram obtidos por plataformas de sequenciamento, empregando protocolos laboratoriais que variaram ao longo do período de estudo. Consequentemente, *nem todas as informações estão completas para todas as amostras*, e a qualidade das sequências apresenta variação substancial, particularmente em períodos de alta incidência viral.
+
+**(II) Fenômeno de Interesse**
+
+O foco do estudo recai sobre a *dinâmica populacional de mutações virais ao longo do tempo*, compreendendo:
+
+<!-- -->
+
+-   a emergência, expansão ou extinção de mutações em janelas temporais sucessivas;
+
+-   o acúmulo diferencial de alterações genéticas em linhagens virais específicas;
+
+-   padrões de coocorrência entre mutações, potencialmente associados a restrições estruturais ou pressões seletivas;
+
+-   variações temporais e espaciais na *frequência relativa* de mutações individuais ou combinadas;
+
+-   associações entre trajetórias mutacionais e características epidemiológicas, como ondas epidêmicas, localização geográfica e status vacinal da população amostrada.
+
+<!-- -->
+
+Esses fenômenos são *intrinsecamente temporais e multivariados* e são formulados, neste exercício, como um problema de aprendizado supervisionado, no qual informações observadas até um tempo são utilizadas para predizer o comportamento das frequências mutacionais em um horizonte futuro .
+
+**(III) Desafios**
+
+A análise desse conjunto de dados envolve desafios metodológicos relevantes, incluindo:
+
+<!-- -->
+
+-   *alta dimensionalidade* dos dados genômicos;
+
+-   *dependência temporal e filogenética*, violando pressupostos de independência;
+
+-   *heterogeneidade temporal e espacial* da amostragem;
+
+-   presença de *ruído técnico* associado ao sequenciamento;
+
+-   *viéses de amostragem* decorrentes de estratégias de vigilância não aleatórias;
+
+-   necessidade de *particionamento temporal adequado* para treinamento e avaliação de modelos supervisionados, evitando vazamento de informação do futuro.
+
+<!-- -->
+
+Decisões tomadas nas etapas iniciais – como definição da janela temporal, critérios de filtragem de sequências, agregação de mutações raras e construção de atributos temporais – podem condicionar a validade preditiva dos modelos.
+
+**(IV) Objetivos do Estudo**
+
+O objetivo do projeto é desenvolver uma *estratégia de aprendizado supervisionado*, fundamentada em métodos estatísticos, capaz de *predizer a evolução futura da frequência de mutações virais*, contribuindo para:
+
+<!-- -->
+
+-   a compreensão quantitativa dos processos evolutivos virais em escala populacional;
+
+-   o monitoramento prospectivo de mudanças genéticas potencialmente relevantes;
+
+-   o suporte a decisões em vigilância epidemiológica e genômica.
+
+<!-- -->
+
+**(V) Tarefa**
+
+Com base exclusivamente no cenário descrito, *elabore um diagrama (workflow)* que represente, de forma lógica e coerente, as *etapas de um projeto de aprendizado supervisionado aplicado à análise de mutações virais*. O diagrama deve contemplar, entre outros aspectos:
+
+<!-- -->
+
+-   a definição formal da tarefa preditiva e da variável-resposta temporal;
+
+-   a construção do conjunto de dados supervisionado a partir de janelas temporais;
+
+-   o pré-processamento e a engenharia de atributos temporais e genômicos;
+
+-   a seleção de *modelos supervisionados adequados a dados temporais* (por exemplo, regressão penalizada, métodos baseados em árvores ou modelos com regularização);
+
+-   estratégias de *validação temporal* (treinamento no passado e teste no futuro);
+
+-   critérios de avaliação baseados em *métricas de erro para regressão* e na capacidade de identificar *trajetórias de crescimento acelerado*;
+
+-   e a decisão final sobre o uso do modelo, com indicação de possíveis *etapas iterativas*.
+
+<!-- -->
+
+O diagrama deve ser compreensível para uma *equipe multidisciplinar* composta por biólogos, epidemiologistas e cientistas de dados.
+
+::: solucao
+Primeiramente, vamos responder cada um dos itens separadamente para organizar tudo em um \textit{workflow} organizado.
+
+\begin{itemize}
+  \item \textbf{A definição formal da tarefa preditiva e da variável-resposta temporal:} o objetivo geral é examinar a dinâmica temporal de mutações virais e predizer quantitativamente seu comportamento futuro. Para este cenário, temos um problema de regressão multivariada em séries temporais. Logo, a variável-resposta ($y_t$) pode ser definida como a frequência relativa (proporção) de uma mutação específica (ou linhagem) em relação ao total de genomas sequenciados na população de uma determinada região, agregada na semana epidemiológica $t$.
+  
+  \item \textbf{A construção do conjunto de dados supervisionado a partir de janelas temporais:} podemos considerar um modelo que utilize o tempo em semanas $t$ que possa prever a semana $t+1$. A janela de observações ``desliza" ao longo de 2020 a 2024, semana à semana, criando múltiplos exemplos de treinamento a partir das mesmas séries históricas. O modelo utilizará características observadas na janela de tempo $t$ (e suas defasagens $t-1, t-2$, etc.) para prever a proporção da mutação na semana $t+1$. 
+  
+  \item \textbf{o pré-processamento e a engenharia de atributos temporais e genômicos:} o pré-processamento poderá exigir o processamento de mutações extremamente raras (ex: presentes em $< 1\%$ das amostras globais) podendo ser agregagadas em certas em categorias funcionais para mitigar o problema da esparsidade. Paralelamente, a engenharia de atributos envolverá a criação de variáveis de defasagem temporal (\textit{lags}), associando ao instante $t$ o histórico recente da série ($t-1, t-2$, etc.). Por fim, o espaço de características será enriquecido com covariáveis de contexto dinâmico, incluindo a cobertura vacinal agregada, a taxa móvel de hospitalizações regionais e os efeitos de interação espaço-temporal.
+  
+  \item \textbf{a seleção de modelos supervisionados adequados a dados temporais (por exemplo, regressão penalizada, métodos baseados em árvores ou modelos com regularização):} uma abordagem inicial seria utilizar um modelo de regressão linear com erros correlacionados no tempo ou um modelo ARIMAX (ARIMA com variáveis exógenas). No entanto, vale ressaltar que a aplicação do ARIMAX exige a projeção futura de cada variável exógena $X$, o que adicionaria uma camada extra de incerteza. Outras estratégias para comparar as capacidades preditivas poderiam ser o uso de métodos baseados em árvores (como Random Forest ou XGBoost) ou de Regressão Penalizada (como Lasso). 
+
+  \item \textbf{estratégias de validação temporal (treinamento no passado e teste no futuro):} a estratégia baseia-se na validação cruzada temporal, que respeita a ordenação cronológica dos dados. O processo garante que as janelas de validação ocorram sempre após as de treinamento, prevenindo que o modelo aprenda com o futuro. Concluída a etapa de validação cruzada para a seleção e o refinamento dos hiperparâmetros dos modelos candidatos, a validação final da capacidade preditiva ocorre aplicando o modelo a um cenário de teste separado, simulando o ambiente de aplicação dos modelos na prática.
+  
+  \item \textbf{critérios de avaliação baseados em métricas de erro para regressão e na capacidade de identificar trajetórias de crescimento acelerado:} $RMSE$ (Root Mean Squared Error) ou $MAE$ para medir a precisão da frequência predita. Também podemos utilizar medidas para avaliar o intervalo de previsão, como o Winkler Score ou CRPS (Continuous Ranked Probability Score).
+  
+  \item \textbf{e a decisão final sobre o uso do modelo, com indicação de possíveis etapas iterativas:} se o $RMSE$ estiver abaixo de um limiar aceitável e a sensibilidade para crescimento acelerado for alta, o modelo é validado para produção conceitual. Também verificaremos qual o modelo mais preciso em termos de intervalos de predição.
+ 
+\end{itemize}
+:::
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    node distance=0.8cm and 2cm,
+    caixa/.style={rectangle, rounded corners, draw=black, thick, fill=blue!5, text width=9cm, align=center, minimum height=1cm, font=\small},
+    dados/.style={rectangle, rounded corners, draw=black, thick, fill=green!5, text width=9cm, align=center, minimum height=1cm, font=\small},
+    linha/.style={draw, thick, -latex}
+]
+
+% Nodos Principais
+\node[dados] (tarefa) {\textbf{1. Tarefa e Variável-resposta}\\Regressão multivariada em séries temporais. A variável-resposta ($y_t$) é a frequência relativa de uma mutação na semana $t$.};
+
+\node[caixa, below=of tarefa] (conjunto) {\textbf{2. Conjunto de Dados}\\Construção via janelas deslizantes (treino em $t$ para prever $t+1$) de 2020 a 2024, utilizando defasagens históricas.};
+
+\node[caixa, below=of conjunto] (preproc) {\textbf{3. Pré-processamento e Atributos}\\Agrupamento de mutações raras ($<1\%$). Engenharia de atributos incluindo defasagens temporais e variáveis de contexto (vacinação/hospitalizações).};
+
+\node[caixa, below=of preproc] (modelos) {\textbf{4. Modelos}\\Regressão linear com erro temporal e modelos ARIMAX (exigindo modelagem prévia das variáveis exógenas).};
+
+\node[caixa, below=of modelos] (validacao) {\textbf{5. Validação}\\Validação cruzada temporal unidirecional (treino no passado e teste no futuro) para refinamento de hiperparâmetros.};
+
+\node[caixa, below=of validacao] (aval) {\textbf{6. Avaliação}\\Métricas de erro (RMSE, MAE) e métricas de intervalo (Winkler Score, CRPS).};
+
+\node[dados, fill=teal!10, below=of aval] (decisao) {\textbf{7. Decisão Final}\\Validação para produção conceitual baseada em limiares de RMSE e no intervalo de predição.};
+
+% Setas de Fluxo Contínuo
+\draw[linha] (tarefa) -- (conjunto);
+\draw[linha] (conjunto) -- (preproc);
+\draw[linha] (preproc) -- (modelos);
+\draw[linha] (modelos) -- (validacao);
+\draw[linha] (validacao) -- (aval);
+\draw[linha] (aval) -- (decisao);
+
+\end{tikzpicture}
+\caption{Workflow do projeto (embora disposto de forma unidirecional, passos anteriores podem ser revisitados de forma iterativa sempre que necessário para o ajuste do modelo).}
+\label{fig:workflow_genomica}
+\end{figure}

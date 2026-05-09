@@ -1,7 +1,0 @@
-"0","library(mlbench)"
-"0",""
-"0","data(""PimaIndiansDiabetes"", package = ""mlbench"")"
-"0",""
-"0","dados <- PimaIndiansDiabetes"
-"0","rm(PimaIndiansDiabetes)"
-"0","head(dados)"

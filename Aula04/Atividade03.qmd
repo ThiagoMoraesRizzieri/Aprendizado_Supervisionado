@@ -1,0 +1,560 @@
+---
+title: "Atividade 03"
+subtitle: "Disciplina: Aprendizado Supervisionado<br>Professor: Prof. Dr. Ricardo Puziol de Oliveira"
+author: "Thiago Moraes Rizzieri"
+
+
+lang: pt-br
+
+format: html
+---
+
+## **Atividade Prática 2.8**
+
+Considere o conjunto de dados `PimaIndiansDiabetes`, disponibilizado na biblioteca `mlbench`, que reúne informações clínicas de mulheres da etnia Pima com o objetivo de investigar a presença de diabetes mellitus. A base contém variáveis fisiológicas e laboratoriais medidas em unidades e ordens de grandeza distintas, entre as quais destacam-se `glucose`, `pressure`, `insulin` e `mass`. Nesta atividade, pretende-se aplicar e comparar diferentes procedimentos de normalização como etapa de pré-processamento de variáveis contínuas, com foco na reescala dos dados e na análise dos intervalos resultantes. O procedimento deve ser conduzido de acordo com as seguintes etapas:
+
+-   selecionar as variáveis contínuas `glucose`, `pressure`, `insulin` e `mass`;
+
+-   inspecionar os intervalos originais de variação dessas variáveis;
+
+-   aplicar, separadamente, os seguintes procedimentos de normalização:
+
+    -   normalização *min–max*;
+
+    -   normalização pelo valor máximo;
+
+    -   normalização por amplitude;
+
+    -   normalização baseada em quantis;
+
+Ao final, devem ser comparados os resultados obtidos para cada procedimento de normalização, avaliando-se as diferenças nos intervalos de variação das variáveis selecionadas.
+
+**Solução:**
+
+Carregando os dados com as variáveis solicitadas:
+
+```{r}
+library(mlbench)
+library(dplyr)
+
+data("PimaIndiansDiabetes")
+
+df <- PimaIndiansDiabetes %>%
+  select(glucose, pressure, insulin, mass)
+
+head(df)
+```
+
+```{r}
+summary(df)
+```
+
+Foram criadas funções para cada transformação e os valores foram armazenados no dataframe resultados.
+
+```{r}
+norm_min_max    <- function(x) (x - min(x, na.rm = TRUE)) / (max(x, na.rm = TRUE) - min(x, na.rm = TRUE))
+norm_max        <- function(x) x / max(x, na.rm = TRUE)
+norm_amplitude  <- function(x) x / (max(x, na.rm = TRUE) - min(x, na.rm = TRUE))
+norm_quantil    <- function(x) rank(x) / length(x)
+
+resultados <- data.frame(
+  Original  = df$glucose,
+  MinMax    = norm_min_max(df$glucose),
+  Max       = norm_max(df$glucose),
+  Amplitude = norm_amplitude(df$glucose),
+  Quantil   = norm_quantil(df$glucose)
+)
+
+head(resultados)
+```
+
+Observemos o intervalo de cada transformação:
+
+```{r}
+sapply(resultados, range)
+```
+
+Nestes cenário específico, ambas as transformações min–max, pelo máximo e pela amplitude resultaram em um intervalo entre 0 e 1. Enquanto que a transformação pelo quantil, teve o valor mínimo de seu intervalo um pouco superior ao zero.
+:::
+
+## **Atividade Prática 2.9**
+
+Considere o conjunto de dados `lung`, disponibilizado na biblioteca `survival`, que reúne informações clínicas de pacientes diagnosticados com câncer de pulmão, incluindo variáveis demográficas, fisiológicas e indicadores do estado funcional. A base contém variáveis contínuas medidas em escalas distintas, o que motiva a aplicação de procedimentos de padronização como etapa de pré-processamento. Nesta atividade, pretende-se aplicar e comparar diferentes procedimentos de padronização de variáveis contínuas, com o objetivo de remover diferenças artificiais de escala e analisar as propriedades resultantes das variáveis transformadas. O procedimento deve ser conduzido de acordo com as seguintes etapas:
+
+-   selecionar variáveis contínuas de interesse clínico presentes no conjunto de dados;
+
+-   inspecionar estatísticas descritivas básicas das variáveis selecionadas nos dados originais;
+
+-   aplicar, separadamente, os seguintes procedimentos de padronização:
+
+    -   padronização *z-score* baseada na média e no desvio-padrão amostrais;
+
+    -   padronização baseada na mediana e no intervalo interquartil;
+
+Ao final, devem ser comparados os resultados obtidos para cada procedimento de padronização, avaliando-se as diferenças nas estatísticas descritivas das variáveis transformadas e a adequação de cada abordagem ao conjunto de dados considerado.
+
+**Solução:**
+
+Carregando os dados de câncer:
+
+```{r}
+data(cancer, package="survival")
+head(cancer)
+```
+
+Padronização *z-score* baseada na média e no desvio-padrão amostrais:
+
+```{r}
+cancer_zscore <- as.data.frame(cancer %>% 
+  select(where(is.numeric)) %>% 
+  apply(.,2,scale))
+
+head(cancer_zscore)
+```
+
+Padronização baseada na mediana e no intervalo interquartil
+
+```{r}
+library(tidyr)
+
+iqr_score <- function(x) {
+  (x - median(x, na.rm = TRUE)) / IQR(x, na.rm = TRUE)
+}
+
+cancer_iqr_score <- as.data.frame(cancer %>% 
+  select(where(is.numeric)) %>% 
+  apply(.,2,iqr_score))
+
+head(cancer_iqr_score)
+```
+
+Comparando algumas medidas de centralidade e dispersão após transformações:
+
+```{r}
+resumo_zscore <- data.frame(
+  Media  = sapply(cancer_zscore, mean, na.rm = TRUE),
+  Desvio = sapply(cancer_zscore, sd, na.rm = TRUE),
+  Minimo = sapply(cancer_zscore, min, na.rm = TRUE),
+  Maximo = sapply(cancer_zscore, max, na.rm = TRUE),
+  Amplitude = sapply(cancer_zscore, function(x) diff(range(x, na.rm = TRUE)))
+)
+
+resumo_robusta <- data.frame(
+  Mediana = sapply(cancer_iqr_score, median, na.rm = TRUE),
+  IQR     = sapply(cancer_iqr_score, IQR, na.rm = TRUE),
+  Minimo  = sapply(cancer_iqr_score, min, na.rm = TRUE),
+  Maximo  = sapply(cancer_iqr_score, max, na.rm = TRUE),
+  Amplitude = sapply(cancer_iqr_score, function(x) diff(range(x, na.rm = TRUE)))
+)
+```
+
+```{r}
+round(resumo_zscore, 4)
+```
+
+```{r}
+round(resumo_robusta, 4)
+```
+
+Podemos observar que medida de centro e dispersão respectiva para cada padronização é respectivamente 0 e 1, como esperado. A diferença é a amplitude de cada padronização, onde a padronização robusta demonstra apresentar um valor menor do que a padronização z-score.
+:::
+
+## **Atividade Prática 2.10**
+
+Considere o conjunto de dados `ToothGrowth`, que descreve o efeito da suplementação de vitamina C sobre o crescimento odontológico em cobaias. A variável `len`, correspondente ao comprimento do dente, é contínua, estritamente positiva e apresenta assimetria, o que motiva a aplicação de uma transformação como etapa de pré-processamento. Nesta atividade, pretende-se aplicar a transformação de Box–Cox à variável `len`, com o objetivo de modificar a escala dos dados e avaliar o efeito da transformação sobre as características empíricas da distribuição. O procedimento deve ser conduzido de acordo com as seguintes etapas:
+
+-   inspecionar a distribuição empírica da variável `len`;
+
+-   estimar o parâmetro da transformação de Box–Cox;
+
+-   aplicar a transformação de Box–Cox à variável `len`;
+
+Ao final, devem ser comparadas as distribuições e estatísticas descritivas da variável `len` antes e após a aplicação da transformação, avaliando-se as alterações introduzidas pelo procedimento.
+
+**Solução:**
+
+Obtendo os dados:
+
+```{r}
+data("ToothGrowth")
+df_tooth <- ToothGrowth
+
+summary(df_tooth$len)
+```
+
+Vamos inspecionar a distribuição da variável `len`:
+
+```{r}
+par(mfrow = c(1, 3)) # Divide a área de plotagem
+hist(df_tooth$len, main = "Histograma Original", xlab = "Comprimento (len)", col = "lightblue")
+qqnorm(df_tooth$len, main = "Q-Q Plot Original")
+qqline(df_tooth$len, col = "red")
+boxplot(df_tooth$len, main = "Box-plot Original", ylab = "Comprimento (len)")
+```
+
+Visualmente, aparenta existir uma boa simetria em sua distribuição, apesar existir uma mudança brusca em sua extremidade. Vamos analisar se há melhorias com uma transformação de Box-Cox.
+
+Como visto em aula, primeiro precisamos estimar o parâmetro dessa transformação. Estarei buscando o lambda que maximize a função de verossimilhança:
+
+```{r}
+library(MASS)
+
+bc_resultado <- boxcox(lm(len ~ 1, data = df_tooth), plotit = TRUE)
+
+lambda_ideal <- bc_resultado$x[which.max(bc_resultado$y)]
+cat("O valor estimado para o parâmetro lambda é:", round(lambda_ideal, 4))
+```
+
+Vamos aplicar a transformação de Box-Cox com o lambda estimado:
+
+```{r}
+aplica_boxcox <- function(y, lambda) {
+  if (abs(lambda) < 1e-6) {
+    return(log(y))
+  } else {
+    return((y^lambda - 1) / lambda)
+  }
+}
+
+df_tooth$len_transformado <- aplica_boxcox(df_tooth$len, lambda_ideal)
+```
+
+Podemos agora comparar estatísticas dos dados originais com essa transformação:
+
+```{r}
+estatisticas_comparativas <- data.frame(
+  Estatistica = c("Mínimo", "1º Quartil", "Mediana", "Média", "3º Quartil", "Máximo"),
+  Original = as.numeric(summary(df_tooth$len)),
+  Transformado = as.numeric(summary(df_tooth$len_transformado))
+)
+print(estatisticas_comparativas)
+```
+
+E visualmente, temos:
+
+```{r}
+par(mfrow = c(2, 3))
+
+hist(df_tooth$len, main = "Histograma Original", xlab = "len", col = "gray")
+qqnorm(df_tooth$len, main = "Q-Q Plot Original")
+qqline(df_tooth$len, col = "red")
+boxplot(df_tooth$len, main = "Box-plot Original", ylab = "len")
+
+hist(df_tooth$len_transformado, main = "Histograma Transformado", xlab = "len (Box-Cox)", col = "lightgreen")
+qqnorm(df_tooth$len_transformado, main = "Q-Q Plot Transformado")
+qqline(df_tooth$len_transformado, col = "red")
+boxplot(df_tooth$len_transformado, main = "Box-plot Transformado", ylab = "len")
+
+par(mfrow = c(1, 1))
+```
+
+Há singelas diferenças com essa transformação, reduzindo as estatísticas e produzindo um efeito de \`\`achatamento'' sutil em seu histograma, mas não aparentou ser tão significativo para estes dados.
+:::
+
+## **Atividade Prática 2.11**
+
+Considere o conjunto de dados `iris`, que contém medidas morfológicas de flores do gênero *Iris*. A base inclui a variável categórica `Species`, composta por três níveis distintos: `setosa`, `versicolor` e `virginica`. Nesta atividade, pretende-se aplicar o procedimento de *one-hot encoding* à variável `Species`, com o objetivo de reespecificar sua representação por meio de variáveis indicadoras binárias. O procedimento deve ser conduzido de acordo com as seguintes etapas:
+
+-   identificar os níveis observados da variável categórica `Species`;
+
+-   construir as variáveis indicadoras binárias correspondentes aos níveis identificados;
+
+Ao final, deve-se verificar a estrutura do conjunto de dados e confirmar que a variável categórica original foi adequadamente representada por um conjunto de variáveis indicadoras binárias, refletindo corretamente os níveis originalmente observados.
+
+**Solução:**
+
+Carregando os dados:
+
+```{r}
+data(iris)
+
+db <- iris
+head(iris)
+```
+
+Podemos usar a função `model.matrix()` para aplicar o *one-ot encoding*:
+
+```{r}
+X <- model.matrix(~ Species - 1, data = db)
+head(X)
+```
+
+E por fim, concatenamos nos dados originais.
+
+```{r}
+iris_ohe <- cbind(db, X)
+head(iris_ohe)
+```
+:::
+
+## **Atividade Prática 2.13**
+
+Considere o conjunto de dados `PimaIndiansDiabetes2`, disponibilizado na biblioteca `mlbench`, que reúne informações clínicas e laboratoriais de mulheres da etnia Pima, com o objetivo de investigar a presença de diabetes mellitus. A variável `diabetes` representa a classe do desfecho (presença/ausência), enquanto as demais variáveis descrevem características fisiológicas e biométricas dos indivíduos. Nesta atividade, pretende-se aplicar o método *hold-out* para particionar o conjunto de dados em subconjuntos de treinamento e teste, com controle de reprodutibilidade por meio da fixação de uma semente aleatória e preservação da distribuição do desfecho por amostragem estratificada. O procedimento deve ser conduzido de acordo com as seguintes etapas:
+
+-   Carregar o conjunto de dados `PimaIndiansDiabetes2` e atribuí-lo a um objeto de trabalho;
+
+-   Definir uma semente aleatória para garantir reprodutibilidade do particionamento;
+
+-   Realizar a divisão *hold-out* em proporções de $70\%$ para treinamento e $30\%$ para teste, utilizando amostragem estratificada em relação à variável `diabetes`;
+
+-   Obter e apresentar um resumo da divisão, incluindo:
+
+    -   A semente aleatória utilizada;
+
+    -   O número de observações e o percentual em cada subconjunto;
+
+    -   A distribuição das classes do desfecho (`diabetes`) nos conjuntos de treinamento e teste, em frequências e percentuais;
+
+    -   Uma amostra das primeiras observações de cada subconjunto, para inspeção da estrutura.
+
+Ao final, deve-se verificar a consistência do particionamento, confirmando que (i) as proporções especificadas foram atendidas e (ii) a distribuição do desfecho foi adequadamente preservada entre os subconjuntos de treinamento e teste.
+
+**Solução:**
+
+Podemos utilizar a função `createDataPartition`, informando a porcentagem de dados particionado para os dados de treino da seguinte forma:
+
+```{r}
+library(caret)
+set.seed(1212)
+
+data("PimaIndiansDiabetes2")
+db <- PimaIndiansDiabetes2
+
+train_index <- createDataPartition(db$diabetes, p = 0.7, list = FALSE)
+
+head(train_index)
+```
+
+Assim, temos os dados de treino e teste com as dimensões dadas por:
+
+```{r}
+train_set <- db[train_index,]
+test_set <- db[-train_index,]
+dim(train_set)
+dim(test_set)
+```
+
+Podemos observar como ficou cada uma das partições separadamente:
+
+```{r}
+head(train_set)
+```
+
+```{r}
+head(test_set)
+```
+:::
+
+## **Atividade Prática 2.14**
+
+Considere o conjunto de dados `SAheart`, disponibilizado na biblioteca `ElemStatLearn`, que reúne informações clínicas e fatores de risco associados a doença coronariana. A variável `chd` representa o desfecho binário (presença/ausência de doença coronariana), enquanto as demais variáveis descrevem características demográficas e clínicas dos indivíduos. Nesta atividade, pretende-se aplicar o procedimento de validação cruzada *k-fold* para particionar o conjunto de dados em subconjuntos de treinamento e teste, com controle de reprodutibilidade por meio da fixação de uma semente aleatória e preservação da distribuição do desfecho por amostragem estratificada. O objetivo consiste em construir partições para $k\in \{3,5,10\}$ e resumir, para cada valor de , as propriedades das divisões geradas. O procedimento deve ser conduzido de acordo com as seguintes etapas:
+
+-   Carregar o conjunto de dados `SAheart` e atribuí-lo a um objeto de trabalho;
+
+-   Definir uma semente aleatória para garantir reprodutibilidade do particionamento;
+
+-   Para cada valor $k\in \{3,5,10\}$, realizar a divisão *k-fold* estratificada em relação à variável `chd`, obtendo a lista de índices de teste de cada *fold*;
+
+-   Para cada *fold* $i = 1,\ldots,k$, construir os subconjuntos:
+
+    -   Conjunto de teste: observações pertencentes ao *fold* i;
+
+    -   Conjunto de treinamento: observações complementares ao *fold* i;
+
+-   Para cada *fold* i, obter e apresentar um resumo contendo:
+
+    -   O número do *fold*;
+
+    -   A semente aleatória utilizada;
+
+    -   O número de observações e o percentual em cada subconjunto;
+
+    -   A distribuição do desfecho (`chd`) nos conjuntos de treinamento e teste, em frequências e percentuais;
+
+    -   Uma amostra das primeiras observações de cada subconjunto, para inspeção da estrutura.
+
+Ao final, deve-se verificar a consistência das partições geradas para $k \in \{3,5,10\}$, confirmando que (i) cada observação é utilizada exatamente uma vez como teste ao longo dos *folds* e (ii) a distribuição do desfecho foi adequadamente preservada entre treinamento e teste em cada *fold*.
+
+**Solução:**
+
+Carregando o conjunto de dados:
+
+```{r}
+data("SAheart", package = "ElemStatLearn")
+df <- SAheart
+
+df$chd <- as.factor(df$chd)
+```
+
+Criando um looping para aplicar a validação cruzada:
+
+```{r}
+semente_utilizada <- 123
+valores_k <- c(3, 5, 10)
+
+tabela_distribuicao <- function(dados, nome_conjunto) {
+  freq_abs <- table(dados$chd)
+  freq_rel <- prop.table(freq_abs) * 100
+  res <- data.frame(Classe = names(freq_abs), Absoluta = as.vector(freq_abs), Percentual = round(as.vector(freq_rel), 2))
+  print(res, row.names = FALSE)
+}
+
+for (k in valores_k) {
+  set.seed(semente_utilizada)
+  folds_teste <- createFolds(df$chd, k = k, list = TRUE, returnTrain = FALSE)
+
+todos_indices_teste <- unlist(folds_teste)
+
+consistente_tamanho <- length(unique(todos_indices_teste)) == nrow(df)
+
+  for (i in 1:k) {
+    cat(rep("-", 40), "\n")
+    cat(sprintf("Resumo para o Fold %d de %d\n", i, k))
+    cat(sprintf("Semente aleatória base: %d\n", semente_utilizada))
+      idx_teste <- folds_teste[[i]]
+      
+      df_teste <- df[idx_teste, ]
+      
+      df_treino <- df[-idx_teste, ] 
+      
+    n_total <- nrow(df)
+    n_treino <- nrow(df_treino)
+    n_teste <- nrow(df_teste)
+    
+    cat(sprintf("Conjunto de Treinamento: %d observações (%.2f%%)\n", n_treino, (n_treino/n_total)*100))
+    cat(sprintf("Conjunto de Teste: %d observações (%.2f%%)\n\n", n_teste, (n_teste/n_total)*100))
+    
+    tabela_distribuicao(df_treino, "Treinamento")
+    tabela_distribuicao(df_teste, "Teste")
+    
+    cat("Primeiras observações do subconjunto de Treinamento (amostra):\n")
+    print(head(df_treino, 3)) 
+    cat("\nPrimeiras observações do subconjunto de Teste (amostra):\n")
+    print(head(df_teste, 3))
+    cat("\n")
+    }
+}
+```
+
+:::
+
+## **Atividade Prática 2.15**
+
+Para esta atividade, será utilizado o conjunto de dados `birthwt`, disponibilizado na biblioteca `MASS`, que reúne informações maternas, comportamentais e obstétricas associadas ao peso ao nascer. A variável `low` indica a ocorrência de baixo peso ao nascer (desfecho binário de interesse), enquanto `bwt` representa o peso ao nascer em gramas. As demais variáveis (`age`, `lwt`, `race`, `smoke`, `ptl`, `ht`, `ui`, `ftv`) descrevem características associadas à gestação. Nesta atividade, pretende-se aplicar o método *bootstrap* com o objetivo principal de gerar subconjuntos de treinamento e teste que preservem, de forma aproximada, a estrutura do desfecho binário `low`. Em cada iteração, será construída uma amostra de treinamento por reamostragem com reposição e um subconjunto de teste composto pelas observações não selecionadas (*out-of-bag*, OOB), avaliando-se o comportamento dessas partições ao longo das iterações. O procedimento deve ser conduzido de acordo com as seguintes etapas:
+
+-   Carregar o conjunto de dados `birthwt` e atribuí-lo a um objeto de trabalho;
+
+-   Definir uma semente aleatória para garantir a reprodutibilidade do processo de reamostragem;
+
+-   Fixar o número de iterações bootstrap em $B = 10,\ldots,100$;
+
+-   Para cada iteração $b=1,\ldots,B$:
+
+    -   Gerar uma amostra bootstrap, com reposição, de tamanho igual ao número total de observações;
+
+    -   Definir o conjunto de treinamento como a amostra bootstrap obtida;
+
+    -   Definir o conjunto de teste como o conjunto OOB, formado pelas observações não selecionadas na amostra bootstrap;
+
+    -   Apresentar um resumo contendo:
+
+        -   A iteração b;
+
+        -   A semente aleatória utilizada;
+
+        -   O tamanho do conjunto de treinamento (bootstrap) e do conjunto de teste (OOB), incluindo o percentual do OOB em relação ao total;
+
+        -   O número de observações distintas presentes no conjunto de treinamento e o número de repetições induzidas pela reamostragem;
+
+        -   A proporção da variável `low` nos conjuntos de treinamento e OOB, em frequências e percentuais;
+
+Ao final, deve-se verificar a consistência do procedimento, confirmando que, em cada iteração, o conjunto de treinamento é composto por reamostragem com reposição e que o conjunto OOB corresponde às observações não selecionadas, cuja dimensão pode variar entre iterações. Em seguida, deve-se selecionar uma iteração bootstrap cujo conjunto OOB apresente dimensão próxima de $36\%$ do total de observações e preserve, de forma aproximada, a proporção da variável `low` observada na base original. Para a iteração selecionada, devem ser apresentados resumos descritivos dos conjuntos de treinamento bootstrap e OOB.
+
+**Solução:**
+
+Carregando o conjunto de dados:
+
+```{r}
+data("birthwt")
+df <- birthwt
+
+df$low <- factor(df$low, levels = c(0, 1), labels = c("Normal", "Baixo Peso"))
+```
+
+Proporção original para referência:
+
+```{r}
+prop_original <- prop.table(table(df$low))["Baixo Peso"]
+N <- nrow(df)
+B <- 10 
+semente_base <- 67
+```
+
+Função auxiliar para remover a poluição visual do loop:
+
+```{r}
+resumo_iteracao <- function(b, semente, df_treino, df_oob) {
+  cat(sprintf("\n--- Iteração %d | Semente: %d ---\n", b, semente))
+  cat(sprintf("Treino: %d obs | OOB: %d obs (%.2f%%)\n", nrow(df_treino), nrow(df_oob), (nrow(df_oob)/N)*100))
+  cat(sprintf("Únicas no Treino: %d | Repetições: %d\n", length(unique(rownames(df_treino))), nrow(df_treino) - length(unique(rownames(df_treino)))))
+  
+  cat("Desfecho (Treino vs OOB):\n")
+  print(rbind(
+    Treino = round(prop.table(table(df_treino$low)) * 100, 2),
+    OOB    = round(prop.table(table(df_oob$low)) * 100, 2)
+  ))
+}
+```
+
+Criando o looping para aplicar o bootstrapping:
+
+```{r}
+metricas <- data.frame()
+lista_treino <- list()
+lista_oob <- list()
+
+for (b in 1:B) {
+  set.seed(semente_base + b)
+
+  idx_treino <- sample(1:N, size = N, replace = TRUE)
+  idx_oob <- setdiff(1:N, unique(idx_treino))
+  
+  lista_treino[[b]] <- df[idx_treino, ]
+  lista_oob[[b]] <- df[idx_oob, ]
+  
+  resumo_iteracao(b, semente_base + b, lista_treino[[b]], lista_oob[[b]])
+  
+  perc_oob <- (length(idx_oob) / N) * 100
+  prop_oob_baixo <- prop.table(table(lista_oob[[b]]$low))["Baixo Peso"]
+  
+  metricas <- rbind(metricas, data.frame(
+    Iteracao = b,
+    Desvio_OOB = abs(perc_oob - 36.0),
+    Desvio_Prop = abs(as.numeric(prop_oob_baixo) - as.numeric(prop_original))
+  ))
+}
+```
+
+Seleção da iteração ideal:
+
+```{r}
+cat("\n=== SELEÇÃO DA ITERAÇÃO IDEAL ===\n")
+
+metricas$Score <- rank(metricas$Desvio_OOB) + rank(metricas$Desvio_Prop)
+
+it_ideal <- metricas$Iteracao[which.min(metricas$Score)]
+
+cat(sprintf("A iteração selecionada que melhor atende aos critérios é a b = %d.\n", it_ideal))
+
+df_treino_ideal <- lista_treino[[it_ideal]]
+df_oob_ideal <- lista_oob[[it_ideal]]
+
+cat("\n--- Resumo Descritivo: Conjunto de TREINAMENTO (Iteração Selecionada) ---\n")
+print(summary(df_treino_ideal))
+
+cat("\n--- Resumo Descritivo: Conjunto de TESTE/OOB (Iteração Selecionada) ---\n")
+print(summary(df_oob_ideal))
+```
+:::
+
+
