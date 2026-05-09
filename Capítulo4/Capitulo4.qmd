@@ -162,7 +162,6 @@ metricas_class <- function(real, predito){
 }
 ```
 
-
 Implementação Manual do k-NN
 
 ```{r}
@@ -316,7 +315,7 @@ knn_manual 				<- function(train,
 }
 ```
 
- Teste da Implementação
+Teste da Implementação
 
 ```{r}
 # (a) Preparação do conjunto de dados
@@ -328,7 +327,6 @@ X_padronizado 		<- as.data.frame(scale(X))
 dados_padronizados 	<- data.frame(X_padronizado, Species = y)
 head(dados_padronizados)
 ```
-
 
 ```{r}
 # (b) Particionamento em Treino/Teste - Hold Out
@@ -425,7 +423,6 @@ tabela_resultados       <- tabela_resultados[order(-tabela_resultados$acuracia,-
 print(tabela_resultados)
 ```
 
-
 Seleção do melhor modelo:
 
 ```{r}
@@ -444,7 +441,6 @@ melhor_modelo           <- knn_manual(train = train,
 
 Matriz de Confusão
 
-
 ```{r}
 
 print(melhor_modelo$desempenho$matriz_confusao)
@@ -460,7 +456,6 @@ metricas_por_classe     <- data.frame(classe = names(melhor_modelo$desempenho$pr
                                       f1_score = melhor_modelo$desempenho$f1_por_classe)
 print(metricas_por_classe)
 ```
-
 
 ```{r}
 # (c) Importância de Variáveis
@@ -542,10 +537,6 @@ barplot(importancia, las = 2, main = "Importância das Variáveis por Permutaç�
         ylab = "", xlab = "Queda Média da Acurácia", hori = TRUE)
 ```
 
-
-
-
-
 Usando o pacote:
 
 ```{r}
@@ -560,8 +551,6 @@ teste <- dados[-id_treino,]
 head(treino)
 ```
 
-
 ```{r}
 pre_proc <- preProcess(treino[,1:4], method = c('center', 'scale'))
 ```
-
