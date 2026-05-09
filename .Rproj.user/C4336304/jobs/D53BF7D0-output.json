@@ -1,0 +1,5 @@
+[1,"==> quarto preview Atividade01.qmd --to pdf --no-watch-inputs --no-browse\n\n"]
+[1,"pandoc \n  to: latex\n  output-file: Atividade01.tex\n  standalone: true\n  pdf-engine: lualatex\n  variables:\n    graphics: true\n    tables: true\n  default-image-extension: pdf\n  \nmetadata\n  block-headings: true\n  editor: visual\n  examnum: Atividade 01\n  student: 'Thiago Moraes '\n  class: Sistemas Fuzzy\n  teacher: Prof. Dr. Vinícius Wasques\n  lang: pt-br\n  documentclass: survactivity\n  header-includes:\n    - |\n      \\class{Aprendizado Supervisionado}\n      \\examnum{Atividade 01}\n      \\teacher{Prof. Dr. Ricardo}\n      \\student{Thiago Moraes Rizzieri}\n  \n"]
+[1,"\nRendering PDF\nrunning lualatex - 1\n"]
+[1,"  This is LuaHBTeX, Version 1.24.0 (TeX Live 2026) \n   restricted system commands enabled.\n  \nrunning lualatex - 2\n"]
+[1,"  This is LuaHBTeX, Version 1.24.0 (TeX Live 2026) \n   restricted system commands enabled.\n  \n\nOutput created: Atividade01.pdf\n\nWatching files for changes\nBrowse at http://localhost:3257/web/viewer.html\nListening on http://127.0.0.1:3257/\n"]

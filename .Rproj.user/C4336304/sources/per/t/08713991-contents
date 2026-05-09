@@ -1,0 +1,27 @@
+install.packages(c("readxl", "dplyr", "stringr", "writexl"))
+
+library(readxl)
+library(dplyr)
+library(stringr)
+library(writexl)
+
+df <- read_excel("revistas.xlsx", col_names = FALSE)
+
+colnames(df) <- c("Nome", "Classificacao")
+
+classificacoes_validas <- c("A1", "A2", "B1")
+
+df_filtrado <- df %>%
+  filter(Classificacao %in% classificacoes_validas)
+
+palavras_chave <- c(
+  "STATISTICS", "STATISTICAL", "MACHINE LEARNING", "COMPUTATIONAL",
+  "BIOSTATISTICS", "BIOSTATISTICAL", "COMPUTER", "MATHEMATICS"
+)
+
+padrao <- paste(palavras_chave, collapse = "|")
+
+df_final <- df_filtrado %>%
+  filter(str_detect(Nome, regex(padrao, ignore_case = TRUE)))
+
+write_xlsx(df_final, "revistas_filtradas.xlsx")

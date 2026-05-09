@@ -1,0 +1,6 @@
+[1,"==> quarto preview Atividade03.qmd --to pdf --no-watch-inputs --no-browse\n\n"]
+[1,"pandoc \n"]
+[1,"  to: latex\n  output-file: Atividade03.tex\n  standalone: true\n  pdf-engine: lualatex\n  variables:\n    graphics: true\n    tables: true\n  default-image-extension: pdf\n  \nmetadata\n  block-headings: true\n  editor: visual\n  examnum: Atividade 03\n  student: Thiago Moraes Rizzieri\n  class: Aprendizado Supervisionado\n  teacher: Prof. Dr. Ricardo Puziol de Oliveira\n  lang: pt-br\n  documentclass: survactivity\n  header-includes:\n    - |\n      \\class{Aprendizado Supervisionado}\n      \\examnum{Atividade 03}\n      \\teacher{Prof. Dr. Ricardo Puziol de Oliveira}\n      \\student{Thiago Moraes Rizzieri}\n  \n"]
+[1,"\nRendering PDF\nrunning lualatex - 1\n"]
+[1,"  This is LuaHBTeX, Version 1.24.0 (TeX Live 2026) \n   restricted system commands enabled.\n  \nrunning lualatex - 2\n"]
+[1,"  This is LuaHBTeX, Version 1.24.0 (TeX Live 2026) \n   restricted system commands enabled.\n  \n\nOutput created: Atividade03.pdf\n\nWatching files for changes\nBrowse at http://localhost:5541/web/viewer.html\nListening on http://127.0.0.1:5541/\n"]

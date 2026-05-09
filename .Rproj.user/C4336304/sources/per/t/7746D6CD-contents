@@ -1,0 +1,90 @@
+library(readxl)
+library(writexl)
+library(dplyr)
+revista <- read_excel("revista.xls")
+View(revista)
+
+
+revista <- data.frame(revista)
+str(revista)
+
+revista <- revista %>%
+  mutate(RELIMP_1 = 
+           case_when(RELIMP == 'FRACO' ~ 1,
+                     RELIMP == 'REGULAR' ~ 2.5,
+                     RELIMP == 'BOM' ~ 4,
+                     RELIMP == 'OTIMO' ~ 5.5),
+         ORIGINAL_1 = 
+           case_when(ORIGINAL == 'FRACO' ~ 1,
+                     ORIGINAL == 'REGULAR' ~ 2.5,
+                     ORIGINAL == 'BOM' ~ 4,
+                     ORIGINAL == 'OTIMO' ~ 5.5),
+         CONTCIENT_1 = 
+           case_when(CONTCIENT == 'FRACO' ~ 1,
+                     CONTCIENT == 'REGULAR' ~ 2.5,
+                     CONTCIENT == 'BOM' ~ 4,
+                     CONTCIENT == 'OTIMO' ~ 5.5),
+         CORESTIL_1 = 
+           case_when(CORESTIL == 'FRACO' ~ 1,
+                     CORESTIL == 'REGULAR' ~ 2.5,
+                     CORESTIL == 'BOM' ~ 4,
+                     CORESTIL == 'OTIMO' ~ 5.5))
+
+revista <- revista %>%
+  mutate(RELIMP_2 = 
+           case_when(RELIMP == 'FRACO' ~ 1,
+                     RELIMP == 'REGULAR' ~ 1.8,
+                     RELIMP == 'BOM' ~ 3.24,
+                     RELIMP == 'OTIMO' ~ 5.832),
+         ORIGINAL_2 = 
+           case_when(ORIGINAL == 'FRACO' ~ 1,
+                     ORIGINAL == 'REGULAR' ~ 1.8,
+                     ORIGINAL == 'BOM' ~ 3.24,
+                     ORIGINAL == 'OTIMO' ~ 5.832),
+         CONTCIENT_2 = 
+           case_when(CONTCIENT == 'FRACO' ~ 1,
+                     CONTCIENT == 'REGULAR' ~ 1.8,
+                     CONTCIENT == 'BOM' ~ 3.24,
+                     CONTCIENT == 'OTIMO' ~ 5.832),
+         CORESTIL_2 = 
+           case_when(CORESTIL == 'FRACO' ~ 1,
+                     CORESTIL == 'REGULAR' ~ 1.8,
+                     CORESTIL == 'BOM' ~ 3.24,
+                     CORESTIL == 'OTIMO' ~ 5.832))
+
+
+sapply(revista[,7:14], as.numeric)
+
+revista$indice_1 <- apply(revista[,7:10],1,mean)
+
+revista$indice_2 <- apply(revista[,11:14],1,mean)
+
+#entropia?
+
+x <- c(1,2,30,4,5)
+
+entropia <- function(x,base){
+  x = x
+  base = 5
+  soma = Reduce('+', x)
+  a = 0
+  for (i in x){
+    if (i == 0){
+      next
+    }
+    else{
+      a = a + (i/soma)*log(soma/i,base)
+    }
+  }
+  return = a
+}
+
+
+apply(revista[,7:14],2,entropia)
+
+# Maior causalidade -> maior entropia
+
+# 4 Ver quanto os dois indices est?o semelhantes
+
+# 5 Ver o quanto as medias aproximam um valor e quais valores aproximaram mais pra uma media
+# (entropia menor)
