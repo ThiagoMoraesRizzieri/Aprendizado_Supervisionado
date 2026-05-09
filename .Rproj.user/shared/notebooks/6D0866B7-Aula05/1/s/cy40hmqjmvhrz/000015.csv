@@ -1,0 +1,7 @@
+"0","# Tratamento"
+"0",""
+"0","db$race <- factor(db$race, levels = c(1,2,3), labels = c(""white"",""black"",""other""))"
+"0",""
+"0","db$low <- NULL"
+"0",""
+"0","head(db)"

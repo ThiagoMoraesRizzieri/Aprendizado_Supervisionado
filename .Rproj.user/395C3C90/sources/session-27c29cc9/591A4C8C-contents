@@ -1,0 +1,397 @@
+---
+title: "Atividade03"
+format: pdf
+editor: visual
+---
+
+## **Atividade Prática 2.4**
+
+Considere, novamente, o problema de aprendizado supervisionado apresentado no [Exemplo 2.31](#ex-231), no qual a probabilidade de ocorrência de um desfecho binário depende de uma covariável contínua não observada segundo o modelo populacionalPara a realização desta atividade, assuma que os dados sejam gerados sinteticamente a partir de um processo populacional conhecido. No caso, a covariável é gerada de acordo com uma distribuição normal com média zero e variância constante (). Condicionalmente a , o desfecho binário é gerado de acordo com o modelo logístico acima, com parâmetros e fixados. Além disso, admita que a variável observada é obtida por meio de diferentes mecanismos de mensuração, definidos como:
+
+-   
+
+<!-- -->
+
+-   Medição correta: ;
+
+-   Erro aleatório aditivo: , em que é independente de , possui média nula e distribuição uniforme simétrica, isto é, , para algum ;
+
+-   Erro sistemático com ruído: , em que representa um deslocamento constante associado ao processo de medição.
+
+Admita que o conjunto de treinamento contenha observações provenientes desses diferentes mecanismos de mensuração e que o identificador do processo responsável por cada observação esteja disponível ao analista. Os tamanhos amostrais, bem como os valores de , , , , e os parâmetros da distribuição de , podem ser escolhidos aleatoriamente, desde que permaneçam fixos ao longo das comparações. Com base nesse cenário, desenvolva as seguintes etapas:
+
+-   
+
+<!-- -->
+
+-   Ajuste um modelo, que utiliza apenas a variável observada como covariável;
+
+-   Ajuste um modelo, que inclua e variáveis indicadoras do processo de medição;
+
+-   Avalie ambos os modelos em, pelo menos, três cenários distintos de teste:
+
+    -   um cenário limpo, no qual todas as observações são corretamente mensuradas;
+
+    -   um cenário com erro aleatório apenas;
+
+    -   um cenário com erro sistemático persistente.
+
+Em cada cenário, avalie o desempenho preditivo dos modelos por meio de métricas adequadas para classificação probabilística, tais como medidas de discriminação, erro probabilístico e calibração. Analise comparativamente os resultados, destacando como a intensidade do erro aleatório (controlada por ), a presença de deslocamento sistemático e a disponibilidade de informações sobre o processo de mensuração afetam a estabilidade das predições e a capacidade de generalização dos modelos. Por fim, discuta em quais situações a inclusão explícita da fonte de erro de medição tende a reduzir viés preditivo e em quais situações ela pode introduzir perda de eficiência ou complexidade desnecessária.
+
+**Atividade Prática 2.5**
+
+Considere o conjunto de dados `airquality`, que reúne medições diárias de variáveis ambientais e meteorológicas, além de informações de calendário. O objetivo desta prática é realizar uma *avaliação da qualidade dos dados observados*, com ênfase na identificação de *inconsistências estruturais, de faixa e relacionais*, por meio da aplicação de regras declarativas de validação no ambiente R, utilizando a biblioteca `pointblank`. A atividade consiste na *definição de um agente de validação*, associado diretamente à tabela de dados, ao qual devem ser anexadas regras de consistência previamente estabelecidas. Em particular, considere as seguintes verificações:
+
+-   
+
+<!-- -->
+
+-   Consistência estrutural básica associada às variáveis de calendário, assumindo que:
+
+    -   o campo `Month` deve pertencer ao intervalo de maio a setembro;
+
+    -   o campo `Day` deve assumir valores inteiros entre 1 e 31;
+
+    -   os campos `Month` e `Day` não devem apresentar valores ausentes (`NA`);
+
+-   Consistência de faixa (*sanity checks*) para variáveis meteorológicas contínuas, assumindo que:
+
+    -   a velocidade do vento (`Wind`), quando observada, deve ser estritamente positiva, não sendo permitidos valores ausentes;
+
+    -   a temperatura (`Temp`), quando observada, deve pertencer a uma faixa plausível de valores entre 40 e 120, não sendo permitidos valores ausentes;
+
+    -   a radiação solar (`Solar.R`), quando observada, deve assumir valores estritamente positivos, não sendo permitidos valores ausentes;
+
+-   Consistência relacional e operacional entre variáveis medidas no mesmo instante, expressa pelas seguintes regras de completude condicionada:
+
+    -   sempre que a concentração de ozônio (`Ozone`) estiver registrada em um determinado dia, a radiação solar (`Solar.R`) também deve estar registrada nesse mesmo dia;
+
+    -   sempre que a concentração de ozônio (`Ozone`) estiver registrada, as variáveis meteorológicas `Wind` e `Temp` também devem estar registradas nesse mesmo dia;
+
+Com base nessas especificações, execute as seguintes etapas:
+
+-   
+
+<!-- -->
+
+-   definir o agente de validação e formalizar todas as regras de consistência por meio das funções apropriadas da biblioteca `pointblank`;
+
+-   executar o processo de validação por meio da função `interrogate()`;
+
+-   gerar o relatório consolidado das verificações realizadas;
+
+-   identificar e extrair as observações que violaram cada uma das regras definidas;
+
+-   discutir, de forma crítica, o impacto potencial das inconsistências detectadas sobre análises estatísticas exploratórias e sobre modelos preditivos subsequentes.
+
+```{r}
+library(pointblank)
+```
+
+```{r}
+dados <- airquality
+head(dados)
+```
+
+```{r}
+str(dados)
+```
+
+```{r}
+library(summarytools)
+```
+
+```{r}
+dfSummary(dados)
+```
+
+```{r}
+agente <- create_agent(tbl = dados,
+                       label = "Validação do conjunto de dados 'airquality'") %>% 
+  
+  # Valores Ausentes #
+  
+  col_vals_not_null(columns = vars(Month),
+                    action = action_levels(warn_at = 1, stop_at = 10),
+                    brief = "Variável 'Month' não deve conter valores ausentes (NA ou NaN)") %>% 
+  col_vals_not_null(columns = vars(Day),
+                    action = action_levels(warn_at = 1, stop_at = 10),
+                    brief = "Variável 'Day' não deve conter valores ausentes (NA ou NaN)") %>% 
+  col_vals_not_null(columns = vars(Wind),
+                    action = action_levels(warn_at = 1, stop_at = 10),
+                    brief = "Variável 'Wind' não deve conter valores ausentes (NA ou NaN)") %>% 
+  col_vals_not_null(columns = vars(Temp),
+                    action = action_levels(warn_at = 1, stop_at = 10),
+                    brief = "Variável 'Temp' não deve conter valores ausentes (NA ou NaN)") %>% 
+  col_vals_not_null(columns = vars(Solar.R),
+                    action = action_levels(warn_at = 1, stop_at = 10),
+                    brief = "Variável 'Solar.R' não deve conter valores ausentes (NA ou NaN)") %>% 
+  col_vals_not_null(columns = vars(Ozone),
+                    action = action_levels(warn_at = 1, stop_at = 10),
+                    brief = "Variável 'Ozone' não deve conter valores ausentes (NA ou NaN)") %>% 
+  
+  # Intervalos #
+  
+  col_vals_between(columns = vars(Month),
+                   left = 5,
+                   right = 9,
+                   inclusive = c(TRUE,TRUE),
+                   action = action_levels(warn_at = 1, stop_at = 10),
+                   brief = "Variável 'Month' deve estar no intervalo [5,9] (Maio - Setembro)") %>% 
+  col_vals_between(columns = vars(Day),
+                   left = 1,
+                   right = 31,
+                   inclusive = c(TRUE,TRUE),
+                   action = action_levels(warn_at = 1, stop_at = 10),
+                   brief = "Variável 'Day' deve estar no intervalo [1,31]") %>% 
+  col_vals_between(columns = vars(Temp),
+                   left = 40,
+                   right = 120,
+                   inclusive = c(TRUE,TRUE),
+                   action = action_levels(warn_at = 1, stop_at = 10),
+                   brief = "Variável 'Temp' deve estar no intervalo [40,120]") %>% 
+  
+  # Regras de positividade #
+  
+  col_vals_gt(columns = vars(Wind),
+              value = 0,
+              action = action_levels(warn_at = 1, stop_at = 10),
+              brief = "Variável 'Wind' deve ser positiva") %>%
+  col_vals_gt(columns = vars(Solar.R),
+              value = 0,
+              action = action_levels(warn_at = 1, stop_at = 10),
+              brief = "Variável 'Solar.R' deve ser positiva") %>%
+  col_vals_gt(columns = vars(Ozone),
+              value = 0,
+              action = action_levels(warn_at = 1, stop_at = 10),
+              brief = "Variável 'Ozone' deve ser positiva") %>% 
+  
+  # Completude #
+  
+  rows_complete(columns = vars(Solar.R),
+                preconditions = ~ . %>% dplyr::filter(!is.na(Ozone)),
+                action = action_levels(warn_at = 1, stop_at = 10),
+                brief = "Se 'Ozone' estiver preenchido então 'Solar.R' também deve estar") %>% 
+  rows_complete(columns = vars(Wind, Temp),
+                preconditions = ~ . %>% dplyr::filter(!is.na(Ozone)),
+                action = action_levels(warn_at = 1, stop_at = 10),
+                brief = "Se 'Ozone' estiver preenchido então 'Wind' e 'Temp' também deve estar")
+  
+
+
+```
+
+```{r}
+agente_validado <- interrogate(agente)
+agente_validado
+```
+
+**Atividade Prática 2.6**
+
+Considere o conjunto de dados `flights`, disponibilizado no pacote `nycflights13`, que reúne registros de voos com granularidade ao nível de cada operação individual, incluindo informações de calendário, horários programados e realizados, atrasos, aeroportos de origem e destino, companhia aérea e demais variáveis operacionais associadas. O objetivo desta prática é realizar uma *avaliação sistemática da qualidade e da consistência estrutural* de uma base de dados de maior porte, com ênfase em problemas típicos de importação, consolidação e integração de dados, tais como *nomes de variáveis não padronizados*, *categorias inconsistentes*, *linhas e colunas vazias* e *duplicações de registros induzidas por inconsistências semânticas*. A atividade deve ser desenvolvida no ambiente R, utilizando as bibliotecas `dplyr` e `janitor`, e consiste na aplicação de procedimentos padronizados de limpeza e auditoria sobre uma versão propositalmente “suja” do conjunto `flights`, denotada por `df_dirty`, construída de forma controlada a partir da introdução deliberada de inconsistências estruturais e semânticas. Em particular, considere que:
+
+-   
+
+<!-- -->
+
+-   os nomes das variáveis foram alterados de modo a incorporar espaços, caracteres especiais e inconsistências de formatação;
+
+-   uma variável categórica operacional de alta recorrência (por exemplo, `carrier`) foi convertida para o tipo texto e sofreu alterações propositais, incluindo variações de grafia, uso inconsistente de letras minúsculas e maiúsculas e inserção de espaços à direita e/ou à esquerda;
+
+-   foi adicionada uma coluna completamente vazia e, adicionalmente, um pequeno conjunto de linhas compostas inteiramente por valores ausentes, caracterizando artefatos típicos de processos de importação de dados;
+
+-   foram inseridos registros duplicados **associados diretamente às categorias inconsistentes**, no sentido de que determinadas observações foram replicadas após a alteração proposital do rótulo categórico, produzindo duplicações que se tornam *detectáveis como duplicatas* apenas após a padronização dos níveis categóricos.
+
+Essas modificações correspondem às transformações introduzidas de forma proposital no conjunto de dados `flights`, conforme exibido no [Código 2.32](#cod-232), que constrói a versão `df_dirty` do conjunto de dados e será utilizada como ponto de partida para as etapas de auditoria e limpeza.
+
+**Código 2.32.** Introdução controlada de inconsistências estruturais e semânticas no conjunto de dados `flights`.
+
+```{r}
+## ------------------------------------- Importação das Bibliotecas ------------------------------------- ##
+
+library(dplyr)
+library(janitor)
+library(nycflights13)
+
+## ------------------------------------ Leitura dos Dados (`flights`) ----------------------------------- ##
+
+data("flights")
+
+## ------------------------------ Introdução Controlada de Inconsistências ------------------------------ ##
+
+df                                        <- flights
+df_dirty                                  <- df
+
+## (1) Nomes "sujos": espaços, caracteres especiais e inconsistências de formatação
+
+names(df_dirty)                           <- c("Year", " Month", "Day ", "Dep. Time", 
+                                               "Sched Dep Time", "Dep Delay", "Arr. Time", 
+                                               "Sched Arr Time", "Arr Delay", "Carrier ",
+                                               "Flight No.", "Tail Num", "Origin ", "Dest ",
+                                               "Air Time", "Distance (mi)", "Hour", "Minute", 
+                                               "Time Hour")
+
+## (2) Variável categórica convertida para texto e com grafias inconsistentes
+
+df_dirty[["Carrier "]]                    <- as.character(df_dirty[["Carrier "]])
+
+set.seed(123)
+ix_cat                                    <- sample(seq_len(nrow(df_dirty)), size = 80)
+
+df_dirty[["Carrier "]][ix_cat[1:30]]      <- paste0(df_dirty[["Carrier "]][ix_cat[1:30]], " ")
+df_dirty[["Carrier "]][ix_cat[31:60]]     <- tolower(df_dirty[["Carrier "]][ix_cat[31:60]])
+df_dirty[["Carrier "]][ix_cat[61:80]]     <- paste0(" ", toupper(df_dirty[["Carrier "]][ix_cat[61:80]]))
+
+## (3) Coluna vazia e linhas vazias (artefatos de importação)
+
+df_dirty[["...empty..."]]                 <- NA
+
+set.seed(321)
+ix_empty                                  <- sample(seq_len(nrow(df_dirty)), size = 5)
+df_dirty[ix_empty, ]                      <- NA
+
+## (4) Duplicatas associadas às categorias inconsistentes
+
+set.seed(456)
+ix_dup                                    <- sample(ix_cat, size = 40)
+df_dirty                                  <- rbind(df_dirty, df_dirty[ix_dup, ])
+
+## --------------------------- Visualização da Base de Dados `flights` "Suja" --------------------------- ##
+
+head(df_dirty, n = 15)
+```
+
+Assim, com base nessas condições, execute as seguintes etapas:
+
+-   padronizar os nomes das variáveis por meio da função `clean_names()`, verificando a transformação dos nomes originais e sua conformidade com uma convenção consistente;
+
+-   conduzir uma auditoria inicial de duplicações, identificando:
+
+    -   duplicações exatas de linhas; e
+
+    -   duplicações segundo uma chave operacional definida por um subconjunto de variáveis que identifique o voo (por exemplo, `year`, `month`, `day`, `flight`, `origin`, `dest` e `sched_dep_time`). Inclua também a variável `carrier` na chave quando o objetivo for investigar duplicações induzidas por inconsistências semânticas nessa categoria.
+
+-   realizar uma auditoria das categorias da variável selecionada (por exemplo, `carrier`), por meio da inspeção dos valores distintos e de suas frequências, identificando níveis suspeitos decorrentes de variações de grafia e de espaçamento;
+
+-   aplicar procedimentos de padronização dos níveis categóricos, removendo espaços excedentes e uniformizando a capitalização, e reavaliar a distribuição das categorias após a correção;
+
+-   repetir a auditoria de duplicações *após* a padronização categórica e discutir, de forma explícita, como inconsistências semânticas podem induzir duplicações “ocultas” em etapas anteriores do processo;
+
+-   remover linhas e colunas totalmente vazias utilizando a função `remove_empty()`, e produzir um diagnóstico resumido da presença de valores ausentes (`NA`) por variável, reportando frequências absolutas e percentuais;
+
+-   apresentar a versão final do conjunto de dados (`df_clean`) após as etapas de limpeza, destacando, de forma sintética, as inconsistências identificadas e as transformações necessárias para sua mitigação, com ênfase na relação entre padronização categórica e identificação de duplicatas.
+
+Ao final, discuta, de forma crítica, como inconsistências estruturais e semânticas como as simuladas nesta prática podem comprometer análises estatísticas subsequentes e processos de modelagem, incluindo vieses induzidos por duplicação de registros, distorções em tabelas de frequências, erros de agregação e impactos sobre estimativas e predições em cenários de dados consolidados.
+
+### Padronização dos nomes
+
+```{r}
+nomes_antes <- names(df_dirty)
+nomes_antes
+```
+
+```{r}
+df_nomes_limpos <- df_dirty %>% clean_names()
+nomes_depois <- names(df_nomes_limpos)
+nomes_depois
+```
+
+### Duplicações
+
+```{r}
+duplicacoes <- df_nomes_limpos %>% get_dupes(everything())
+head(as.data.frame(duplicacoes))
+```
+
+### Frequência observada
+
+
+```{r}
+freq_carrier <- df_nomes_limpos %>% count(carrier, sort = T)
+print(freq_carrier, n = 43)
+```
+### Padronização
+
+```{r}
+df2 <- df_nomes_limpos %>% 
+  mutate(carrier = toupper(carrier),
+```
+
+
+```{r}
+carrier = trimws(carrier))
+
+freq_carrier2 <- df2 %>% count(carrier, sort = T)
+print(freq_carrier2, n = 43)
+```
+
+
+```{r}
+df2 %>% get_dupes(everything())
+```
+
+### Remover linhas/colunas totalmente vazias
+
+```{r}
+df3 <- df2 %>% remove_empty(which = c('rows', 'cols'))
+str(df3)
+```
+
+```{r}
+head(df3)
+```
+
+
+### Mice
+
+```{r}
+library(mice)
+library(dplyr)
+library(DataExplorer)
+```
+
+
+```{r}
+data('nhanes')
+dados <- nhanes
+head(dados)
+str(dados)
+```
+
+```{r}
+plot_missing(dados)
+```
+
+
+```{r}
+df_imp <- mice(data = dados,
+               m = 5,
+               maxit = 10,
+               seed = 123)
+```
+
+```{r}
+print(df_imp)
+```
+
+Base imputada:
+
+```{r}
+dados_imp <- complete(df_imp, 1)
+head(dados_imp)
+```
+
+```{r}
+head(dados)
+```
+
+Comparação das estatísticas:
+
+```{r}
+summary(dados$bmi)
+```
+
+```{r}
+summary(dados_imp$bmi)
+```
+

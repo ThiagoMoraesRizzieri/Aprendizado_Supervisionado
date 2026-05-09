@@ -1,0 +1,5 @@
+"0","X <- cbind(db,X_race)"
+"0","X$race <- NULL"
+"0","y <- X$bwt"
+"0","X$bwt <- NULL"
+"0","head(X)"

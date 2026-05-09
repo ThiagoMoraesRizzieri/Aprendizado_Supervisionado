@@ -1,0 +1,2 @@
+"0","iris_ohe <- cbind(db,X)"
+"0","head(iris_ohe)"

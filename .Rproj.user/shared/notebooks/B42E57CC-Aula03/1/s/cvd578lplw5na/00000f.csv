@@ -1,0 +1,135 @@
+"0","## ----------------------------- Cenários de Teste ------------------------------ ##"
+"0",""
+"0","## (I) Cenário limpo (sem erro sistemático)"
+"0",""
+"0","lab_test_clean  <- rbinom(n_test, size = 1, prob = 0.5)"
+"0","X_test_clean    <- X_test_true"
+"0",""
+"0","## (II) Cenário misto (erro sistemático presente no Lab B)"
+"0",""
+"0","lab_test_mixed  <- rbinom(n_test, size = 1, prob = 0.5)"
+"0","X_test_mixed    <- X_test_true + ifelse(lab_test_mixed == 1, delta, 0)"
+"0",""
+"0","## Resumo descritivo do biomarcador em cada cenário"
+"0",""
+"0","cat("" # -------------------------------------------------------- #\n"","
+"0","    ""# Resumo Descritivo do Biomarcador (X) (Conjunto de Teste) #\n"","
+"0","    ""# -------------------------------------------------------- #\n\n"","
+"0","  "
+"0","    ""(I) Cenário Limpo\n\n"","
+"0","  "
+"0","    ""Laboratório A (lab_test_clean = 0)\n\n"","
+"0","    ""n = "", sum(lab_test_clean == 0), ""\n\n"","
+"0","    paste("""",capture.output(summary(X_test_clean[lab_test_clean == 0])), collapse = ""\n""),"
+"0","    ""\n\n"","
+"0","  "
+"0","    ""Laboratório B (lab_test_clean = 1)\n\n"","
+"0","    ""n = "", sum(lab_test_clean == 1), ""\n\n"","
+"0","    paste("""",capture.output(summary(X_test_clean[lab_test_clean == 1])), collapse = ""\n""),"
+"0","    ""\n\n\n"","
+"0","  "
+"0","    ""(II) Cenário Misto\n\n"","
+"0","  "
+"0","    ""Laboratório A (lab_test_mixed = 0)\n\n"","
+"0","    ""n = "", sum(lab_test_mixed == 0), ""\n\n"","
+"0","    paste("""",capture.output(summary(X_test_mixed[lab_test_mixed == 0])), collapse = ""\n""),"
+"0","    ""\n\n"","
+"0","  "
+"0","    ""Laboratório B (lab_test_mixed = 1)\n\n"","
+"0","    ""n = "", sum(lab_test_mixed == 1), ""\n\n"","
+"0","    paste("""",capture.output(summary(X_test_mixed[lab_test_mixed == 1])), collapse = ""\n""),"
+"0","    ""\n"""
+"0",")"
+"1"," # -------------------------------------------------------- #
+"
+"1"," "
+"1","# Resumo Descritivo do Biomarcador (X) (Conjunto de Teste) #
+"
+"1"," "
+"1","# -------------------------------------------------------- #
+
+"
+"1"," "
+"1","(I) Cenário Limpo
+
+"
+"1"," "
+"1","Laboratório A (lab_test_clean = 0)
+
+"
+"1"," "
+"1","n = "
+"1"," "
+"1","501"
+"1"," "
+"1","
+
+"
+"1"," "
+"1","     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+ -2.60404 -0.66530  0.05479  0.04250  0.76265  3.39037 "
+"1"," "
+"1","
+
+"
+"1"," "
+"1","Laboratório B (lab_test_clean = 1)
+
+"
+"1"," "
+"1","n = "
+"1"," "
+"1","499"
+"1"," "
+"1","
+
+"
+"1"," "
+"1","     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+ -3.04786 -0.63427  0.05491  0.04243  0.74139  3.29052 "
+"1"," "
+"1","
+
+
+"
+"1"," "
+"1","(II) Cenário Misto
+
+"
+"1"," "
+"1","Laboratório A (lab_test_mixed = 0)
+
+"
+"1"," "
+"1","n = "
+"1"," "
+"1","507"
+"1"," "
+"1","
+
+"
+"1"," "
+"1","     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+ -3.04786 -0.68626  0.05491  0.01463  0.68376  2.81608 "
+"1"," "
+"1","
+
+"
+"1"," "
+"1","Laboratório B (lab_test_mixed = 1)
+
+"
+"1"," "
+"1","n = "
+"1"," "
+"1","493"
+"1"," "
+"1","
+
+"
+"1"," "
+"1","     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+ -1.92933  0.09138  0.75479  0.77109  1.50505  4.09037 "
+"1"," "
+"1","
+"

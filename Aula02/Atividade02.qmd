@@ -1,0 +1,587 @@
+---
+examnum: "Atividade 02"
+student: "Thiago Moraes Rizzieri"
+class: "Aprendizado Supervisionado"
+teacher: "Prof. Dr. Ricardo Puziol de Oliveira"
+
+lang: pt-br
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    number-sections: true
+    embed-resources: true # Gera um arquivo único
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 60), tidy = TRUE)
+library(knitr)
+```
+
+**Disciplina:** Aprendizado Supervisionado Aplicado a Dados Biológicos e de Saúde\
+**Professor:** Prof. Dr. Ricardo Puziol de Oliveira\
+**Aluno:** Thiago Moraes Rizzieri
+
+## **Atividade Prática 2.1**
+
+Considere o conjunto de dados `PimaIndiansDiabetes`, disponível na biblioteca `mlbench`, utilizado em estudos de saúde e epidemiologia para análise de fatores associados ao diabetes mellitus tipo 2. Esta base, em particular, contém informações clínicas e laboratoriais de mulheres adultas, incluindo variáveis numéricas relacionadas a medidas fisiológicas e um desfecho binário que indica a presença ou ausência de diabetes. Diante dessas características, e utilizando o ambiente R, responda aos itens a seguir referentes à primeira etapa da AED, correspondente à *visualização da estrutura e dos tipos de dados*.
+
+**(a)** Carregue o conjunto de dados `PimaIndiansDiabetes` e identifique:
+
+-   O número total de observações e de variáveis.
+
+-   Os nomes das variáveis e sua organização na base de dados.
+
+-   Indique quais funções do R são mais adequadas para essa inspeção estrutural inicial.
+
+**(b)** Examine os tipos de dados associados a cada variável (por exemplo, numérico, inteiro, fator). Com base nessa inspeção:
+
+-   Classifique as variáveis em contínuas, discretas e categóricas.
+
+-   Identifique o papel de cada variável no contexto de um estudo em saúde (por exemplo, variável resposta, covariável clínica ou fator de risco).
+
+**(c)** Verifique a presença de valores ausentes ou de valores que possam indicar codificações especiais (por exemplo, zeros em variáveis fisiológicas que não admitem esse valor).
+
+**(d)** Utilize funções de inspeção estrutural para:
+
+-   Obter um resumo geral da base.
+
+-   Identificar possíveis variáveis que necessitem de transformação de tipo (por exemplo, conversão de variável resposta para fator).
+
+-   Discuta por que essa etapa é fundamental antes da sumarização estatística ou da visualização gráfica propriamente dita.
+
+### **Solução**
+
+**(a)** Primeiramente, vamos carregar os dados:
+
+```{r}
+library(mlbench)
+data("PimaIndiansDiabetes")
+dados <- PimaIndiansDiabetes
+head(dados)
+```
+
+Uma forma fácil de observar a estrutura das colunas contidas em um dataframe é utilizando a função `str()` do pacote base do R ou então a função `glimpse()` do dplyr.
+
+```{r}
+library(dplyr)
+glimpse(dados, width = 60)
+```
+
+Com esse código, podemos observar que temos um total de 768 observações e 9 variáveis, sendo que `pregnant` é uma variável do tipo double (numérica), assim como as variáveis `glucose`, `pressure`, `triceps`, `insulin`, `mass`, `pedigree` e `age`. Além dessas, temos a variável `diabetes` que é do tipo fator.
+
+**(b)** Classifiquemos as variáveis:
+
+-   **pregnant**: variável numérica discreta. Representa uma covariável clínica.
+
+-   **glucose**: variável numérica discreta. Representa um fator de risco, pois na verdade os valores altos de glicose são o critério principal para o diagnóstico médico da diabetes.
+
+-   **pressure**: variável numérica discreta. Representa uma covariável clínica.
+
+-   **triceps**: variável numérica discreta. Representa uma covariável clínica.
+
+-   **insulin**: variável numérica discreta. Representa um fator de risco, pois como a insulina é o hormônio responsável por pegar a glicose no sangue e colocá-la dentro das células, essa variável acaba sendo praticamente um sintoma de que a pessoa possui diabetes.
+
+-   **mass**: variável numérica contínua. Representa um fator de risco, pois o excesso de gordura corporal pode causar resistência à insulina.
+
+-   **pedigree**: variável numérica contínua. Representa um fator de risco, pois, pelo que entendi, representa predisposição genética.
+
+-   **age**: variável numérica discreta. Representa uma covariável clínica.
+
+-   **diabetes**: variável categórica. Representa a variável resposta desta pesquisa, indicando se o teste da paciente foi positivo ou negativo em relação a diabetes.
+
+**(c)** Vamos usar a função `is.na()` para valores ausentes e verificar se há zeros em algumas variáveis.
+
+Primeiramente em relação aos NAs:
+
+```{r}
+colSums(is.na(dados))
+```
+
+Felizmente estes dados aparentam não possuir nenhum valor ausente em nenhuma das variáveis. A princípio isso é uma notícia boa.
+
+Mas vamos agora analisar se há valores zeros.
+
+```{r}
+colSums(dados == 0)
+```
+
+Apesar de não haver NAs nas nossas variáveis, existem muitos zeros em variáveis fisiológicas que não deveriam admitir esse valor. Isso inclui:
+
+-   glucose (5 zeros): Ninguém vivo tem zero de glicose no sangue (isso seria incompatível com a vida).
+
+-   pressure (35 zeros): Pressão arterial diastólica zero significa ausência de batimento cardíaco.
+
+-   triceps (227 zeros): É a espessura da dobra cutânea (gordura sob a pele). Por mais magra que a pessoa seja, é impossível a espessura ser exatamente zero milímetros.
+
+-   mass (11 zeros): É o Índice de Massa Corporal (IMC). Um IMC de zero significa que a pessoa não tem peso algum.
+
+-   insulin (374 zeros): Embora diabéticos tipo 1 possam ter níveis baixíssimos, no contexto deste exame laboratorial específico do banco de dados (insulina sérica de 2 horas), o zero foi usado pela equipe de coleta para indicar que o exame não foi realizado ou a amostra foi perdida. Observemos que quase metade do banco (374 de 768) tem esses "zeros".
+
+Ou seja, isso significa que os zeros são na verdade NAs disfarçados.
+
+**(d)** Aplicando `dfSummary()`:
+
+```{r}
+library(summarytools)
+dfSummary(dados) 
+  
+```
+
+Felizmente a variável `diabetes` já aparece sendo do tipo fator, o que não é muito comum. Geralmente esse tipo de variável aparece sendo do tipo categórica e requer ser transformada para o tipo fator.
+
+Porém, a grande presença de zeros afeta significativamente as estatísticas descritivas, puxando as médias e medianas artificialmente para baixo.
+
+Podemos corrigir essa distorção substituindo os zeros incorretos pelo que de fato são, valores ausentes.
+
+```{r}
+dados_corrigidos <- dados %>%
+  mutate(across(c(glucose, pressure, triceps, insulin, mass), ~na_if(., 0)))
+```
+
+Agora vejamos como isso afeta nas estatísticas descritivas dessas variáveis:
+
+```{r}
+dfSummary(dados_corrigidos, 
+          plain.ascii = FALSE,
+          graph.col = FALSE,   
+          valid.col = FALSE,   
+          headings = FALSE)
+```
+
+As estatísticas tiveram mudanças drásticas, desde os mínimo, as médias e os desvios-padrão de cada variável cometida à correção.
+
+## **Atividade Prática 2.2**
+
+Considere o conjunto de dados **`NHANES`**, disponibilizado pela biblioteca `NHANES`, o qual deriva do *National Health and Nutrition Examination Survey*, um estudo observacional de base populacional conduzido de forma contínua nos Estados Unidos. Esse inquérito tem como objetivo central avaliar, de maneira integrada, o estado de saúde, o perfil nutricional e as condições socioeconômicas da população civil não institucionalizada. Para atender a esse propósito, a base de dados reúne informações provenientes de entrevistas domiciliares, exames clínicos padronizados e análises laboratoriais, o que resulta em um conjunto amplo e intrinsecamente heterogêneo de variáveis. Essas variáveis abrangem aspectos demográficos, antropométricos, clínicos, laboratoriais e comportamentais, incluindo tanto atributos numéricos contínuos — como idade, peso corporal, estatura, índice de massa corporal e diferentes biomarcadores — quanto variáveis discretas e categóricas, a exemplo de sexo, raça/etnia, nível educacional e estado civil, além de apresentar valores ausentes associados ao próprio desenho amostral e à aplicação de distintos módulos de coleta. Diante dessas características, e utilizando o ambiente R, responda aos itens a seguir referentes à segunda etapa da AED, correspondente à *sumarização dos dados*.
+
+**(a)** Selecione um subconjunto de *variáveis numéricas contínuas* do banco de dados `NHANES` (por exemplo, idade, peso, altura, índice de massa corporal ou medidas laboratoriais). Para cada uma dessas variáveis:
+
+-   Obtenha medidas de tendência central.
+
+-   Calcule medidas de dispersão apropriadas.
+
+-   Identifique valores mínimos, máximos e intervalos.
+
+-   Indique quais funções do R são mais adequadas para essa sumarização inicial.
+
+**(b)** Para as variáveis selecionadas em (a), utilize funções de posição relativa para:
+
+-   Calcular quartis e percentis selecionados das variáveis numéricas.
+
+-   Obter o intervalo interquartílico (IQR).
+
+-   Explicar como essas medidas contribuem para a compreensão da variabilidade e da assimetria dos dados em comparação às medidas baseadas na média e no desvio-padrão.
+
+**(c)** Selecione pelo menos *duas variáveis categóricas* (por exemplo, sexo, raça/etnia, escolaridade ou estado civil). Para essas variáveis:
+
+-   Construa tabelas de frequências absolutas.
+
+-   Obtenha as correspondentes frequências relativas.
+
+**(d)** Para as variáveis selecionadas em (c), investigue a presença de *valores ausentes*, isto é,
+
+-   Identifique quais variáveis apresentam maior proporção de dados faltantes.
+
+-   Calcule o percentual de valores ausentes por variável.
+
+**(e)** Utilizando funções do pacote `dplyr`, realize uma *sumarização estratificada*, considerando:
+
+-   Ao menos três variável numérica.
+
+-   Um fator de estratificação (por exemplo, sexo ou grupo etário).
+
+**(f)** Construa *tabelas de contingência* para investigar a associação descritiva entre variáveis categóricas selecionadas no conjunto `NHANES`. Para isso:
+
+-   Selecione duas variáveis categóricas (por exemplo, `Gender` × `Diabetes`, ou `Race1` × `Education`).
+
+-   Obtenha a tabela de frequências conjuntas por meio de `table()`.
+
+-   Calcule proporções por linha e por coluna utilizando `prop.table()` com o argumento `margin`.
+
+-   Interprete, em termos descritivos, as diferenças nas distribuições condicionais entre categorias, evitando conclusões inferenciais formais.
+
+-   Discuta em que situações tabelas de contingência são mais informativas do que frequências marginais e quais limitações devem ser consideradas quando há categorias com baixa frequência.
+
+**(g)** Utilize a função `mutate()` (biblioteca `dplyr`) para criar *variáveis* e apoiar a sumarização exploratória. Considere, por exemplo:
+
+-   A criação de faixas etárias (por exemplo, `AgeGroup`) a partir de `Age`, definindo pontos de corte clinicamente interpretáveis.
+
+-   A criação de uma variável indicadora (binária) para sobrepeso/obesidade a partir de `BMI`, segundo um critério previamente definido.
+
+-   A recodificação de variáveis categóricas (por exemplo, agregando níveis raros ou reordenando fatores) com o objetivo de tornar as sumarizações mais interpretáveis.
+
+**(h)** Empregue a biblioteca `summarytools` para produzir sumarizações *mais apresentáveis* das variáveis selecionadas nos itens anteriores. Em particular:
+
+-   Utilize `dfSummary()` para obter uma visão integrada do conjunto (tipos de variáveis, estatísticas descritivas, frequências e proporção de valores ausentes).
+
+-   Aplique `freq()` para sumarizar variáveis categóricas, reportando frequências absolutas e relativas, bem como percentuais cumulativos quando pertinente.
+
+-   Utilize `ctable()` para construir tabelas cruzadas (contingência) com apresentação ampliada, incluindo percentuais (por linha, por coluna ou totais), conforme apropriado.
+
+-   Discuta as vantagens do uso do `summarytools` em relatórios reprodutíveis (por exemplo, clareza, padronização e controle de apresentação) em comparação às funções base do R (`summary()`, `table()`, `prop.table()`), especialmente em bases heterogêneas como `NHANES`.
+
+### **Solução**
+
+Antes de tudo, vamos carregar estes dados:
+
+```{r}
+library(NHANES)
+data("NHANES")
+dados2 <- NHANES
+head(dados2)
+
+```
+
+**(a)** Vamos selecionar algumas variáveis numéricas contínuas interessantes.
+
+```{r}
+dados2_vars <- dados2 %>% 
+  select(Age,Weight,Height,Poverty)
+```
+
+Medidas centrais:
+
+```{r}
+dados2_medias <- dados2_vars %>% 
+  apply(.,2,mean,na.rm = TRUE)
+
+dados2_median <- dados2_vars %>% 
+  apply(.,2,median,na.rm = TRUE)
+
+library(DescTools)
+
+dados2_moda <- dados2_vars %>% 
+  apply(.,2,Mode,na.rm = TRUE)
+
+kable(cbind(dados2_medias,dados2_median,dados2_moda), col.names = c("Médias","Medianas","Modas"))
+```
+
+Medidas de dispersão:
+
+```{r}
+dados2_var <- dados2_vars %>% 
+  apply(.,2,var,na.rm = TRUE)
+
+dados2_sd <- dados2_vars %>% 
+  apply(.,2,sd,na.rm = TRUE)
+
+ep <- function(x, na.rm = FALSE){
+  if (na.rm) {
+    x <- na.omit(x)
+  }
+  sd(x) / sqrt(nrow(dados2))
+}
+
+dados2_ep <- dados2_vars %>% 
+  apply(.,2,ep, na.rm = TRUE)
+
+dados2_IQR <- dados2_vars %>% 
+  apply(.,2,IQR,na.rm = TRUE)
+
+kable(cbind(dados2_var,dados2_sd,dados2_ep,dados2_IQR), col.names = c("Variâncias", "Desvios-padrão","Erros padrão","IQRs"))
+```
+
+Fiz dessa forma, fazendo item por item para treinar, mas também podemos obter algumas estatísticas utilizando funções como `summary()` fornecendo um panorama geral instantâneo:
+
+```{r}
+summary(dados2_vars)
+```
+
+**(b)** Temos os quantis:
+
+```{r}
+dados2_quantile <- dados2_vars %>% 
+  apply(.,2,quantile,probs = c(0.25,0.5,0.75),na.rm = TRUE)
+dados2_quantile
+```
+
+E o IQR obtido no item anterior:
+
+```{r}
+dados2_IQR
+```
+
+O intervalo interquartílico também é uma medida de dispersão, mostrando a distância entre o primeiro e o terceiro quartil, em que ele mede a dispersão dos 50% centrais dos dados, ignorando valores anômalos (outliers). Também auxilia na visualização da assimetria dos dados, com o quanto cada quartil se distancia da mediana.
+
+Além disso, diferentemente da média e do desvio-padrão, que são altamente sensíveis e puxados por valores extremos, a mediana e o IQR nos fornecem a representação mais realista do \`\`paciente comum".
+
+**(c)** Vamos selecionar as variáveis: `Gender`, `Race1` e `Diabetes`:
+
+```{r}
+dados2_cat <- dados2 %>% 
+  select(Gender,Race1,Diabetes)
+```
+
+Temos a tabela de frequência absoluta dada por:
+
+```{r}
+table(dados2_cat)
+```
+
+E de frequência relativa dada por:
+
+```{r}
+prop.table(table(dados2_cat))
+```
+
+**(d)** Vamos analisar o percentual de NAs de cada variável categórica usada no item anterior:
+
+```{r}
+na_count <- colSums(is.na(dados2_cat))
+na_percent <- (na_count / nrow(dados2_cat)) * 100
+
+kable(cbind(`Valores Ausentes` = na_count, `Percentual (%)` = na_percent), digits = 2)
+```
+
+Conforme a tabela acima, a variável Diabetes apresenta a maior proporção de dados faltantes (1.42%), enquanto que as outras duas analisadas não possuem NAs.
+
+**(e)** Vou selecionar as variáveis numéricas correspondentes à idade, peso e altura, e a variável categórica sendo a etnia.
+
+```{r}
+dados2_grupo <- dados2 %>% 
+  select(Age,Weight,Height,Race1)
+```
+
+Vamos observar a média de cada variável numérica em cada etnia.
+
+```{r}
+resumo <- dados2_grupo %>% 
+  group_by(Race1) %>% 
+  summarise(media_idade = mean(Age),
+            media_peso = mean(Weight,na.rm = TRUE),
+            media_altura = mean(Height,na.rm = TRUE))
+kable(resumo)
+```
+
+**(f)** Estarei utilizando a sugestão `Gender` × `Diabetes`:
+
+```{r}
+dados2_cat <- dados2 %>% 
+  select(Gender,Diabetes)
+```
+
+Temos a tabela de frequências conjuntas:
+
+```{r}
+table(dados2_cat)
+```
+
+E as proporções utilizando o argumento `margin`$=1$:
+
+```{r}
+prop.table(table(dados2_cat), margin = 1)
+```
+
+Utilizei a proporção por linha, dessa forma, podemos observar as distribuições condicionais da doença para cada gênero separadamente. Os dados indicam que, nesta amostra, a proporção de pacientes diagnosticados com diabetes é ligeiramente maior no sexo masculino (8.2%) em comparação ao feminino (7.2%).
+
+**(g)** Fiz as mudanças seguindo os seguintes critérios apresentados no próprio código:
+
+```{r}
+dados2 <- dados2 %>% 
+  mutate(AgeGroup = ifelse(Age <= 18, "Child", ifelse(Age <= 65,"Adult","Elderly")),
+         BMIclass = ifelse(BMI <= 18.5, "Underweight", ifelse(BMI <= 24.9,"Healthy", "Overweight")))
+```
+
+**(h)** Empregue a biblioteca `summarytools` para produzir sumarizações *mais apresentáveis* das variáveis selecionadas nos itens anteriores. Em particular:
+
+-   Utilize `dfSummary()` para obter uma visão integrada do conjunto (tipos de variáveis, estatísticas descritivas, frequências e proporção de valores ausentes).
+
+-   Aplique `freq()` para sumarizar variáveis categóricas, reportando frequências absolutas e relativas, bem como percentuais cumulativos quando pertinente.
+
+-   Utilize `ctable()` para construir tabelas cruzadas (contingência) com apresentação ampliada, incluindo percentuais (por linha, por coluna ou totais), conforme apropriado.
+
+-   Discuta as vantagens do uso do `summarytools` em relatórios reprodutíveis (por exemplo, clareza, padronização e controle de apresentação) em comparação às funções base do R (`summary()`, `table()`, `prop.table()`), especialmente em bases heterogêneas como `NHANES`.
+
+```{r}
+head(dfSummary(dados2))
+```
+
+```{r}
+freq(dados2_cat)
+```
+
+```{r}
+ctable(dados2_cat)
+```
+
+O uso do summarytools em relatórios reprodutíveis traz a vantagem de padronizar a apresentação visual e consolidar várias informações em uma única chamada. Em bases de dados grandes e heterogêneas como o NHANES, funções como dfSummary() calculam simultaneamente estatísticas descritivas, contagem de valores únicos e proporção de NAs, algo que exigiria dezenas de linhas de código usando apenas o R base.
+
+## **Atividade Prática 2.3**
+
+Considere, novamente, o conjunto de dados **`NHANES`**, disponibilizado pela biblioteca `NHANES`, o qual deriva do *National Health and Nutrition Examination Survey*, um estudo observacional de base populacional conduzido de forma contínua nos Estados Unidos. As variáveis desta base abrangem aspectos demográficos, antropométricos, clínicos, laboratoriais e comportamentais, incluindo tanto atributos numéricos contínuos quanto variáveis discretas e categóricas, além de apresentar valores ausentes associados ao próprio desenho amostral e à aplicação de distintos módulos de coleta. Diante dessas características, e utilizando o ambiente R, responda aos itens a seguir referentes à terceira etapa da AED, correspondente à *visualização gráfica dos dados*.
+
+**(a) Histograma.**
+
+-   Selecione uma variável numérica contínua (por exemplo, `BMI` ou `TotChol`).
+
+-   Construa um histograma utilizando `hist()`.
+
+-   Refaça o histograma variando o argumento `breaks` (por exemplo, `"Sturges"` e `"FD"`).
+
+-   Discuta como a escolha do particionamento em classes influencia a percepção da forma da distribuição.
+
+**(b) Boxplot.**
+
+-   Construa um boxplot de uma variável numérica (por exemplo, `BMI`) estratificada por uma variável categórica (por exemplo, `Gender` ou `Diabetes`) utilizando `boxplot()`.
+
+-   Identifique, de forma descritiva, diferenças de posição (mediana), dispersão (IQR) e presença de valores extremos entre os grupos.
+
+**(c) Gráfico de Violino com `ggplot2`.**
+
+-   Reproduza a comparação do item (b) usando `ggplot()` e `geom_violin()`, inclua rótulos informativos com `labs()` e ajuste um tema com `theme()`.
+
+-   Discuta, em termos exploratórios, quais informações adicionais o gráfico de violino fornece em relação ao boxplot.
+
+**(d) Gráfico de Barras.**
+
+-   Selecione uma variável categórica (por exemplo, `Education` ou `Race1`).
+
+-   Construa um gráfico de barras com `barplot()` a partir de uma tabela de frequências (`table()`).
+
+-   Produza uma versão do gráfico em termos de frequências relativas e compare as interpretações obtidas.
+
+**(e) Tabela de Contingência.**
+
+-   Construa uma tabela de contingência entre duas variáveis categóricas (por exemplo, `Diabetes` × `Gender`, ou `SmokeNow` × `Education`) usando `table()`.
+
+-   Calcule proporções por linha e por coluna com `prop.table()`.
+
+-   Construa uma representação gráfica adequada para comparar as distribuições condicionais (por exemplo, barras lado a lado).
+
+**(f) Diagrama de Dispersão.**
+
+-   Selecione duas variáveis numéricas (por exemplo, `Weight` e `Height`, ou `BMI` e `TotChol`).
+
+-   Construa um gráfico de dispersão com `plot(x, y)`.
+
+-   Construa uma versão do gráfico de dispersão com `ggplot()` e `geom_point()`, discutindo possíveis padrões de associação, heterocedasticidade e presença de observações influentes.
+
+**(g) Matriz de Dispersão.**
+
+-   Selecione um subconjunto com pelo menos quatro variáveis numéricas contínuas (por exemplo, `Age`, `BMI`, `TotChol`, `BPSysAve`).
+
+-   Construa uma matriz de dispersão com `pairs()`.
+
+-   Identifique relações bivariadas que mereçam investigação adicional e discuta possíveis sinais de colinearidade.
+
+**(h) Visualização de Dados Ausentes.**
+
+-   Para as variáveis utilizadas nos itens anteriores, investigue e represente graficamente o padrão de valores ausentes (por exemplo, comparando a proporção de `NA` entre variáveis, ou estratificando por grupos).
+
+-   Discuta como a presença de dados faltantes pode afetar a interpretação dos gráficos produzidos.
+
+### **Solução**
+
+**(a)** Para o histograma utilizei a variável `BMI`:
+
+```{r}
+hist(dados2$BMI)
+```
+
+Agora com o argumento `breaks`=FD.
+
+```{r}
+hist(dados2$BMI, breaks = 'FD')
+```
+
+A escolha do método de particionamento (breaks) altera a "resolução" da visualização. Ao utilizar o método "FD" (Freedman-Diaconis), o histograma fica com mais barras, revelando micro-padrões.
+
+**(b)**
+
+```{r}
+library(ggplot2)
+ggplot(dados2, aes(x = Gender, y = BMI, fill = Gender))+
+  geom_boxplot()+
+  theme_minimal()
+```
+
+As medianas de BMI entre os sexos masculino e feminino são muito próximas, ambas levemente acima de 25. O IQR também é semelhante, indicando variabilidade parecida nos 50% centrais. No entanto, o grupo feminino apresenta uma quantidade consideravelmente maior de valores extremos (outliers) na parte superior do gráfico, chegando a ultrapassar o valor 80 de BMI.
+
+**(c)**
+
+```{r}
+ggplot(dados2, aes(x = Gender, y = BMI, fill = Gender)) +
+  geom_violin(trim = FALSE) +
+  labs(title = "Distribuição de BMI por Gênero",
+       x = "Gênero",
+       y = "Índice de Massa Corporal (BMI)",
+       fill = "Gênero") +
+  theme_minimal()
+```
+
+O gráfico de violino revela a densidade e o formato real da distribuição, além das informações obtidas com o boxplot.
+
+**(d)** Vou utilizar as etnias para realizar os gráficos.
+
+Temos o gráfico de barras para a frequência absoluta:
+
+```{r}
+tabela_race <- table(dados2$Race1)
+barplot(tabela_race, main = "Frequência Absoluta por Etnia", col = "steelblue")
+```
+
+E o de frequência relativa:
+
+```{r}
+tabela_race_rel <- prop.table(tabela_race)
+barplot(tabela_race_rel, main = "Frequência Relativa por Etnia", col = "lightgreen")
+```
+
+O formato dos dois gráficos é idêntico. A diferença fica na interpretação do eixo Y, sendo que a frequência absoluta nos mostra o volume real da amostra coletada, enquanto a frequência relativa nos permite entender a representatividade percentual de cada grupo.
+
+**(e)**
+
+```{r}
+tab_contingencia <- table(dados2$Diabetes, dados2$Gender)
+
+barplot(tab_contingencia, beside = TRUE, 
+        col = c("lightcoral", "darkred"),
+        legend = rownames(tab_contingencia),
+        main = "Proporção de Diabetes por Gênero",
+        xlab = "Gênero", ylab = "Frequência")
+```
+
+Visualmente é quase imperceptível a diferença da proporção de diabetes, mas vimos anteriormente que a proporção de diabetes entre os homens é singelamente superior.
+
+**(f)** Utilizando `plot()`:
+
+```{r}
+plot(dados2$Height, dados2$Weight)
+```
+
+Utilizando `geom_point()`:
+
+```{r}
+ggplot(dados2, aes(x=Height, y=Weight))+
+  geom_point()
+```
+
+O gráfico nos mostra uma associação linear positiva entre altura e peso. No entanto, podemos notar uma forte heterocedasticidade, em que visualmente temos uma nuvem de pontos em forma de \`\`cone", ou seja, a variabilidade do peso é muito maior para pessoas altas do que para pessoas baixas. Há também observações influentes (outliers verticais) de indivíduos muito pesados para sua respectiva altura.
+
+**(g)**
+
+```{r}
+dados2_vars <- dados2 %>% 
+  select(Age, BMI, TotChol, BPSysAve)
+
+pairs(dados2_vars)
+```
+
+Apesar de ser um gráfico bem poluído, podemos enxergar alguns padrões. Nota-se uma correlação positiva entre idade e BPSysAve, indicando que a pressão sistólica tende a subir ao longo de toda a vida. Além disso, aparenta existir uma correlação não-linear entre idade e BMI: observa-se um crescimento íngreme do BMI nas duas primeiras décadas de vida que se estabiliza em uma nuvem de alta dispersão na vida adulta.
+
+**(h)** Irei avaliar as variáveis numéricas:
+
+```{r}
+contagem_na <- colSums(is.na(dados2_vars))
+
+barplot(contagem_na, 
+        main = "Quantidade de Valores Ausentes por Variável Numérica",
+        col = "salmon",
+        ylab = "Número de NAs",
+        xlab = "Variáveis",
+        las = 1) 
+```
+
+A presença desses valores ausentes afeta diretamente a interpretação dos gráficos e as sumarizações anteriores. Precisaríamos ter feito essa análise antes de realizar as estatísticas das variáveis.

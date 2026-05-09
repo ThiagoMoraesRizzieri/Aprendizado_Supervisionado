@@ -1,0 +1,2 @@
+"0","X_sel <- X[, var_sel$variavel]"
+"0","head(X_sel)"

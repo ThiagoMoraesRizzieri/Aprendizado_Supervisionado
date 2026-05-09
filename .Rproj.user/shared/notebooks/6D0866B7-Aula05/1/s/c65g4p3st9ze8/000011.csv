@@ -1,0 +1,3 @@
+"0","data(""birthwt"")"
+"0","db <- birthwt"
+"0","head(db)"

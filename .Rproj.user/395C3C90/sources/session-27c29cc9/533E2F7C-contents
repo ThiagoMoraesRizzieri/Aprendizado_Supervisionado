@@ -1,0 +1,63 @@
+---
+title: "Analise_Graficos"
+format: html
+editor: visual
+---
+
+```{r}
+# Carregando os pacotes necessários
+library(readxl)
+library(ggplot2)
+
+# Importando a aba de dados do arquivo que geramos
+dados <- read_excel("Atividade_Graficos_Neonatais.xlsx", sheet = "2_Dados_Atividade")
+
+# Convertendo variáveis categóricas para fator (boa prática para o ggplot)
+dados$`Parto (E/C)` <- as.factor(dados$`Parto (E/C)`)
+```
+
+```{r}
+grafico_peso <- ggplot(dados, aes(x = `Peso (g)`)) +
+  geom_histogram(binwidth = 15, fill = "steelblue", color = "black", alpha = 0.8) +
+  labs(
+    title = "Distribuição do Peso Neonatal",
+    subtitle = "Avaliação da concentração de massa (g) da amostra",
+    x = "Peso ao Nascer (g)",
+    y = "Frequência (Número de Filhotes)"
+  ) +
+  theme_minimal()
+
+print(grafico_peso)
+```
+
+```{r}
+grafico_fc <- ggplot(dados, aes(x = `Parto (E/C)`, y = FC, fill = `Parto (E/C)`)) +
+  geom_boxplot(alpha = 0.7, outlier.colour = "red", outlier.shape = 16, outlier.size = 3) +
+  scale_fill_manual(values = c("C" = "#FF9999", "E" = "#99CC99")) +
+  labs(
+    title = "Frequência Cardíaca vs. Tipo de Parto",
+    subtitle = "Comparação de medianas e dispersão",
+    x = "Tipo de Parto (C = Cesárea, E = Eutócico)",
+    y = "Frequência Cardíaca (bpm)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") # Remove a legenda pois o eixo X já explica
+
+print(grafico_fc)
+```
+
+```{r}
+grafico_dispersao <- ggplot(dados, aes(x = FR, y = FC)) +
+  geom_point(color = "darkblue", size = 2.5, alpha = 0.7) +
+  geom_smooth(method = "lm", color = "darkred", se = TRUE, fill = "lightgray") +
+  labs(
+    title = "Correlação Fisiológica: Respiração vs. Batimento",
+    subtitle = "Relação linear com intervalo de confiança (95%)",
+    x = "Frequência Respiratória (mrm)",
+    y = "Frequência Cardíaca (bpm)"
+  ) +
+  theme_minimal()
+
+print(grafico_dispersao)
+```
+

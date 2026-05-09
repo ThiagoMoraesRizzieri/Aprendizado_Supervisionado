@@ -1,0 +1,4 @@
+"0","data(""PimaIndiansDiabetes"")"
+"0",""
+"0","db <- PimaIndiansDiabetes"
+"0","head(db)"

@@ -1,0 +1,3 @@
+"0","# Estimação de Lambda"
+"0",""
+"0","bc_lambda <- boxcox(x ~ 1)"

@@ -1,0 +1,4 @@
+"0","ggplot(data.frame(lab_train,X_train_obs), aes(x=X_train_obs, fill=as.factor(lab_train))) +"
+"0","    geom_histogram( color=""#e9ecef"", alpha=0.6, position = 'identity') +"
+"0","    scale_fill_manual(values=c(""#69b3a2"", ""#404080"")) +"
+"0","    labs(fill="""")"

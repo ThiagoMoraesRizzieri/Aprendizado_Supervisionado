@@ -1,0 +1,556 @@
+---
+title: "Capítulo4"
+format: html
+editor: visual
+---
+
+# Algoritmo KNN
+
+Implementação manual:
+
+```{r}
+rm(list = ls()) # Limpeza do ambiente de trabalho
+
+
+```
+
+Funções Auxiliares:
+
+(a) Cálculo das Distâncias
+
+```{r}
+dist_calc <- function(x,y, dist = "euclidean", lambda = 2){
+  dif <- abs(x-y)
+  
+  # Distância euclidiana
+  if (dist == "euclidean"){
+    d <- sqrt(sum(dif^2))
+  }
+  
+  # Distãncia Manhattan
+  else if (dist == "manhattan"){
+    d <- sum(dif)
+  }
+  
+  # Distância de Minkowski
+  else if (dist == "minkowski"){
+    d <- sum(dif^lambda)^(1/lambda)
+  }
+  
+  # Distância de Chebyshev
+  else if (dist == "chebyshev"){
+    d <- max(dif)
+  }
+  
+  # Distância inválida
+  else{
+    stop("Métrica de distância inválida. Verifique!")
+  }
+  
+  # Resultado
+  
+  return(d)
+}
+```
+
+(b) Gráfico da matriz de confusão
+
+```{r}
+plot_mc <- function(cm, titulo = "Matriz de Confusão"){
+  cm_prop <- cm/sum(cm)
+  
+  image(x = 1:ncol(cm),
+        y = 1:ncol(cm),
+        z = t(cm[nrow(cm):1, ]),
+        axes = FALSE,
+        xlab = "Classe predita",
+        ylab = "Classe real",
+        main = titulo)
+  axis(1, at = 1:ncol(cm), labels = colnames(cm))
+  axis(2, at = 1:nrow(cm), labels = rev(rownames(cm)))
+  
+  for (i in 1:nrow(cm)){
+    for (j in 1:ncol(cm)){
+      text(x = j,
+           y = nrow(cm) - i +1,
+           labels = paste0(cm[i,j], "\n(", round(100 * cm_prop[i,j], 2), "%)"))
+    }
+  }
+}
+```
+
+(c) Métricas de Desempenho
+
+```{r}
+metricas_class <- function(real, predito){
+  real <- factor(real)
+  predito <-  factor(predito, levels = levels(real))
+  
+  # Matriz de confusão
+  cm <- table(Real = real, Predito = predito)
+  
+  # Número total de observações
+  n <- sum(cm)
+  
+  # Acurácia global
+  acuracia <- sum(diag(cm))/n
+  
+  # Erro de classificação
+  erro  <- 1 - acuracia
+  
+  # Métricas por classe
+  classes <- rownames(cm)
+  
+  precisao <- numeric(length(classes))
+  sensibilidade <- numeric(length(classes))
+  especificidade <- numeric(length(classes))
+  f1_score <- numeric(length(classes))
+  
+  names(precisao) <-  classes
+  names(sensibilidade) <-  classes
+  names(especificidade) <-  classes
+  names(f1_score) <-  classes
+  
+  for (classe in classes){
+    VP <- cm[classe, classe]
+    FP <- sum(cm[, classe]) - VP
+    FN <- sum(cm[classe, ]) - VP
+    VN <- n - VP- FP - FN
+    
+    precisao[classe] <- ifelse((VP + FP) == 0, NA, VP/(VP + FP))
+    sensibilidade[classe] <- ifelse((VP + FN) == 0, NA, VP/(VP + FN))
+    especificidade[classe] <- ifelse((VN + FP) == 0, NA, VN/(VN + FP))
+    f1_score[classe] <- ifelse(is.na(precisao[classe]) |
+                               is.na(sensibilidade[classe]) | 
+                               (precisao[classe]+sensibilidade[classe]) == 0,
+                               NA,
+                               2 * precisao[classe] * sensibilidade[classe]/(precisao[classe]+sensibilidade[classe]))
+                              
+    
+  }
+  
+  # Métricas Macro (globais)
+  
+  macro_precisao <-  mean(precisao, na.rm = T)
+  macro_sensibilidade <-  mean(sensibilidade, na.rm = T)
+  macro_especificidade <-  mean(especificidade, na.rm = T)
+  macro_f1 <-  mean(f1_score, na.rm = T)
+  
+  # Coeficiente Kappa
+  
+  proporcao_observada <-  acuracia
+  proporcao_esperada <-  sum(rowSums(cm) * colSums(cm))/(n^2)
+  kappa <-  ifelse(1 - proporcao_esperada == 0, NA, (proporcao_observada - proporcao_esperada)/(1 - proporcao_esperada))
+  
+  # Saída
+  
+  resultado <- list(matriz_confusao = cm,
+                    acuracia = acuracia,
+                    erro_classificacao = erro,
+                    precisao_por_classe = precisao,
+                    sensibilidade_por_classe = sensibilidade,
+                    especificidade_por_classe = especificidade,
+                    f1_por_classe = f1_score,
+                    macro_precisao = macro_precisao,
+                    macro_sensibilidade = macro_sensibilidade,
+                    macro_especificidade = macro_especificidade,
+                    macro_f1 = macro_f1,
+                    kappa = kappa)
+  
+  return(resultado)
+  
+}
+```
+
+Implementação Manual do k-NN
+
+```{r}
+knn_manual 				<- function(train,
+									test,
+									tr.class,
+									te.class = NULL,
+									k = 5,
+									dist = 'euclidean',
+									lambda = 2,
+									weighted = FALSE,
+									show_cm_plot = TRUE){
+
+	# (1) Verificação e preparação dos dados de entrada
+
+	train 				<- as.data.frame(train)
+	test 				<- as.data.frame(test)
+
+	# (2) Condições de erro
+
+	if(ncol(train) != ncol(test))
+	{
+		stop("Os conjuntos 'train' e 'test' devem ter o mesmo número de variáveis. Verifique!")
+	}
+	if(nrow(train) != length(tr.class))
+	{
+		stop("O número de observações do conjunto de treinamento 'train' deve ser igual ao número de rótulos de treinamento 'tr.class'. Verifique!")
+	}
+	if(!is.null(te.class) & nrow(test) != length(te.class))
+	{
+		stop("O número de observações do conjunto de teste 'test' deve ser igual ao número de rótulos de teste 'te.class'. Verifique!")
+	}
+	if(k <= 0)
+	{
+		stop("O número de vizinhos 'k' utilizados no algoritmo deve ser positivo. Verifique!")
+	}
+	if(k > nrow(train))
+	{
+		stop("O valor de 'k' não pode ser maior que o número de observações do conjunto de treinamento 'train'. Verifique!")
+	}
+
+	# (3) Distâncias válidas
+
+	metricas_validas 	<- c('euclidean', 'manhattan', 'minkowski', 'chebyshev')
+
+	if(!(dist %in% metricas_validas))
+	{
+		stop("A métrica de distância deve ser: 'euclidean', 'manhattan', 'minkowski', ou 'chebyshev'. Verifique!")
+	}
+	if(dist == 'minkowski' & lambda <= 0)
+	{
+		stop("O parâmetro 'lambda' da distância de Minkowski deve ser positivo. Verifique!")
+	}
+
+	# (4) Conversão das classes em fator
+
+	tr.class 			<- factor(tr.class)
+	classes 			<- levels(tr.class)
+
+	if(!is.null(te.class))
+	{
+		te.class 		<- factor(te.class, levels = classes)
+	}
+
+	# (5) Inicialização dos objetos de saída
+
+	n_train 			<- nrow(train)
+	n_test 				<- nrow(test)
+	predicoes 			<- character(n_test)
+	vizinhos_lista 		<- vector('list', n_test)
+	distancias_lista 	<- vector('list', n_test)
+
+	# (6) Execução do k-NN
+
+	for(i in 1:n_test)
+	{
+		distancias			<- numeric(n_train)
+
+		for(j in 1:n_train)
+		{
+			distancias[j] 	<- dist_calc(x = as.numeric(train[j, ]),
+										 y = as.numeric(test[i, ]),
+										 dist = dist,
+										 lambda = lambda)
+		}
+
+		# Identificao dos k vizinhos mais próximos
+
+		indice_vizinhos 	<- order(distancias)[1:k]
+		classes_vizinhos 	<- tr.class[indice_vizinhos]
+		distancias_vizinhos <- distancias[indice_vizinhos]
+
+		# Se weighted = FALSE (Votação não-ponderada)
+
+		if(weighted == FALSE)
+		{
+			votos 			<- table(factor(classes_vizinhos, levels = classes))
+			classe_predita 	<- names(which.max(votos))
+		}
+		else # se weighted = TRUE (Votação ponderada)
+		{
+			epsilon 		<- 1e-8
+			pesos 			<- 1 / (distancias_vizinhos + epsilon)
+			votos_poderados <- tapply(pesos, factor(classes_vizinhos, levels = classes), sum)
+			votos_poderados[is.na(votos_poderados)] <- 0
+			classe_predita  <- names(which.max(votos_poderados))
+		}
+
+		# Armazenar as predições
+
+		predicoes[i] 		<- classe_predita
+
+		# Armazenar vizinhos e distancias
+
+		vizinhos_lista[[i]] 	<- indice_vizinhos
+		distancias_lista[[i]] 	<- distancias_vizinhos
+	}
+
+	# Converter as predições em fator
+
+	predicoes 				<- factor(predicoes, levels = classes)
+
+	# Avaliação de desempenho
+
+	if(!is.null(te.class))
+	{
+		desempenho 			<- metricas_class(real = te.class, predito = predicoes)
+
+		if(show_cm_plot == TRUE)
+		{
+			plot_mc(cm = desempenho$matriz_confusao,
+					titulo = paste0("Matriz de Confusão - k = ", k, " - Distância", dist))
+		}
+	}
+	else
+	{
+		desempenho 			<- NULL
+	}
+
+	# Objeto de saída
+
+	saida 					<- list(predicoes = predicoes,
+									k = k,
+									dist = dist,
+									lambda = lambda,
+									weighted = weighted,
+									vizinhos = vizinhos_lista,
+									distancias_vizinhos = distancias_lista, 
+									desempenho = desempenho)
+	return(saida)
+}
+```
+
+Teste da Implementação
+
+```{r}
+# (a) Preparação do conjunto de dados
+
+dados 				<- iris
+X 					<- dados[, 1:4]
+y 					<- dados$Species
+X_padronizado 		<- as.data.frame(scale(X))
+dados_padronizados 	<- data.frame(X_padronizado, Species = y)
+head(dados_padronizados)
+```
+
+```{r}
+# (b) Particionamento em Treino/Teste - Hold Out
+
+indices_treino 		<- c()
+classes_iris 		<- levels(dados_padronizados$Species)
+
+for(classe in classes_iris)
+{
+	indice_classes 		<- which(dados_padronizados$Species == classe)
+	n_treino_classe 	<- floor(0.70 * length(indice_classes))
+	idx_treino_classe 	<- sample(indice_classes, n_treino_classe)
+	indices_treino 		<- c(indices_treino, idx_treino_classe)
+}
+
+indices_teste 		<- setdiff(1:nrow(dados_padronizados), indices_treino)
+
+train 				<- dados_padronizados[indices_treino, 1:4]
+test 				<- dados_padronizados[indices_teste, 1:4]
+tr.class 			<- dados_padronizados$Species[indices_treino]
+te.class 			<- dados_padronizados$Species[indices_teste]
+
+# (c) Configurações do k-NN
+
+valores_k 			<- c(3, 5, 7, 9, 11)
+metricas_distancia 	<- c('euclidean', 'manhattan', 'minkowski', 'chebyshev')
+lambda_minkowski 	<- 3
+
+# (d) Execução do Algortimo
+
+resultados_lista 	<- list()
+contador			<- 1
+total_interacoes 	<- length(metricas_distancia) * length(valores_k)
+progresso 			<- 0
+
+for(metrica in metricas_distancia)
+{
+	for(valor_k in valores_k)
+	{
+		modelo 		<- knn_manual(train = train,
+								  test = test,
+								  tr.class = tr.class,
+								  te.class = te.class,
+								  k = valor_k,
+								  dist = metrica,
+								  lambda = lambda_minkowski,
+								  weighted = FALSE,
+								  show_cm_plot = TRUE)
+
+		resultados_lista[[contador]] <- list(k = valor_k, dist = metrica, modelo = modelo)
+		contador 	<- contador + 1
+
+		# Atualização da barra de progresso
+
+		progresso 	<- progresso + 1
+		percentual	<- round((progresso / total_interacoes) * 100, 2)
+
+		cat('\rProgresso:', percentual, '%', ' | Métrica de Distância:', metrica, '| k:', valor_k, '\n')
+		flush.console()
+	}
+}
+```
+
+Resultados:
+
+```{r}
+
+tabela_resultados       <- data.frame(k = integer(),
+                                      distancia = character(),
+                                      acuracia = numeric(),
+                                      erro = numeric(),
+                                      macro_precisao = numeric(),
+                                      macro_sensibilidade = numeric(),
+                                      macro_especificidade = numeric(),
+                                      macro_f1 = numeric(),
+                                      kappa = numeric(),
+                                      stringsAsFactors = FALSE)
+
+for (i in seq_along(resultados_lista)) 
+{
+  desempenho_i          <- resultados_lista[[i]]$modelo$desempenho
+  tabela_resultados     <- rbind(tabela_resultados, data.frame(k = resultados_lista[[i]]$k,
+                                                               distancia = resultados_lista[[i]]$dist,
+                                                               acuracia = desempenho_i$acuracia,
+                                                               erro = desempenho_i$erro,
+                                                               macro_precisao = desempenho_i$macro_precisao,
+                                                               macro_sensibilidade = desempenho_i$macro_sensibilidade,
+                                                               macro_especificidade = desempenho_i$macro_especificidade,
+                                                               macro_f1 = desempenho_i$macro_f1,
+                                                               kappa = desempenho_i$kappa))
+}
+
+tabela_resultados       <- tabela_resultados[order(-tabela_resultados$acuracia,-tabela_resultados$macro_f1),]
+print(tabela_resultados)
+```
+
+Seleção do melhor modelo:
+
+```{r}
+
+melhor_configuracao     <- tabela_resultados[1, ]
+melhor_modelo           <- knn_manual(train = train,
+                                      test = test,
+                                      tr.class = tr.class,
+                                      te.class = te.class,
+                                      k = melhor_configuracao$k,
+                                      dist = melhor_configuracao$distancia,
+                                      lambda = lambda_minkowski,
+                                      weighted = FALSE,
+                                      show_cm_plot = TRUE)
+```
+
+Matriz de Confusão
+
+```{r}
+
+print(melhor_modelo$desempenho$matriz_confusao)
+```
+
+Métricas:
+
+```{r}
+metricas_por_classe     <- data.frame(classe = names(melhor_modelo$desempenho$precisao_por_classe),
+                                      precisao = melhor_modelo$desempenho$precisao_por_classe,
+                                      sensibilidade = melhor_modelo$desempenho$sensibilidade_por_classe,
+                                      especificidade = melhor_modelo$desempenho$especificidade_por_classe,
+                                      f1_score = melhor_modelo$desempenho$f1_por_classe)
+print(metricas_por_classe)
+```
+
+```{r}
+# (c) Importância de Variáveis
+
+# Função Auxiliar
+
+vi_knn                      <- function(train,
+                                        test,
+                                        tr.class,
+                                        te.class,
+                                        k = 3,
+                                        dist = "euclidean",
+                                        lambda = 2,
+                                        weighted = FALSE,
+                                        n_perm = 30) {
+  
+  # (a) Ajuste de Referência (Sem Permutação)
+
+  modelo_base               <- knn_manual(train = train,
+                                          test = test,
+                                          tr.class = tr.class,
+                                          te.class = te.class,
+                                          k = k,
+                                          dist = dist,
+                                          lambda = lambda,
+                                          weighted = weighted,
+                                          show_cm_plot = FALSE)
+  
+  acuracia_base             <- modelo_base$desempenho$acuracia
+  nomes_variaveis           <- colnames(test)
+  importancia               <- numeric(length(nomes_variaveis))
+  names(importancia)        <- nomes_variaveis
+  
+  for (v in nomes_variaveis) 
+  {
+    quedas                  <- numeric(n_perm)
+    
+    for (b in 1:n_perm) 
+    {
+      test_perm             <- test
+      test_perm[[v]]        <- sample(test_perm[[v]])
+      
+      modelo_perm           <- knn_manual(train = train,
+                                          test = test_perm,
+                                          tr.class = tr.class,
+                                          te.class = te.class,
+                                          k = k,
+                                          dist = dist,
+                                          lambda = lambda,
+                                          weighted = weighted,
+                                          show_cm_plot = FALSE)
+      
+      acuracia_perm         <- modelo_perm$desempenho$acuracia
+      quedas[b]             <- acuracia_base - acuracia_perm
+    }
+    
+    importancia[v]          <- mean(quedas)
+  }
+  
+  importancia               <- sort(importancia, decreasing = TRUE)
+  return(importancia)
+}
+
+# Resultados de Importância de Variáveis
+
+importancia             <- vi_knn(train = train,
+                                  test = test,
+                                  tr.class = tr.class,
+                                  te.class = te.class,
+                                  k = melhor_configuracao$k,
+                                  dist = melhor_configuracao$distancia,
+                                  lambda = lambda_minkowski,
+                                  weighted = FALSE,
+                                  n_perm = 50)
+print(importancia)
+
+par(mar = c(4, 7, 1, 1))
+barplot(importancia, las = 2, main = "Importância das Variáveis por Permutação",
+        ylab = "", xlab = "Queda Média da Acurácia", hori = TRUE)
+```
+
+Usando o pacote:
+
+```{r}
+library(caret)
+
+dados <-  iris
+
+id_treino <-  createDataPartition(dados$Species, p = 0.7, list = F)
+treino <- dados[id_treino,]
+teste <- dados[-id_treino,]
+
+head(treino)
+```
+
+```{r}
+pre_proc <- preProcess(treino[,1:4], method = c('center', 'scale'))
+```

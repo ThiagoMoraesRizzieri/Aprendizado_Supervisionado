@@ -1,0 +1,6 @@
+"0","melhor_lambda <- bc_lambda$x[which.max(bc_lambda$y)]"
+"0","melhor_lambda"
+"1","[1]"
+"1"," 0.9494949"
+"1","
+"

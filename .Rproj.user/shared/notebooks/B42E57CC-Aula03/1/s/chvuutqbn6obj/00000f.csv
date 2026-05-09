@@ -1,0 +1,4 @@
+"0","x_t <- if(melhor_lambda == 0) log(x) else (x^melhor_lambda-1)/melhor_lambda"
+"0",""
+"0","par(mfrow = c(2,3))"
+"0","hist(x)"

@@ -1,0 +1,4 @@
+"0","limiar <- 0.2"
+"0",""
+"0","var_sel <- subset(cor_s, abs(r_s) >= limiar)"
+"0","var_sel"

@@ -1,0 +1,2 @@
+"0","db$diabetes <- relevel(factor(db$diabetes), ref = ""neg"")"
+"0",""

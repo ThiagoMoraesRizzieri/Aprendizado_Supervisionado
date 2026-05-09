@@ -1,0 +1,33 @@
+---
+title: "Aula02"
+format: pdf
+editor: visual
+---
+
+## Aula 02
+
+Queremos que o modelo se adeque aos dados, não que os dados se adequem ao modelo.
+
+Ver mais sobre o gerenciamento de memória do R.
+
+### Tidyverse:
+
+Str(): função empregada para a exibição da estrutura interna de um objeto no R, permitindo a inspeção imediata de sua composição, sendo caracterizada, em sua forma básica, pela utilização de um único argumento:
+
+```{r}
+## ---------- Leitura dos Dados (`mtcars`) ---------- ##
+
+data(mtcars)
+
+## -------- Estrutura dos Dados via `str()` --------- ##
+
+str(mtcars)
+```
+
+```{r}
+
+```
+
+
+Mascarar informação: transformar em porcentagem, tira o impacto daquilo. Ex: 1000 pessoas faleceram dentro de 10000 e 10% das pessoas faleceram.
+

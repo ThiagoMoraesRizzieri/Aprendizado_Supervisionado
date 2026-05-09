@@ -1,0 +1,8 @@
+"0","# (a) Preparação do conjunto de dados"
+"0",""
+"0","dados 				<- iris"
+"0","X 					<- dados[, 1:4]"
+"0","y 					<- dados$Species"
+"0","X_padronizado 		<- as.data.frame(scale(X))"
+"0","dados_padronizados 	<- data.frame(X_padronizado, Species = y)"
+"0","head(dados_padronizados)"
