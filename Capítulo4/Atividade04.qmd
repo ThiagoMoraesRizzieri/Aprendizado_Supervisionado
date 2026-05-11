@@ -9,31 +9,35 @@ lang: pt-br
 format: html
 ---
 
-**Atividade Prática 4.1**
+## **Atividade Prática 4.1** <a name="prat-41"></a>
 
-Implemente, em R, um experimento computacional para um *problema de classificação binária* utilizando a base `SAheart` da biblioteca `ElemStatLearn`, a qual reúne informações clínicas e comportamentais associadas à ocorrência de doença coronariana. Nesta atividade, o objetivo em prever a presença de doença coronariana, representada pela variável resposta `chd`, em que indica presença da doença (classe positiva) e indica ausência (classe negativa). As variáveis explicativas disponíveis incluem: pressão arterial sistólica (`sbp`), consumo de tabaco (`tobacco`), colesterol LDL (`ldl`), adiposidade (`adiposity`), histórico familiar de doença coronariana (`famhist`), escore de personalidade tipo A (`typea`), obesidade (`obesity`), consumo de álcool (`alcohol`) e idade (`age`). Para isto, dado que a variável `chd` apresenta *desbalanceamento moderado*, com cerca de de indivíduos sem doença e com doença, será considerado o ajuste de um classificador baseado em regressão logística sob dois cenários: sem reamostragem (mantendo-se o desbalanceamento original) e com reamostragem via **random undersampling** (balanceamento no conjunto de treinamento). O procedimento experimental deve ser conduzido conforme as etapas a seguir:
+Implemente, em R, um experimento computacional para um *problema de classificação binária* utilizando a base `SAheart` da biblioteca `ElemStatLearn`, a qual reúne informações clínicas e comportamentais associadas à ocorrência de doença coronariana. Nesta atividade, o objetivo em prever a presença de doença coronariana, representada pela variável resposta `chd`, em que  $y=1$ indica presença da doença (classe positiva) e $y=0$ indica ausência (classe negativa). As variáveis explicativas disponíveis incluem: pressão arterial sistólica (`sbp`), consumo de tabaco (`tobacco`), colesterol LDL (`ldl`), adiposidade (`adiposity`), histórico familiar de doença coronariana (`famhist`), escore de personalidade tipo A (`typea`), obesidade (`obesity`), consumo de álcool (`alcohol`) e idade (`age`). Para isto, dado que a variável `chd` apresenta *desbalanceamento moderado*, com cerca de $65\%$ de indivíduos sem doença e $35\%$ com doença, será considerado o ajuste de um classificador baseado em regressão logística sob dois cenários: sem reamostragem (mantendo-se o desbalanceamento original) e com reamostragem via **random undersampling** (balanceamento no conjunto de treinamento). O procedimento experimental deve ser conduzido conforme as etapas a seguir:
 
 -   Fixar uma semente aleatória para reprodutibilidade (por exemplo, `set.seed(1212)`);
 
--   Carregar a base `SAheart`, definir a variável resposta `chd` como fator com níveis e tratar `famhist` como variável categórica, mantendo as demais como quantitativas;
+-   Carregar a base `SAheart`, definir a variável resposta `chd` como fator com níveis $\{ 0,1\}$ e tratar `famhist` como variável categórica, mantendo as demais como quantitativas;
 
--   Particionar os dados em conjuntos de treinamento e teste utilizando o método *hold-out*, com das observações destinadas ao treino e ao teste, reportando a distribuição de classes em cada subconjunto;
+-   Particionar os dados em conjuntos de treinamento e teste utilizando o método *hold-out*, com $70\%$ das observações destinadas ao treino e $30\%$ ao teste, reportando a distribuição de classes em cada subconjunto;
 
--   Ajustar um modelo de *regressão logística*, via `glm()`, no conjunto de treinamento *sem reamostragem*, obter probabilidades previstas no conjunto de teste, convertê-las em classes preditas por meio de um ponto de corte fixo (por exemplo, ), e calcular a matriz de confusão e métricas de desempenho;
+-   Ajustar um modelo de *regressão logística*, via `glm()`, no conjunto de treinamento *sem reamostragem*, obter probabilidades previstas no conjunto de teste, convertê-las em classes preditas por meio de um ponto de corte fixo (por exemplo, $0,5$), e calcular a matriz de confusão e métricas de desempenho;
 
--   Aplicar *random undersampling* exclusivamente no conjunto de treinamento, reduzindo aleatoriamente a classe majoritária () até obter um conjunto aproximadamente balanceado (razão 1:1), e reportar a distribuição de classes após a reamostragem;
+-   Aplicar *random undersampling* exclusivamente no conjunto de treinamento, reduzindo aleatoriamente a classe majoritária ($y=0$) até obter um conjunto aproximadamente balanceado (razão 1:1), e reportar a distribuição de classes após a reamostragem;
 
 -   Ajustar novamente o modelo de regressão logística, via `glm()`, no conjunto de treinamento reamostrado e avaliá-lo *no mesmo conjunto de teste*, registrando matriz de confusão e métricas diretamente comparáveis às obtidas no cenário sem reamostragem.
 
 Ao final, organize os resultados em um quadro comparativo e elabore uma síntese interpretativa que discuta (i) por que a acurácia pode se mostrar inflada em situações de desbalanceamento moderado, (ii) como o **random undersampling** reorienta o processo de ajuste do modelo em direção à classe positiva e (iii) quais métricas devem ser priorizadas quando o objetivo é a identificação de indivíduos com doença coronariana.
 
+**Solução:**
+
+Fixando a semente aleatória para reprodutibilidade:
+
 ```{r}
 set.seed(67)
 ```
 
+Carregando a base de dados.
 
 ```{r}
-
 library(ElemStatLearn)
 
 data(SAheart)
@@ -43,9 +47,13 @@ dados <- SAheart
 head(dados)
 ```
 
+Observemos como estão classificadas cada variável:
+
 ```{r}
 str(dados)
 ```
+
+Realizemos as alterações requeridas para a variável reposta `chd` como do tipo fator e `famhist` como variável categórica:
 
 ```{r}
 dados$chd <- factor(dados$chd, levels = c(0, 1))
@@ -53,7 +61,7 @@ dados$famhist <- as.factor(dados$famhist)
 str(dados)
 ```
 
-
+Podemos particionar os dados com uma função do pacote `caret` chamada `createDataPartition` utilizando o método *hold-out*, separando $70\%$ dos dados para treino do modelo e $30\%$ dos dados para teste do modelo, sem reposição.
 
 ```{r}
 library(caret)
@@ -62,71 +70,36 @@ treino <- dados[id_treino,]
 teste <- dados[-id_treino,]
 ```
 
-
-```{r}
-prop.table(table(dados$chd))
-```
+Observemos a proporção descrita no enunciado, se mantém nos dados de treino:
 
 ```{r}
 prop.table(table(treino$chd))
 ```
 
+
+Podemos agora ajustar um modelo de regressão logística e obter probabilidades previstas no conjunto de teste.
+
 ```{r}
 modelo <- glm(chd ~ ., data = treino, family = binomial())
+
 pr <- predict(modelo, newdata = teste, type = "response")
-pred <- factor(ifelse(pr >= 0.5, 1, 0), levels = c(0, 1))
-
-
+head(pr)
 ```
+
+Com base nas classes com maior probabilidade, podemos considerar um ponto de corte fixo de $0,5$, em que se a probabilidade for superior, assumimos a previsão de que $y=1$ e se for inferior, que $y=0$. 
 
 ```{r}
-conf_mat        <- function(y_true, y_pred) 
-{
-  tab           <- table(Real = y_true, Pred = y_pred)
-  all_levels    <- c("0", "1")
-  tab2          <- matrix(0, nrow = 2, ncol = 2,
-                          dimnames = list(Real = all_levels, Pred = all_levels))
-  tab2[rownames(tab), colnames(tab)] <- tab
-  tab2
-}
-
-metrics_cm      <- function(cm) 
-{
-  TN            <- cm["0", "0"]
-  FP            <- cm["0", "1"]
-  FN            <- cm["1", "0"]
-  TP            <- cm["1", "1"]
-
-  acc           <- (TP + TN) / sum(cm)
-  sens          <- if ((TP + FN) > 0) TP / (TP + FN) else NA
-  spec          <- if ((TN + FP) > 0) TN / (TN + FP) else NA
-  prec          <- if ((TP + FP) > 0) TP / (TP + FP) else NA
-  f1            <- if (!is.na(prec) && !is.na(sens) && (prec + sens) > 0) {
-                      2 * prec * sens / (prec + sens)
-                   } else NA
-
-  c(Acuracia = acc, 
-    Sensibilidade = sens, 
-    Especificidade = spec,
-    Precisao = prec, 
-    F1 = f1)
-}
-
+corte <- 0.5
+pred <- factor(ifelse(pr >= corte, 1, 0), levels = c(0, 1))
 ```
 
+E em sequência, montamos a matriz de confusão:
 
 ```{r}
-cm0             <- conf_mat(teste$chd, pred)
-met0            <- metrics_cm(cm0)
+confusionMatrix(data = pred, reference = teste$chd, positive = "1", mode = "everything")
 ```
 
-```{r}
-cat("Matriz de Confusão:\n")
-print(cm0)
-
-cat("\nMétricas de Desempenho:\n")
-print(round(met0, 4))
-```
+Aplicar *random undersampling* exclusivamente no conjunto de treinamento, reduzindo aleatoriamente a classe majoritária ($y=0$) até obter um conjunto aproximadamente balanceado (razão 1:1), e reportar a distribuição de classes após a reamostragem;
 
 ```{r}
 ## ------------------- Random Undersampling no Conjunto de Treino (1:1) ------------------- ##
@@ -162,60 +135,62 @@ met1            <- metrics_cm(cm1)
 fa              <- table(treino_under$chd)
 fr              <- prop.table(fa)
 
-"# ----------------------------------------------------------- #\n"
-    "# Proporção de Classes (Random Undersampling - Base de Teino) #\n"
-    "# ----------------------------------------------------------- #\n\n"
+
+## Proporção das classes (treino balanceado)
+
+fa              <- table(treino_smote$chd)
+fr              <- prop.table(fa)
+
+cat(" # --------------------------------------------- #\n",
+    "# Proporção de Classes                           #\n",
+    "# --------------------------------------------- #\n\n",
     
-paste("",
-  capture.output(
-    cbind(
-      "Frequência" = fa,
-      "Proporção (%)" = round(100 * fr, 2)
-    )
-  ),
-  collapse = "\n"
+    paste("",
+      capture.output(
+        cbind(
+          "Frequência" = fa,
+          "Proporção (%)" = round(100 * fr, 2)
+        )
+      ),
+      collapse = "\n"
+    ),
+    "\n"
 )
-
-cat("Matriz de Confusão:\n")
-print(cm1)
-  
-cat("\nMétricas de Desempenho:\n")
-print(round(met1, 4))
-
 ```
 
 
+```{r}
+confusionMatrix(data = pred1, reference = teste$chd, positive = "1", mode = "everything")
+```
 
-(i) Acurácia inflada: Em cenários de desbalanceamento (como o de chd, onde a maioria não tem a doença), um modelo que simplesmente preveja sempre a classe majoritária (0) acertará na maior parte das vezes. Isso gera uma acurácia global alta, dando a falsa impressão de que o modelo é excelente, enquanto ele é péssimo em identificar a classe de interesse (os doentes).
+Podemos observar que nos dados desbalanceados, temos a presença de uma acurácia inflada, pois o modelo prevê que a classe majoritária (0) sera corretamente predita na maior parte das vezes. Isso gera uma acurácia global alta, dando a falsa impressão de que o modelo é excelente, enquanto ele é péssimo em identificar a classe minoritária, que no caso é de grande interesse (os doentes).
 
 (ii) O papel do Random Undersampling: Ao remover aleatoriamente exemplos da classe majoritária até igualar à minoritária (1:1), nós forçamos o algoritmo a dar a mesma importância para ambas as classes. A fronteira de decisão da regressão logística é reorientada para não mais "favorecer" a classe majoritária. O modelo perde informações do conjunto geral, mas aprende melhor os padrões que definem a classe positiva.
 
-(iii) Métricas prioritárias: Para o diagnóstico de doença coronariana, o custo de um falso negativo (dizer que um doente está saudável) é muito mais grave do que um falso positivo (pedir exames extras para um paciente saudável). Logo, a Sensibilidade (Recall) deve ser a métrica priorizada, acompanhada do F1-Score, que nos ajuda a garantir que não estamos apenas classificando todo mundo como doente (equilíbrio com a Precisão).
+Para o diagnóstico de doença coronariana, o custo de um falso negativo (dizer que um doente está saudável) é muito mais grave do que um falso positivo (pedir exames extras para um paciente saudável). Logo, a Sensibilidade deve ser a métrica priorizada, acompanhada do F1-Score, que nos ajuda a garantir que não estamos apenas classificando todo mundo como doente (equilíbrio com a Precisão).
 
 
 
 
-**Atividade Prática 4.2**
+## **Atividade Prática 4.2**
 
-Dando continuidade à [Atividade Prática 4.1](#prat-41), implemente, em R, novamente um experimento computacional para o mesmo *problema de classificação binária* com a base `SAheart` da biblioteca `ElemStatLearn`. O objetivo permanece a predição da presença de doença coronariana, representada pela variável resposta `chd`, em que indica presença da doença (classe positiva) e indica ausência (classe negativa). Mantendo-se o contexto de *desbalanceamento moderado* em `chd` (cerca de em e em ), considere agora o ajuste de um classificador baseado em regressão logística sob dois cenários: sem reamostragem (desbalanceamento original) e com reamostragem via **SMOTE**, por meio da geração de observações sintéticas da classe minoritária no conjunto de treinamento. O procedimento experimental deve ser conduzido conforme as etapas a seguir:
+Dando continuidade à [Atividade Prática 4.1](#prat-41), implemente, em R, novamente um experimento computacional para o mesmo *problema de classificação binária* com a base `SAheart` da biblioteca `ElemStatLearn`. O objetivo permanece a predição da presença de doença coronariana, representada pela variável resposta `chd`, em que $y=1$ indica presença da doença (classe positiva) e $y=0$ indica ausência (classe negativa). Mantendo-se o contexto de *desbalanceamento moderado* em `chd` (cerca de $65\%$ em $y=0$ e $35\%$ em $y=1$), considere agora o ajuste de um classificador baseado em regressão logística sob dois cenários: sem reamostragem (desbalanceamento original) e com reamostragem via **SMOTE**, por meio da geração de observações sintéticas da classe minoritária no conjunto de treinamento. O procedimento experimental deve ser conduzido conforme as etapas a seguir:
 
 -   Fixar uma semente aleatória para reprodutibilidade (por exemplo, `set.seed(1212)`);
 
--   Carregar a base `SAheart`, definir a variável resposta `chd` como fator com níveis e tratar `famhist` como variável categórica, mantendo as demais como quantitativas;
+-   Carregar a base `SAheart`, definir a variável resposta `chd` como fator com níveis $\{0,1\}$ e tratar `famhist` como variável categórica, mantendo as demais como quantitativas;
 
--   Particionar os dados em conjuntos de treinamento e teste utilizando o método *hold-out*, com das observações destinadas ao treino e ao teste, reportando a distribuição de classes em cada subconjuntos;
+-   Particionar os dados em conjuntos de treinamento e teste utilizando o método *hold-out*, com $70\%$ das observações destinadas ao treino e $30\%$ ao teste, reportando a distribuição de classes em cada subconjuntos;
 
--   Ajustar um modelo de *regressão logística*, via `glm()`, no conjunto de treinamento *sem reamostragem*, obter probabilidades previstas no conjunto de teste, convertê-las em classes preditas por meio de um ponto de corte fixo (por exemplo, ), e calcular a matriz de confusão e métricas de desempenho;
+-   Ajustar um modelo de *regressão logística*, via `glm()`, no conjunto de treinamento *sem reamostragem*, obter probabilidades previstas no conjunto de teste, convertê-las em classes preditas por meio de um ponto de corte fixo (por exemplo, $0,5$), e calcular a matriz de confusão e métricas de desempenho;
 
--   Aplicar *SMOTE exclusivamente no conjunto de treinamento*, gerando observações sintéticas da classe minoritária () até obter um conjunto aproximadamente balanceado (razão 1:1), e reportar a distribuição de classes após a reamostragem;
+-   Aplicar *SMOTE exclusivamente no conjunto de treinamento*, gerando observações sintéticas da classe minoritária ($y=1$) até obter um conjunto aproximadamente balanceado (razão 1:1), e reportar a distribuição de classes após a reamostragem;
 
 -   Ajustar novamente o modelo de regressão logística, via `glm()`, no conjunto de treinamento reamostrado e avaliá-lo *no mesmo conjunto de teste*, registrando matriz de confusão e métricas diretamente comparáveis às obtidas no cenário sem reamostragem.
 
 Ao final, organize os resultados em um quadro comparativo e elabore uma síntese interpretativa que discuta (i) por que a acurácia pode se mostrar inflada em situações de desbalanceamento moderado, (ii) como o **SMOTE** altera a composição do conjunto de treinamento e afeta o compromisso entre sensibilidade e precisão para a classe positiva, e (iii) quais métricas devem ser priorizadas quando o objetivo é a identificação de indivíduos com doença coronariana.
 
-```{r}
-set.seed(67)
-```
+**Solução:**
 
 ```{r}
 set.seed(67)
@@ -296,13 +271,7 @@ cm0             <- conf_mat(teste$chd, pred)
 met0            <- metrics_cm(cm0)
 ```
 
-```{r}
-cat("Matriz de Confusão:\n")
-print(cm0)
 
-cat("\nMétricas de Desempenho:\n")
-print(round(met0, 4))
-```
 
 
 
@@ -340,10 +309,10 @@ names(treino_smote)[names(treino_smote) == "class"] <- "chd"
 m2              <- glm(chd ~ ., data = treino_smote, family = binomial())
 pr2             <- predict(m2, newdata = teste, type = "response")
 pred2           <- factor(ifelse(pr2 >= 0.5, 1, 0), levels = c(0, 1))
+```
 
-cm2             <- conf_mat(teste$chd, pred2)
-met2            <- metrics_cm(cm2)
 
+```{r}
 ## Proporção das classes (treino balanceado)
 
 fa              <- table(treino_smote$chd)
@@ -361,23 +330,28 @@ cat(" # --------------------------------------------- #\n",
         )
       ),
       collapse = "\n"
-    ),"\n\n",
-    
-    "# ------------------ #\n",
-    "# Resultados - SMOTE #\n",
-    "# ------------------ #\n\n",
-  
-    paste(
-      capture.output({
-        cat("Matriz de Confusão:\n")
-        print(cm2)
-  
-        cat("\nMétricas de Desempenho:\n")
-        print(round(met2, 4))
-      }),
-      collapse = "\n"
     ),
     "\n"
 )
 ```
+
+
+
+
+```{r}
+cat("Matriz de Confusão:\n")
+print(cm2)
+
+cat("\nMétricas de Desempenho:\n")
+print(round(met2, 4))
+```
+
+```{r}
+confusionMatrix(data = pred2, reference = as.factor(teste$chd), positive = "1", mode = "everything")
+```
+
+
+
+Neste cenário, a acurácia tambem abaixou ainda mais, mas não houve um ganho significativo da sensibilidade.
+
 
